@@ -41,7 +41,7 @@ h1{
   background:linear-gradient(135deg,var(--gold),#ffe082,var(--gold));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
   filter:drop-shadow(0 0 20px var(--glow));position:relative;z-index:1;
-  padding:0 8px;
+  padding:0 20px;overflow:visible;
 }
 h2{font-family:'Caveat',cursive;font-size:1.6em;color:var(--gold);margin-bottom:16px;position:relative;z-index:1}
 p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relative;z-index:1;max-width:360px}
@@ -363,7 +363,8 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 }
 
 /* ===== MUSIC PLAYER ===== */
-.music-player{position:relative;z-index:1;margin:20px 0;display:flex;flex-direction:column;align-items:center}
+.music-player{z-index:1;margin:20px 0;display:flex;flex-direction:column;align-items:center}
+.music-area{position:relative;width:200px;height:200px;display:flex;align-items:center;justify-content:center}
 .music-btn{
   position:relative;width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);
   background:radial-gradient(circle at 40% 35%,rgba(240,192,64,.25),rgba(106,61,184,.3));
@@ -523,17 +524,19 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   <h1>С 10-летием, Кэтти!</h1>
   <audio id="song-audio" preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
   <div class="music-player" id="music-player">
-    <div class="music-glow"></div>
-    <div class="music-rings"><div class="music-ring"></div><div class="music-ring"></div><div class="music-ring"></div><div class="music-ring"></div></div>
-    <div class="music-notes">
-      <span class="music-note">&#9835;</span><span class="music-note">&#9834;</span>
-      <span class="music-note">&#9833;</span><span class="music-note">&#9835;</span>
-      <span class="music-note">&#9834;</span><span class="music-note">&#9833;</span>
+    <div class="music-area">
+      <div class="music-glow"></div>
+      <div class="music-rings"><div class="music-ring"></div><div class="music-ring"></div><div class="music-ring"></div><div class="music-ring"></div></div>
+      <div class="music-notes">
+        <span class="music-note">&#9835;</span><span class="music-note">&#9834;</span>
+        <span class="music-note">&#9833;</span><span class="music-note">&#9835;</span>
+        <span class="music-note">&#9834;</span><span class="music-note">&#9833;</span>
+      </div>
+      <button class="music-btn" id="music-btn" onclick="toggleMusic()">
+        <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+        <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+      </button>
     </div>
-    <button class="music-btn" id="music-btn" onclick="toggleMusic()">
-      <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
-    </button>
     <div class="music-title">&#9835; &#1050;&#1072;&#1090;&#1103; &#1080; &#1042;&#1072;&#1088;&#1103; &#9835;</div>
   </div>
   <div class="certificate">
