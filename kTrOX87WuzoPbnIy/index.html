@@ -361,7 +361,55 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 
-audio{width:100%;max-width:320px;margin:16px 0;position:relative;z-index:1;border-radius:30px}
+/* ===== MUSIC PLAYER ===== */
+.music-player{position:relative;z-index:1;margin:20px 0;display:flex;flex-direction:column;align-items:center}
+.music-btn{
+  position:relative;width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);
+  background:radial-gradient(circle at 40% 35%,rgba(240,192,64,.25),rgba(106,61,184,.3));
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 30px var(--glow),0 0 60px rgba(106,61,184,.2);
+  transition:transform .3s,box-shadow .3s;z-index:2;
+}
+.music-btn:hover{transform:scale(1.08);box-shadow:0 0 40px var(--glow),0 0 80px rgba(106,61,184,.3)}
+.music-btn:active{transform:scale(.95)}
+.music-btn .play-icon{display:block}.music-btn .pause-icon{display:none}
+.music-btn.playing .play-icon{display:none}.music-btn.playing .pause-icon{display:block}
+.music-btn svg{width:32px;height:32px;fill:var(--gold);filter:drop-shadow(0 0 6px var(--glow))}
+.music-rings{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.music-ring{
+  position:absolute;border:2px solid var(--gold);border-radius:50%;
+  top:50%;left:50%;transform:translate(-50%,-50%);opacity:0;
+}
+.music-player.playing .music-ring{animation:ringPulse 2.5s ease-out infinite}
+.music-ring:nth-child(1){width:100px;height:100px;animation-delay:0s}
+.music-ring:nth-child(2){width:130px;height:130px;animation-delay:.6s}
+.music-ring:nth-child(3){width:160px;height:160px;animation-delay:1.2s}
+.music-ring:nth-child(4){width:190px;height:190px;animation-delay:1.8s}
+@keyframes ringPulse{0%{opacity:.5;transform:translate(-50%,-50%) scale(.85)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.15)}}
+.music-notes{position:absolute;width:220px;height:220px;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.music-note{position:absolute;font-size:1.4em;opacity:0}
+.music-player.playing .music-note{animation:noteFloat 3s ease-out infinite}
+.music-note:nth-child(1){left:5%;top:15%;--rot:-25deg;animation-delay:0s}
+.music-note:nth-child(2){right:5%;top:25%;--rot:30deg;animation-delay:.8s}
+.music-note:nth-child(3){left:0%;bottom:25%;--rot:-15deg;animation-delay:1.6s}
+.music-note:nth-child(4){right:0%;top:10%;--rot:20deg;animation-delay:2.4s}
+.music-note:nth-child(5){left:15%;top:0%;--rot:-35deg;animation-delay:.4s}
+.music-note:nth-child(6){right:10%;bottom:20%;--rot:25deg;animation-delay:2s}
+@keyframes noteFloat{
+  0%{opacity:0;transform:translateY(0) rotate(0deg) scale(.5)}
+  15%{opacity:.7}
+  100%{opacity:0;transform:translateY(-50px) rotate(var(--rot,20deg)) scale(1.1)}
+}
+.music-title{font-family:'Caveat',cursive;font-size:1.1em;color:var(--gold);margin-top:12px;opacity:.7}
+.music-glow{
+  position:absolute;width:120px;height:120px;top:50%;left:50%;
+  transform:translate(-50%,-50%);border-radius:50%;
+  background:radial-gradient(circle,rgba(240,192,64,.15),transparent 70%);
+  pointer-events:none;opacity:0;transition:opacity .5s;
+}
+.music-player.playing .music-glow{opacity:1;animation:glowPulse 1.5s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}}
+
 .fade-in{animation:fadeIn .8s ease-out}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
@@ -472,9 +520,21 @@ audio{width:100%;max-width:320px;margin:16px 0;position:relative;z-index:1;borde
 <div class="screen" id="screen-final">
   <div class="dobby-slot small"></div>
   <h1>С 10-летием, Кэтти!</h1>
-  <audio controls autoplay id="song-player">
-    <source src="song.mp3" type="audio/mpeg">
-  </audio>
+  <audio id="song-audio" preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
+  <div class="music-player" id="music-player">
+    <div class="music-glow"></div>
+    <div class="music-rings"><div class="music-ring"></div><div class="music-ring"></div><div class="music-ring"></div><div class="music-ring"></div></div>
+    <div class="music-notes">
+      <span class="music-note">&#9835;</span><span class="music-note">&#9834;</span>
+      <span class="music-note">&#9833;</span><span class="music-note">&#9835;</span>
+      <span class="music-note">&#9834;</span><span class="music-note">&#9833;</span>
+    </div>
+    <button class="music-btn" id="music-btn" onclick="toggleMusic()">
+      <svg class="play-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      <svg class="pause-icon" viewBox="0 0 24 24"><path d="M6 4h4v16H6zm8 0h4v16h-4z"/></svg>
+    </button>
+    <div class="music-title">&#9835; &#1050;&#1072;&#1090;&#1103; &#1080; &#1042;&#1072;&#1088;&#1103; &#9835;</div>
+  </div>
   <div class="certificate">
     <div class="cert-title">Магический Сертификат</div>
     <p class="cert-text">За 10 лет совместного волшебства</p>
@@ -634,11 +694,36 @@ function gameWon(n) {
   setTimeout(() => showScreen('screen-trans'+n), 600);
 }
 
+function toggleMusic() {
+  const audio = document.getElementById('song-audio');
+  const btn = document.getElementById('music-btn');
+  const player = document.getElementById('music-player');
+  if (audio.paused) {
+    audio.play().then(() => {
+      btn.classList.add('playing');
+      player.classList.add('playing');
+    }).catch(() => {});
+  } else {
+    audio.pause();
+    btn.classList.remove('playing');
+    player.classList.remove('playing');
+  }
+}
+
 function showFinal() {
   showScreen('screen-final');
   for (let i = 0; i < 6; i++) {
     setTimeout(() => sparkle(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*300);
   }
+  const audio = document.getElementById('song-audio');
+  const btn = document.getElementById('music-btn');
+  const player = document.getElementById('music-player');
+  setTimeout(() => {
+    audio.play().then(() => {
+      btn.classList.add('playing');
+      player.classList.add('playing');
+    }).catch(() => {});
+  }, 500);
 }
 
 // ===== GAME 1: SLIDE PUZZLE =====
@@ -838,6 +923,12 @@ document.addEventListener('click', e => {
       }
     }
   }
+});
+
+// ===== MUSIC END LISTENER =====
+document.getElementById('song-audio').addEventListener('ended', () => {
+  document.getElementById('music-btn').classList.remove('playing');
+  document.getElementById('music-player').classList.remove('playing');
 });
 
 // ===== INIT: trigger typewriter on intro =====
