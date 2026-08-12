@@ -303,6 +303,11 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .riddle-opt.correct{background:rgba(40,167,69,.4);border-color:#28a745;box-shadow:0 0 15px rgba(40,167,69,.3)}
 .riddle-opt.wrong{background:rgba(220,53,69,.4);border-color:#dc3545;animation:shake .4s}
 .riddle-counter{font-size:.85em;opacity:.6;margin-bottom:12px;position:relative;z-index:1}
+.riddle-hint{
+  margin-top:12px;font-size:.85em;color:var(--gold);opacity:0;
+  transition:opacity .4s;font-style:italic;
+}
+.riddle-hint.visible{opacity:1}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 
 /* ===== GAME 3: MASTERMIND ===== */
@@ -424,6 +429,7 @@ audio{width:100%;max-width:320px;margin:16px 0;position:relative;z-index:1;borde
   <div class="riddle-card">
     <div class="riddle-text" id="riddle-text"></div>
     <div class="riddle-options" id="riddle-options"></div>
+    <div class="riddle-hint" id="riddle-hint"></div>
   </div>
 </div>
 
@@ -688,9 +694,9 @@ function moveTile(idx) {
 
 // ===== GAME 2: RIDDLES =====
 const riddles = [
-  { q:'У Добби их два, у носка — ни одного. Они слышат шёпот ветра и тайны хозяев. Что это?', opts:['Глаза','Уши','Руки','Ноги'], ans:1 },
-  { q:'Чем больше из неё берёшь, тем больше она становится. Что это?', opts:['Яма','Любовь','Знания','Память'], ans:0 },
-  { q:'Меня можно разбить, не прикасаясь. Меня можно дать, не отдавая. Что я?', opts:['Сердце','Обещание','Тишина','Надежда'], ans:1 },
+  { q:'У Добби их два, у носка — ни одного. Они слышат шёпот ветра и тайны хозяев. Что это?', opts:['Глаза','Уши','Руки','Ноги'], ans:1, hint:'Добби ими шевелит, когда говорит!' },
+  { q:'Чем больше из неё берёшь, тем больше она становится. Что это?', opts:['Яма','Любовь','Знания','Память'], ans:0, hint:'Подумайте... копаете лопатой!' },
+  { q:'Меня можно разбить, не прикасаясь. Меня можно дать, не отдавая. Что я?', opts:['Сердце','Обещание','Тишина','Надежда'], ans:1, hint:'Добби всегда держит своё...' },
 ];
 let riddleIdx = 0;
 
@@ -704,6 +710,8 @@ function showRiddle() {
   const r = riddles[riddleIdx];
   document.getElementById('riddle-num').textContent = riddleIdx+1;
   document.getElementById('riddle-text').textContent = r.q;
+  const hint = document.getElementById('riddle-hint');
+  hint.textContent = ''; hint.classList.remove('visible');
   const opts = document.getElementById('riddle-options');
   opts.innerHTML = '';
   r.opts.forEach((o,i) => {
@@ -717,16 +725,17 @@ function showRiddle() {
 
 function checkRiddle(chosen, btn) {
   const r = riddles[riddleIdx];
-  const opts = document.querySelectorAll('.riddle-opt');
-  opts.forEach(o => o.style.pointerEvents = 'none');
   if (chosen===r.ans) {
+    document.querySelectorAll('.riddle-opt').forEach(o => o.style.pointerEvents = 'none');
     btn.classList.add('correct');
     sparkle(btn.getBoundingClientRect().x+btn.offsetWidth/2, btn.getBoundingClientRect().y);
     setTimeout(() => { riddleIdx++; riddleIdx>=riddles.length ? gameWon(2) : showRiddle(); }, 800);
   } else {
     btn.classList.add('wrong');
-    opts[r.ans].classList.add('correct');
-    setTimeout(() => { riddleIdx++; riddleIdx>=riddles.length ? gameWon(2) : showRiddle(); }, 1200);
+    btn.style.pointerEvents = 'none';
+    const hint = document.getElementById('riddle-hint');
+    hint.textContent = '🧦 ' + r.hint;
+    hint.classList.add('visible');
   }
 }
 
