@@ -814,8 +814,11 @@ let comicTwTimer = null;
 
 function startBgMusic() {
   const bg = document.getElementById('bg-music');
+  if (!bg.paused) return;
+  bg.currentTime = 0;
   bg.volume = 0.3;
-  bg.play().catch(() => {});
+  if (bg.readyState >= 2) { bg.play().catch(() => {}); }
+  else { bg.addEventListener('canplay', function h() { bg.play().catch(() => {}); bg.removeEventListener('canplay', h); }); }
 }
 function fadeBgMusic() {
   const bg = document.getElementById('bg-music');
