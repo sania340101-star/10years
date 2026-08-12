@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Магический Квест</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Caveat:wght@400;700&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --gold:#f0c040;--purple:#6a3db8;--dark:#0d0520;
+  --card:rgba(42,21,72,.85);--glow:rgba(240,192,64,.3);--star:#ffd700;
+  --skin:#d4a574;--skin-lt:#e8c9a0;--skin-dk:#b07a4a;
+}
+body{
+  font-family:'Comfortaa',sans-serif;color:#fff;min-height:100dvh;overflow-x:hidden;
+  display:flex;justify-content:center;
+  background:radial-gradient(ellipse at 50% 0%,#1a0a2e 0%,#0d0520 50%,#050210 100%);
+  background-attachment:fixed;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-font-smoothing:antialiased;
+}
+button,input{touch-action:manipulation}
+
+.screen{
+  display:none;flex-direction:column;align-items:center;
+  width:100%;max-width:440px;min-height:100dvh;padding:40px 16px 32px;text-align:center;position:relative;
+}
+.screen.active{display:flex}
+
+.stars{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.star{position:absolute;border-radius:50%;animation:twinkle var(--d,3s) ease-in-out infinite}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1)}50%{opacity:1;transform:scale(1.8)}}
+.magic-particles{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;overflow:hidden}
+.magic-particle{position:absolute;border-radius:50%;animation:floatUp var(--dur,8s) linear infinite;opacity:0}
+@keyframes floatUp{0%{transform:translateY(100vh) scale(0);opacity:0}10%{opacity:.6}90%{opacity:.6}100%{transform:translateY(-10vh) scale(1);opacity:0}}
+
+h1{
+  font-family:'Caveat',cursive;font-size:2em;margin-bottom:12px;
+  background:linear-gradient(135deg,var(--gold),#ffe082,var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 20px var(--glow));position:relative;z-index:1;
+}
+h2{font-family:'Caveat',cursive;font-size:1.6em;color:var(--gold);margin-bottom:16px;position:relative;z-index:1}
+p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relative;z-index:1;max-width:360px}
+
+/* ===== DOBBY CHARACTER ===== */
+.dobby{
+  position:relative;width:140px;height:160px;
+  margin:0 auto 12px;z-index:1;
+  animation:dobbyFloat 3s ease-in-out infinite;
+  filter:drop-shadow(0 8px 16px rgba(0,0,0,.35));
+}
+@keyframes dobbyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+.dobby-head{
+  position:absolute;width:72px;height:78px;
+  background:linear-gradient(160deg,#f0d9b5 0%,var(--skin-lt) 30%,var(--skin) 70%,var(--skin-dk) 100%);
+  border-radius:36px 36px 30px 30px;
+  top:0;left:50%;transform:translateX(-50%);
+  box-shadow:inset 4px 4px 10px rgba(255,255,255,.15),inset -4px -6px 10px rgba(0,0,0,.2),
+             0 4px 12px rgba(0,0,0,.25),0 0 20px rgba(240,192,64,.1);
+}
+.dobby-head::after{
+  content:'';position:absolute;top:6px;left:16px;width:20px;height:12px;
+  background:radial-gradient(ellipse,rgba(255,255,255,.2),transparent);border-radius:50%;
+  transform:rotate(-15deg);
+}
+.dobby-ear{
+  position:absolute;
+  background:linear-gradient(170deg,var(--skin-lt) 20%,var(--skin) 60%,var(--skin-dk) 100%);
+  transform-origin:right center;
+  box-shadow:inset 0 -2px 5px rgba(0,0,0,.15),1px 2px 4px rgba(0,0,0,.2);
+}
+.dobby-ear::after{
+  content:'';position:absolute;width:60%;height:50%;top:20%;
+  background:radial-gradient(ellipse,rgba(255,150,120,.4),transparent);border-radius:50%;
+}
+.dobby-ear-l{
+  width:50px;height:22px;left:-36px;top:20px;
+  border-radius:50% 30% 4px 40%;
+  transform:rotate(-35deg) scaleY(1.1);
+  animation:earL 4s ease-in-out infinite;
+  transform-origin:right center;
+}
+.dobby-ear-l::after{left:15%}
+.dobby-ear-r{
+  width:50px;height:22px;right:-36px;top:20px;
+  border-radius:30% 50% 40% 4%;
+  transform:rotate(35deg) scaleY(1.1);
+  animation:earR 4s ease-in-out infinite .3s;
+  transform-origin:left center;
+}
+.dobby-ear-r::after{right:15%}
+@keyframes earL{0%,100%{transform:rotate(-35deg) scaleY(1.1)}50%{transform:rotate(-22deg) scaleY(1.1)}}
+@keyframes earR{0%,100%{transform:rotate(35deg) scaleY(1.1)}50%{transform:rotate(22deg) scaleY(1.1)}}
+.dobby.speaking .dobby-ear-l{animation:earTalkL .6s ease-in-out infinite}
+.dobby.speaking .dobby-ear-r{animation:earTalkR .6s ease-in-out infinite .08s}
+@keyframes earTalkL{0%,100%{transform:rotate(-35deg) scaleY(1.1)}50%{transform:rotate(-15deg) scaleY(1.15)}}
+@keyframes earTalkR{0%,100%{transform:rotate(35deg) scaleY(1.1)}50%{transform:rotate(15deg) scaleY(1.15)}}
+
+.dobby-eye{
+  position:absolute;width:20px;height:24px;
+  background:radial-gradient(circle at 35% 35%,#c0ffc0 0%,#70ff90 25%,#2d8f2d 80%,#1a5a1a 100%);
+  border-radius:50%;top:24px;overflow:hidden;
+  box-shadow:0 0 12px rgba(127,255,127,.5),inset 0 2px 4px rgba(255,255,255,.3),inset 0 -2px 3px rgba(0,0,0,.2);
+  animation:blink 4.5s ease-in-out infinite;
+}
+.dobby-eye-l{left:12px}.dobby-eye-r{right:12px}
+@keyframes blink{0%,42%,48%,100%{transform:scaleY(1)}45%{transform:scaleY(.08)}}
+.dobby-pupil{
+  width:9px;height:11px;background:#111;border-radius:50%;
+  position:absolute;top:48%;left:48%;transform:translate(-50%,-50%);
+}
+.dobby-shine{
+  width:5px;height:5px;background:#fff;border-radius:50%;
+  position:absolute;top:4px;right:3px;opacity:.85;
+}
+.dobby-nose{
+  position:absolute;width:7px;height:12px;
+  background:linear-gradient(135deg,var(--skin) 20%,var(--skin-dk) 80%);
+  border-radius:3px 3px 5px 5px;
+  bottom:20px;left:50%;transform:translateX(-50%);
+  box-shadow:1px 1px 2px rgba(0,0,0,.15);
+}
+.dobby-mouth{
+  position:absolute;width:10px;height:3px;
+  background:#8b5e3c;border-radius:0 0 5px 5px;
+  bottom:13px;left:50%;transform:translateX(-50%);
+  transition:all .12s;
+}
+.dobby.speaking .dobby-mouth{animation:mouthMove .22s ease-in-out infinite}
+@keyframes mouthMove{
+  0%,100%{height:3px;width:10px;border-radius:0 0 5px 5px}
+  50%{height:9px;width:13px;border-radius:50%}
+}
+
+.dobby-body{
+  position:absolute;width:50px;height:62px;
+  background:linear-gradient(160deg,#b09570 0%,#9b8365 30%,#6b5440 80%,#4a3a28 100%);
+  border-radius:16px 16px 6px 6px;top:74px;left:50%;transform:translateX(-50%);
+  box-shadow:inset 3px 3px 6px rgba(255,255,255,.08),inset -3px -3px 6px rgba(0,0,0,.2),
+             0 4px 10px rgba(0,0,0,.3);
+}
+.dobby-body::before{
+  content:'';position:absolute;top:8px;left:6px;right:6px;height:1px;
+  background:rgba(255,255,255,.08);
+  box-shadow:0 10px 0 rgba(255,255,255,.06),0 20px 0 rgba(255,255,255,.04),
+             0 30px 0 rgba(255,255,255,.03),0 40px 0 rgba(255,255,255,.02);
+}
+.dobby-body::after{
+  content:'';position:absolute;top:4px;left:4px;width:12px;height:16px;
+  background:radial-gradient(ellipse,rgba(255,255,255,.1),transparent);border-radius:50%;
+}
+.dobby-foot{
+  position:absolute;width:14px;height:7px;
+  background:var(--skin);border-radius:7px 7px 3px 3px;bottom:-3px;
+}
+.dobby-foot-l{left:6px}.dobby-foot-r{right:6px}
+
+.dobby-arm{
+  position:absolute;width:7px;height:36px;
+  background:linear-gradient(90deg,var(--skin-dk) 0%,var(--skin-lt) 40%,var(--skin) 100%);
+  border-radius:4px;top:78px;transform-origin:top center;
+  box-shadow:1px 2px 3px rgba(0,0,0,.2);
+}
+.dobby-arm-l{left:42px;transform:rotate(20deg);animation:armWave 2.5s ease-in-out infinite}
+.dobby-arm-r{right:42px;transform:rotate(-8deg)}
+@keyframes armWave{0%,100%{transform:rotate(20deg)}50%{transform:rotate(30deg)}}
+
+.dobby-hand{
+  position:absolute;bottom:-2px;width:9px;height:9px;
+  background:var(--skin);border-radius:50%;left:50%;transform:translateX(-50%);
+}
+.dobby-sock{
+  position:absolute;bottom:-14px;left:-6px;font-size:18px;
+  transform:rotate(-15deg);
+  animation:sockDangle 2s ease-in-out infinite;
+  filter:drop-shadow(0 0 6px rgba(240,192,64,.5));
+}
+@keyframes sockDangle{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(-5deg) translateY(2px)}}
+
+.dobby.small{
+  width:90px;height:105px;transform-origin:center bottom;
+  margin-bottom:4px;
+}
+.dobby.small .dobby-head{width:48px;height:52px}
+.dobby.small .dobby-ear-l{width:34px;height:15px;left:-24px;top:14px}
+.dobby.small .dobby-ear-r{width:34px;height:15px;right:-24px;top:14px}
+.dobby.small .dobby-eye{width:14px;height:16px;top:16px}
+.dobby.small .dobby-eye-l{left:8px}.dobby.small .dobby-eye-r{right:8px}
+.dobby.small .dobby-pupil{width:6px;height:7px}
+.dobby.small .dobby-shine{width:3px;height:3px;top:3px;right:2px}
+.dobby.small .dobby-nose{width:5px;height:8px;bottom:14px}
+.dobby.small .dobby-mouth{width:7px;height:2px;bottom:9px}
+.dobby.small .dobby-body{width:34px;height:40px;top:49px}
+.dobby.small .dobby-foot{width:10px;height:5px}
+.dobby.small .dobby-foot-l{left:4px}.dobby.small .dobby-foot-r{right:4px}
+.dobby.small .dobby-arm{width:5px;height:24px;top:52px}
+.dobby.small .dobby-arm-l{left:26px}.dobby.small .dobby-arm-r{right:26px}
+.dobby.small .dobby-hand{width:6px;height:6px}
+.dobby.small .dobby-sock{font-size:12px;bottom:-10px;left:-4px}
+.dobby.small::after{width:50px;height:10px;bottom:-6px}
+.dobby.small::before{width:110px;height:120px}
+
+.dobby::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:160px;height:180px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(240,192,64,.06),transparent 70%);
+  transition:opacity .5s;opacity:0;pointer-events:none;
+}
+.dobby.speaking::before{opacity:1;animation:speakGlow 1.5s ease-in-out infinite}
+@keyframes speakGlow{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}}
+.dobby::after{
+  content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
+  width:70px;height:14px;
+  background:radial-gradient(ellipse,rgba(240,192,64,.18),transparent);border-radius:50%;
+}
+
+/* ===== SPEECH BUBBLE ===== */
+.dobby-speech{
+  background:linear-gradient(135deg,rgba(42,21,72,.92),rgba(26,10,46,.92));
+  backdrop-filter:blur(10px);
+  border:1px solid rgba(240,192,64,.25);border-radius:16px;
+  padding:16px 20px;margin:12px 0 20px;position:relative;z-index:1;
+  max-width:360px;width:100%;font-size:.9em;line-height:1.6;min-height:56px;
+  white-space:pre-line;
+}
+.dobby-speech::after{
+  content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  border-left:8px solid transparent;border-right:8px solid transparent;
+  border-bottom:8px solid rgba(42,21,72,.92);
+}
+.tw-cursor{
+  display:inline-block;width:2px;height:1em;background:var(--gold);
+  margin-left:2px;vertical-align:text-bottom;
+  animation:curBlink .5s step-end infinite;
+}
+@keyframes curBlink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ===== BUTTONS ===== */
+.btn{
+  font-family:'Comfortaa',sans-serif;
+  background:linear-gradient(135deg,var(--purple),#8b5cf6);
+  color:#fff;border:none;padding:14px 36px;border-radius:30px;font-size:1em;
+  cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(106,61,184,.4);
+  position:relative;z-index:1;min-width:200px;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+  background:linear-gradient(45deg,transparent,rgba(255,255,255,.12),transparent);
+  transform:rotate(45deg) translateX(-100%);
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(106,61,184,.5)}
+.btn:hover::after{animation:btnShine .6s ease-out}
+.btn:active{transform:translateY(0)}
+.btn.gold{background:linear-gradient(135deg,#c09020,var(--gold));box-shadow:0 4px 20px var(--glow)}
+.btn.tw-hidden{opacity:0;pointer-events:none;transform:translateY(10px)}
+.btn.tw-visible{opacity:1;pointer-events:auto;transform:translateY(0);transition:all .6s ease-out}
+@keyframes btnShine{from{transform:rotate(45deg) translateX(-100%)}to{transform:rotate(45deg) translateX(100%)}}
+
+/* ===== PROGRESS ===== */
+.progress-bar{display:flex;gap:8px;margin:20px 0;position:relative;z-index:1}
+.progress-dot{
+  width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.15);
+  border:2px solid rgba(240,192,64,.4);transition:all .5s;
+}
+.progress-dot.done{background:var(--gold);border-color:var(--gold);box-shadow:0 0 12px var(--glow)}
+.progress-dot.current{border-color:#fff;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.4)}50%{box-shadow:0 0 0 8px rgba(255,255,255,0)}}
+
+/* ===== GAME 1: PUZZLE ===== */
+.puzzle-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:4px;
+  width:280px;aspect-ratio:1;margin:16px auto;position:relative;z-index:1;
+  background:rgba(0,0,0,.4);border-radius:12px;padding:4px;
+  box-shadow:0 0 30px rgba(106,61,184,.2);
+}
+.puzzle-tile{
+  border-radius:6px;cursor:pointer;transition:all .15s;user-select:none;
+  background-image:url('puzzle.jpg?v=2');background-size:300% 300%;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.1),0 2px 6px rgba(0,0,0,.4);
+}
+.puzzle-tile:not(.empty):hover{transform:scale(1.04);box-shadow:0 0 12px var(--glow)}
+.puzzle-tile:active:not(.empty){transform:scale(.96)}
+.puzzle-tile.empty{background-image:none;background:rgba(255,255,255,.05);cursor:default;box-shadow:none}
+.puzzle-moves{font-size:.85em;opacity:.6;margin-top:8px;position:relative;z-index:1}
+
+/* ===== GAME 2: RIDDLES ===== */
+.riddle-card{
+  background:var(--card);border:1px solid rgba(240,192,64,.2);border-radius:16px;
+  padding:24px;margin:16px 0;max-width:360px;width:100%;position:relative;z-index:1;
+}
+.riddle-text{font-size:1.05em;margin-bottom:16px;font-style:italic;color:var(--gold)}
+.riddle-options{display:flex;flex-direction:column;gap:10px}
+.riddle-opt{
+  background:rgba(106,61,184,.25);border:1px solid rgba(240,192,64,.2);
+  border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .3s;
+  font-family:'Comfortaa',sans-serif;color:#fff;font-size:.9em;text-align:left;
+}
+.riddle-opt:hover{background:rgba(106,61,184,.45);border-color:var(--gold)}
+.riddle-opt.correct{background:rgba(40,167,69,.4);border-color:#28a745;box-shadow:0 0 15px rgba(40,167,69,.3)}
+.riddle-opt.wrong{background:rgba(220,53,69,.4);border-color:#dc3545;animation:shake .4s}
+.riddle-counter{font-size:.85em;opacity:.6;margin-bottom:12px;position:relative;z-index:1}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+
+/* ===== GAME 3: MASTERMIND ===== */
+.mm-board{
+  display:flex;flex-direction:column;gap:8px;margin:16px auto;
+  max-width:320px;width:100%;position:relative;z-index:1;
+}
+.mm-row{display:flex;gap:6px;align-items:center;justify-content:center}
+.mm-cell{
+  width:48px;height:48px;border-radius:10px;background:var(--card);
+  border:2px solid rgba(240,192,64,.25);display:flex;align-items:center;justify-content:center;
+  font-size:1.4em;font-weight:700;color:var(--gold);transition:all .2s;
+  font-family:'Comfortaa',sans-serif;
+}
+.mm-cell.active{border-color:var(--gold);box-shadow:0 0 12px var(--glow)}
+.mm-cell.filled{background:rgba(106,61,184,.35)}
+.mm-hints{display:flex;gap:4px;margin-left:8px}
+.mm-hint{width:14px;height:14px;border-radius:50%;border:1px solid rgba(255,255,255,.2)}
+.mm-hint.bull{background:#28a745;border-color:#28a745;box-shadow:0 0 6px rgba(40,167,69,.4)}
+.mm-hint.cow{background:var(--gold);border-color:var(--gold);box-shadow:0 0 6px var(--glow)}
+.mm-numpad{
+  display:grid;grid-template-columns:repeat(5,1fr);gap:8px;
+  margin:12px auto;max-width:280px;position:relative;z-index:1;
+}
+.mm-key{
+  background:var(--card);border:1px solid rgba(240,192,64,.25);border-radius:10px;
+  padding:12px;font-size:1.2em;color:#fff;cursor:pointer;transition:all .2s;
+  font-family:'Comfortaa',sans-serif;
+}
+.mm-key:hover{background:rgba(106,61,184,.45);border-color:var(--gold)}
+.mm-key.action{background:rgba(106,61,184,.4);font-size:.8em}
+
+/* ===== CERTIFICATE ===== */
+.certificate{
+  background:linear-gradient(135deg,#1a0a2e,#2a1548,#1a0a2e);
+  border:3px solid var(--gold);border-radius:20px;padding:32px 24px;
+  margin:16px 0;max-width:380px;width:100%;position:relative;z-index:1;
+  box-shadow:0 0 40px var(--glow),inset 0 0 30px rgba(240,192,64,.05);overflow:hidden;
+}
+.certificate::before{
+  content:'';position:absolute;top:-2px;left:-2px;right:-2px;bottom:-2px;
+  background:linear-gradient(45deg,var(--gold),transparent 30%,var(--gold) 50%,transparent 70%,var(--gold));
+  border-radius:22px;z-index:-1;animation:borderGlow 4s linear infinite;background-size:300% 300%;
+}
+@keyframes borderGlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.cert-title{font-family:'Caveat',cursive;font-size:1.8em;color:var(--gold);margin-bottom:8px}
+.cert-text{font-size:.9em;line-height:1.6;margin-bottom:12px}
+.cert-name{
+  font-family:'Caveat',cursive;font-size:2.2em;
+  background:linear-gradient(135deg,var(--gold),#ffe082);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+audio{width:100%;max-width:320px;margin:16px 0;position:relative;z-index:1;border-radius:30px}
+.fade-in{animation:fadeIn .8s ease-out}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:400px){
+  h1{font-size:1.6em}h2{font-size:1.2em}
+  .dobby{width:120px;height:140px}
+  .dobby-head{width:62px;height:68px}
+  .dobby-ear-l{width:42px;height:18px;left:-30px}.dobby-ear-r{width:42px;height:18px;right:-30px}
+  .dobby-eye{width:17px;height:20px;top:20px}
+  .dobby-eye-l{left:10px}.dobby-eye-r{right:10px}
+  .dobby-nose{bottom:17px}.dobby-mouth{bottom:11px}
+  .dobby-body{width:44px;height:54px;top:64px}
+  .dobby-arm{height:30px;top:68px}
+  .dobby-arm-l{left:36px}.dobby-arm-r{right:36px}
+  .puzzle-grid{width:240px}
+  .mm-cell{width:42px;height:42px;font-size:1.2em}
+  .dobby-speech{padding:12px 16px;font-size:.85em}
+}
+</style>
+</head>
+<body>
+
+<div class="stars" id="stars"></div>
+
+<!-- INTRO -->
+<div class="screen active" id="screen-intro">
+  <div class="dobby-slot"></div>
+  <h1>10 лет... Добби нашёл!</h1>
+  <div class="dobby-speech" data-speech="intro"></div>
+  <div class="progress-bar">
+    <div class="progress-dot current"></div>
+    <div class="progress-dot"></div>
+    <div class="progress-dot"></div>
+  </div>
+  <button class="btn gold tw-hidden" data-tw-btn onclick="startGame(1)">Начать квест!</button>
+</div>
+
+<!-- GAME 1: SLIDE PUZZLE -->
+<div class="screen" id="screen-game1">
+  <div class="dobby-slot small"></div>
+  <h2>Заклинание №1: Магический Пазл</h2>
+  <div class="dobby-speech" data-speech="game1"></div>
+  <div class="puzzle-grid" id="puzzle-grid"></div>
+  <div class="puzzle-moves">Ходов: <span id="puzzle-moves">0</span></div>
+</div>
+
+<!-- TRANSITION 1→2 -->
+<div class="screen" id="screen-trans1">
+  <div class="dobby-slot"></div>
+  <h2>Первое заклинание снято!</h2>
+  <div class="dobby-speech" data-speech="trans1"></div>
+  <div class="progress-bar">
+    <div class="progress-dot done"></div>
+    <div class="progress-dot current"></div>
+    <div class="progress-dot"></div>
+  </div>
+  <button class="btn tw-hidden" data-tw-btn onclick="startGame(2)">Продолжить</button>
+</div>
+
+<!-- GAME 2: RIDDLES -->
+<div class="screen" id="screen-game2">
+  <div class="dobby-slot small"></div>
+  <h2>Заклинание №2: Загадки Магов</h2>
+  <div class="riddle-counter">Загадка <span id="riddle-num">1</span> из <span id="riddle-total">3</span></div>
+  <div class="riddle-card">
+    <div class="riddle-text" id="riddle-text"></div>
+    <div class="riddle-options" id="riddle-options"></div>
+  </div>
+</div>
+
+<!-- TRANSITION 2→3 -->
+<div class="screen" id="screen-trans2">
+  <div class="dobby-slot"></div>
+  <h2>Второе заклинание снято!</h2>
+  <div class="dobby-speech" data-speech="trans2"></div>
+  <div class="progress-bar">
+    <div class="progress-dot done"></div>
+    <div class="progress-dot done"></div>
+    <div class="progress-dot current"></div>
+  </div>
+  <button class="btn tw-hidden" data-tw-btn onclick="startGame(3)">Продолжить</button>
+</div>
+
+<!-- GAME 3: MASTERMIND -->
+<div class="screen" id="screen-game3">
+  <div class="dobby-slot small"></div>
+  <h2>Заклинание №3: Код от Сейфа</h2>
+  <div class="dobby-speech" data-speech="game3"></div>
+  <div class="mm-board" id="mm-board"></div>
+  <div class="mm-numpad" id="mm-numpad"></div>
+</div>
+
+<!-- TRANSITION 3→FINAL -->
+<div class="screen" id="screen-trans3">
+  <div class="dobby-slot"></div>
+  <h2>Все заклинания сняты!</h2>
+  <div class="dobby-speech" data-speech="trans3"></div>
+  <div class="progress-bar">
+    <div class="progress-dot done"></div>
+    <div class="progress-dot done"></div>
+    <div class="progress-dot done"></div>
+  </div>
+  <button class="btn gold tw-hidden" data-tw-btn onclick="showFinal()">Открыть сокровище!</button>
+</div>
+
+<!-- FINAL -->
+<div class="screen" id="screen-final">
+  <div class="dobby-slot small"></div>
+  <h1>С 10-летием, Кэтти!</h1>
+  <audio controls autoplay id="song-player">
+    <source src="song.mp3" type="audio/mpeg">
+  </audio>
+  <div class="certificate">
+    <div class="cert-title">Магический Сертификат</div>
+    <p class="cert-text">За 10 лет совместного волшебства</p>
+    <div class="cert-name">Кэтти</div>
+    <p class="cert-text">прошла все испытания и заслужила сокровище, которое Добби хранил 10 лет — серёжки, подаренные с любовью</p>
+    <p class="cert-text" style="font-size:.8em;opacity:.6">10 лет вместе &bull; 12.08.2026</p>
+  </div>
+  <div class="dobby-speech" data-speech="final"></div>
+</div>
+
+<script>
+// ===== DOBBY HTML TEMPLATE =====
+const DOBBY_HTML = `<div class="dobby">
+  <div class="dobby-head">
+    <div class="dobby-ear dobby-ear-l"></div>
+    <div class="dobby-ear dobby-ear-r"></div>
+    <div class="dobby-eye dobby-eye-l"><div class="dobby-pupil"></div><div class="dobby-shine"></div></div>
+    <div class="dobby-eye dobby-eye-r"><div class="dobby-pupil"></div><div class="dobby-shine"></div></div>
+    <div class="dobby-nose"></div>
+    <div class="dobby-mouth"></div>
+  </div>
+  <div class="dobby-body">
+    <div class="dobby-foot dobby-foot-l"></div>
+    <div class="dobby-foot dobby-foot-r"></div>
+  </div>
+  <div class="dobby-arm dobby-arm-l"><div class="dobby-hand"></div><div class="dobby-sock">&#129510;</div></div>
+  <div class="dobby-arm dobby-arm-r"><div class="dobby-hand"></div></div>
+</div>`;
+
+document.querySelectorAll('.dobby-slot').forEach(s => {
+  const isSmall = s.classList.contains('small');
+  const wrapper = document.createElement('div');
+  wrapper.innerHTML = DOBBY_HTML;
+  const dobby = wrapper.firstElementChild;
+  if (isSmall) dobby.classList.add('small');
+  s.replaceWith(dobby);
+});
+
+// ===== SPEECH TEXTS =====
+const SPEECHES = {
+  intro: 'Мисс Кэтти! Добби 10 лет хранил для вас это сокровище! 10 волшебных лет... Но злые дементоры наложили на него 3 заклинания! Чтобы добраться до него — пройдите 3 магических испытания. Добби верит в вас!',
+  game1: 'Соберите картинку, сдвигая плитки! Нажмите на плитку рядом с пустым местом.',
+  trans1: 'Первое заклинание пало! Как и 10 лет назад — мисс Кэтти справляется с любым испытанием! Осталось ещё 2... Следующее — загадки древних магов!',
+  trans2: 'Все загадки разгаданы! За 10 лет мисс Кэтти стала ещё мудрее! Последнее заклинание — самое сложное... Нужно взломать магический код!',
+  game3: 'Угадайте код из 4 цифр за 8 попыток!\n\u{1F7E2} верно  \u{1F7E1} не то место',
+  trans3: 'ВСЕ ЗАКЛИНАНИЯ СНЯТЫ! 10 лет Добби ждал этого момента! Мисс Кэтти, вы самая удивительная волшебница! Добби приготовил кое-что особенное...',
+  final: '10 лет волшебства — и это только начало! Добби желает мисс Кэтти и мистеру Алексу ещё 100 лет вместе! \u{1F9E6}✨'
+};
+
+// ===== STARS + PARTICLES =====
+(function(){
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 80; i++) {
+    const s = document.createElement('div'); s.className = 'star';
+    s.style.left = Math.random()*100+'%';
+    s.style.top = Math.random()*100+'%';
+    s.style.width = (2+Math.random()*3)+'px';
+    s.style.height = s.style.width;
+    s.style.background = Math.random()>.7 ? '#c4a0ff' : '#ffd700';
+    s.style.setProperty('--d',(2+Math.random()*4)+'s');
+    s.style.animationDelay = Math.random()*3+'s';
+    c.appendChild(s);
+  }
+  const pc = document.createElement('div'); pc.className = 'magic-particles';
+  document.body.appendChild(pc);
+  const colors = ['#f0c040','#c4a0ff','#ff8fd8','#80d0ff'];
+  for (let i = 0; i < 20; i++) {
+    const p = document.createElement('div'); p.className = 'magic-particle';
+    p.style.left = Math.random()*100+'%';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.setProperty('--dur',(6+Math.random()*8)+'s');
+    p.style.animationDelay = Math.random()*8+'s';
+    const sz = (2+Math.random()*4)+'px';
+    p.style.width = sz; p.style.height = sz;
+    p.style.boxShadow = '0 0 '+(4+Math.random()*8)+'px '+p.style.background;
+    pc.appendChild(p);
+  }
+})();
+
+// ===== TYPEWRITER =====
+let twTimer = null;
+
+function typewrite(el, text, onDone) {
+  clearInterval(twTimer);
+  el.textContent = '';
+  const cursor = document.createElement('span');
+  cursor.className = 'tw-cursor';
+  el.appendChild(cursor);
+
+  const screen = el.closest('.screen');
+  const dobby = screen ? screen.querySelector('.dobby') : null;
+  if (dobby) dobby.classList.add('speaking');
+
+  let i = 0;
+  twTimer = setInterval(() => {
+    if (i < text.length) {
+      el.insertBefore(document.createTextNode(text[i]), cursor);
+      i++;
+    } else {
+      clearInterval(twTimer);
+      twTimer = null;
+      if (dobby) dobby.classList.remove('speaking');
+      setTimeout(() => cursor.remove(), 600);
+      if (onDone) onDone();
+    }
+  }, 32);
+}
+
+// ===== SCREEN MANAGEMENT =====
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  el.classList.add('active','fade-in');
+  setTimeout(() => el.classList.remove('fade-in'), 800);
+  window.scrollTo(0,0);
+
+  const speech = el.querySelector('.dobby-speech[data-speech]');
+  if (speech) {
+    const key = speech.dataset.speech;
+    const text = SPEECHES[key];
+    if (text) {
+      const btn = el.querySelector('[data-tw-btn]');
+      if (btn) { btn.classList.remove('tw-visible'); btn.classList.add('tw-hidden'); }
+      typewrite(speech, text, () => {
+        if (btn) { btn.classList.remove('tw-hidden'); btn.classList.add('tw-visible'); }
+      });
+    }
+  }
+}
+
+function sparkle(x, y) {
+  const colors = ['#f0c040','#ffe082','#c4a0ff','#ff8fd8'];
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement('div');
+    const c = colors[Math.floor(Math.random()*colors.length)];
+    s.style.cssText = `position:fixed;left:${x}px;top:${y}px;width:${4+Math.random()*4}px;height:${4+Math.random()*4}px;background:${c};border-radius:50%;pointer-events:none;z-index:999;transition:all .8s ease-out;opacity:1;box-shadow:0 0 6px ${c};`;
+    document.body.appendChild(s);
+    const angle = Math.random()*Math.PI*2;
+    const dist = 40+Math.random()*70;
+    requestAnimationFrame(() => {
+      s.style.transform = `translate(${Math.cos(angle)*dist}px,${Math.sin(angle)*dist}px) scale(0)`;
+      s.style.opacity = '0';
+    });
+    setTimeout(() => s.remove(), 800);
+  }
+}
+
+// ===== GAME FLOW =====
+function startGame(n) {
+  if (n===1) { showScreen('screen-game1'); initPuzzle(); }
+  else if (n===2) { showScreen('screen-game2'); initRiddles(); }
+  else if (n===3) { showScreen('screen-game3'); initMastermind(); }
+}
+
+function gameWon(n) {
+  sparkle(window.innerWidth/2, window.innerHeight/2);
+  setTimeout(() => showScreen('screen-trans'+n), 600);
+}
+
+function showFinal() {
+  showScreen('screen-final');
+  for (let i = 0; i < 6; i++) {
+    setTimeout(() => sparkle(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*300);
+  }
+}
+
+// ===== GAME 1: SLIDE PUZZLE =====
+let puzzleState = [1,2,3,4,5,6,7,8,0];
+let puzzleMoves = 0;
+
+function initPuzzle() {
+  puzzleMoves = 0;
+  document.getElementById('puzzle-moves').textContent = '0';
+  puzzleState = [1,2,3,4,5,6,7,8,0];
+  for (let i = 0; i < 100; i++) {
+    const empty = puzzleState.indexOf(0);
+    const nb = [];
+    if (empty%3>0) nb.push(empty-1);
+    if (empty%3<2) nb.push(empty+1);
+    if (empty>2) nb.push(empty-3);
+    if (empty<6) nb.push(empty+3);
+    const pick = nb[Math.floor(Math.random()*nb.length)];
+    [puzzleState[empty],puzzleState[pick]] = [puzzleState[pick],puzzleState[empty]];
+  }
+  renderPuzzle();
+}
+
+function renderPuzzle() {
+  const grid = document.getElementById('puzzle-grid');
+  grid.innerHTML = '';
+  puzzleState.forEach((val, idx) => {
+    const tile = document.createElement('div');
+    tile.className = 'puzzle-tile'+(val===0?' empty':'');
+    if (val) {
+      const row = Math.floor((val-1)/3), col = (val-1)%3;
+      tile.style.backgroundPosition = (col*50)+'% '+(row*50)+'%';
+      tile.onclick = () => moveTile(idx);
+    }
+    grid.appendChild(tile);
+  });
+}
+
+function moveTile(idx) {
+  const empty = puzzleState.indexOf(0);
+  const row = Math.floor(idx/3), col = idx%3;
+  const er = Math.floor(empty/3), ec = empty%3;
+  if (Math.abs(row-er)+Math.abs(col-ec)===1) {
+    [puzzleState[idx],puzzleState[empty]] = [puzzleState[empty],puzzleState[idx]];
+    puzzleMoves++;
+    document.getElementById('puzzle-moves').textContent = puzzleMoves;
+    renderPuzzle();
+    if (puzzleState.every((v,i) => v===(i+1)%9)) {
+      setTimeout(() => gameWon(1), 400);
+    }
+  }
+}
+
+// ===== GAME 2: RIDDLES =====
+const riddles = [
+  { q:'У Добби их два, у носка — ни одного. Они слышат шёпот ветра и тайны хозяев. Что это?', opts:['Глаза','Уши','Руки','Ноги'], ans:1 },
+  { q:'Чем больше из неё берёшь, тем больше она становится. Что это?', opts:['Яма','Любовь','Знания','Память'], ans:0 },
+  { q:'Меня можно разбить, не прикасаясь. Меня можно дать, не отдавая. Что я?', opts:['Сердце','Обещание','Тишина','Надежда'], ans:1 },
+];
+let riddleIdx = 0;
+
+function initRiddles() {
+  riddleIdx = 0;
+  document.getElementById('riddle-total').textContent = riddles.length;
+  showRiddle();
+}
+
+function showRiddle() {
+  const r = riddles[riddleIdx];
+  document.getElementById('riddle-num').textContent = riddleIdx+1;
+  document.getElementById('riddle-text').textContent = r.q;
+  const opts = document.getElementById('riddle-options');
+  opts.innerHTML = '';
+  r.opts.forEach((o,i) => {
+    const btn = document.createElement('button');
+    btn.className = 'riddle-opt';
+    btn.textContent = o;
+    btn.onclick = () => checkRiddle(i,btn);
+    opts.appendChild(btn);
+  });
+}
+
+function checkRiddle(chosen, btn) {
+  const r = riddles[riddleIdx];
+  const opts = document.querySelectorAll('.riddle-opt');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  if (chosen===r.ans) {
+    btn.classList.add('correct');
+    sparkle(btn.getBoundingClientRect().x+btn.offsetWidth/2, btn.getBoundingClientRect().y);
+    setTimeout(() => { riddleIdx++; riddleIdx>=riddles.length ? gameWon(2) : showRiddle(); }, 800);
+  } else {
+    btn.classList.add('wrong');
+    opts[r.ans].classList.add('correct');
+    setTimeout(() => { riddleIdx++; riddleIdx>=riddles.length ? gameWon(2) : showRiddle(); }, 1200);
+  }
+}
+
+// ===== GAME 3: MASTERMIND =====
+let mmSecret=[], mmGuesses=[], mmCurrent=[];
+const MM_LEN=4, MM_MAX=8, MM_DIGITS=[1,2,3,4,5,6,7,8,9];
+
+function initMastermind() {
+  mmGuesses=[]; mmCurrent=[];
+  const pool = [...MM_DIGITS]; mmSecret = [];
+  for (let i=0; i<MM_LEN; i++) {
+    const idx = Math.floor(Math.random()*pool.length);
+    mmSecret.push(pool.splice(idx,1)[0]);
+  }
+  renderMM(); renderNumpad();
+}
+
+function renderMM() {
+  const board = document.getElementById('mm-board');
+  board.innerHTML = '';
+  mmGuesses.forEach(g => {
+    const row = document.createElement('div'); row.className = 'mm-row';
+    g.digits.forEach(d => {
+      const cell = document.createElement('div');
+      cell.className = 'mm-cell filled'; cell.textContent = d; row.appendChild(cell);
+    });
+    const hints = document.createElement('div'); hints.className = 'mm-hints';
+    for (let i=0;i<g.bulls;i++){const h=document.createElement('div');h.className='mm-hint bull';hints.appendChild(h);}
+    for (let i=0;i<g.cows;i++){const h=document.createElement('div');h.className='mm-hint cow';hints.appendChild(h);}
+    for (let i=g.bulls+g.cows;i<MM_LEN;i++){const h=document.createElement('div');h.className='mm-hint';hints.appendChild(h);}
+    row.appendChild(hints); board.appendChild(row);
+  });
+  if (mmGuesses.length<MM_MAX && !(mmGuesses.length>0 && mmGuesses[mmGuesses.length-1].bulls===MM_LEN)) {
+    const row = document.createElement('div'); row.className = 'mm-row';
+    for (let i=0;i<MM_LEN;i++) {
+      const cell = document.createElement('div');
+      cell.className = 'mm-cell'+(i<mmCurrent.length?' filled':'')+(i===mmCurrent.length?' active':'');
+      cell.textContent = mmCurrent[i]||''; row.appendChild(cell);
+    }
+    const hints = document.createElement('div'); hints.className = 'mm-hints';
+    for (let i=0;i<MM_LEN;i++){const h=document.createElement('div');h.className='mm-hint';hints.appendChild(h);}
+    row.appendChild(hints); board.appendChild(row);
+  }
+}
+
+function renderNumpad() {
+  const pad = document.getElementById('mm-numpad');
+  pad.innerHTML = '';
+  MM_DIGITS.forEach(d => {
+    const k = document.createElement('button'); k.className = 'mm-key';
+    k.textContent = d; k.onclick = () => mmInput(d); pad.appendChild(k);
+  });
+  const del = document.createElement('button'); del.className = 'mm-key action';
+  del.textContent = '⌫'; del.onclick = () => mmDelete(); pad.appendChild(del);
+}
+
+function mmInput(d) {
+  if (mmCurrent.length>=MM_LEN) return;
+  if (mmCurrent.includes(d)) return;
+  mmCurrent.push(d);
+  if (mmCurrent.length===MM_LEN) setTimeout(mmSubmit, 200);
+  renderMM();
+}
+function mmDelete() { mmCurrent.pop(); renderMM(); }
+
+function mmSubmit() {
+  let bulls=0, cows=0;
+  mmCurrent.forEach((d,i) => { if (d===mmSecret[i]) bulls++; else if (mmSecret.includes(d)) cows++; });
+  mmGuesses.push({digits:[...mmCurrent], bulls, cows});
+  mmCurrent = [];
+  renderMM();
+  if (bulls===MM_LEN) {
+    setTimeout(() => gameWon(3), 500);
+  } else if (mmGuesses.length>=MM_MAX) {
+    const speech = document.querySelector('#screen-game3 .dobby-speech');
+    speech.textContent = 'Ничего! Код был: '+mmSecret.join('')+'. Добби верит в мисс Кэтти! Ещё разок!';
+    setTimeout(initMastermind, 2500);
+  }
+}
+
+// ===== SKIP (testing): triple-tap title =====
+const screenOrder = ['screen-intro','screen-game1','screen-trans1','screen-game2','screen-trans2','screen-game3','screen-trans3','screen-final'];
+let skipTaps = 0, skipTimer = null;
+document.addEventListener('click', e => {
+  if (e.target.matches('h1,h2')) {
+    skipTaps++;
+    clearTimeout(skipTimer);
+    skipTimer = setTimeout(() => skipTaps = 0, 500);
+    if (skipTaps >= 3) {
+      skipTaps = 0;
+      const cur = document.querySelector('.screen.active');
+      const idx = screenOrder.indexOf(cur?.id);
+      if (idx >= 0 && idx < screenOrder.length - 1) {
+        const next = screenOrder[idx + 1];
+        if (next === 'screen-game1') { showScreen(next); initPuzzle(); }
+        else if (next === 'screen-game2') { showScreen(next); initRiddles(); }
+        else if (next === 'screen-game3') { showScreen(next); initMastermind(); }
+        else if (next === 'screen-final') showFinal();
+        else showScreen(next);
+      }
+    }
+  }
+});
+
+// ===== INIT: trigger typewriter on intro =====
+setTimeout(() => showScreen('screen-intro'), 100);
+</script>
+</body>
+</html>
