@@ -416,6 +416,37 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .music-player.playing .music-glow{opacity:1;animation:glowPulse 1.5s ease-in-out infinite}
 @keyframes glowPulse{0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.5}50%{transform:translate(-50%,-50%) scale(1.4);opacity:1}}
 
+/* ===== COMIC ENGINE ===== */
+.comic-panel{
+  width:100%;max-width:440px;border-radius:12px;overflow:hidden;position:relative;z-index:1;
+  box-shadow:0 4px 30px rgba(0,0,0,.5),0 0 20px rgba(106,61,184,.2);
+  border:2px solid rgba(240,192,64,.3);
+  transition:all .6s ease-out;
+}
+.comic-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#1a0a2e}
+.comic-narration{
+  background:linear-gradient(135deg,rgba(42,21,72,.95),rgba(26,10,46,.95));
+  border-top:1px solid rgba(240,192,64,.25);
+  padding:16px 20px;font-size:.9em;line-height:1.6;min-height:60px;
+}
+.comic-choices{
+  display:flex;flex-direction:column;gap:10px;margin-top:16px;
+  width:100%;max-width:440px;position:relative;z-index:1;
+}
+.comic-choice{
+  background:linear-gradient(135deg,rgba(106,61,184,.3),rgba(106,61,184,.5));
+  border:2px solid rgba(240,192,64,.3);border-radius:14px;padding:14px 20px;
+  color:#fff;font-family:'Comfortaa',sans-serif;font-size:.95em;cursor:pointer;
+  transition:all .3s;text-align:left;display:flex;align-items:center;gap:12px;
+}
+.comic-choice:hover{
+  background:linear-gradient(135deg,rgba(106,61,184,.5),rgba(106,61,184,.7));
+  border-color:var(--gold);transform:translateX(6px);box-shadow:0 0 20px rgba(240,192,64,.2);
+}
+.comic-choice:active{transform:translateX(3px)}
+.comic-choice-icon{font-size:1.4em;flex-shrink:0}
+.comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
+
 .fade-in{animation:fadeIn .8s ease-out}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
@@ -450,7 +481,17 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
     <div class="progress-dot"></div>
     <div class="progress-dot"></div>
   </div>
-  <button class="btn gold tw-hidden" data-tw-btn onclick="startGame(1)">Начать квест!</button>
+  <button class="btn gold tw-hidden" data-tw-btn onclick="startComic()">Начать квест!</button>
+</div>
+
+<!-- COMIC STORY -->
+<div class="screen" id="screen-comic">
+  <div class="comic-counter" id="comic-counter"></div>
+  <div class="comic-panel" id="comic-panel">
+    <img class="comic-img" id="comic-img" src="" alt="">
+    <div class="comic-narration" id="comic-narration"></div>
+  </div>
+  <div class="comic-choices" id="comic-choices"></div>
 </div>
 
 <!-- GAME 1: SLIDE PUZZLE -->
@@ -691,6 +732,169 @@ function sparkle(x, y) {
 }
 
 // ===== GAME FLOW =====
+// ===== COMIC ENGINE =====
+const COMIC = {
+  s1: {
+    img:'comic/s1.jpg',
+    text:'Однажды, в заброшенной башне древних волшебников, Добби обнаружил сияющий золотой сундук. Внутри чувствовалась мощная магия — это был подарок, предназначенный для кого-то особенного. Но путь к получателю был полон опасностей...',
+    choices:[
+      {text:'Пойти через Волшебный Лес',icon:'🌲',next:'s2a'},
+      {text:'Спуститься в Подземелье Гоблинов',icon:'⛏️',next:'s2b'}
+    ]
+  },
+  s2a: {
+    img:'comic/s2a.jpg',
+    text:'В зачарованном лесу Добби встретил величественного серебряного единорога на каменном мосту. Единорог не пропускал никого без доказательства чистого сердца...',
+    choices:[
+      {text:'Подарить свой любимый носок',icon:'🧦',next:'s2a_a'},
+      {text:'Предложить дружбу',icon:'🤝',next:'s2a_b'}
+    ]
+  },
+  s2a_a: {
+    img:'comic/s2a_a.jpg',
+    text:'Добби протянул свой самый ценный носок — символ свободы. Единорог был тронут такой жертвой и склонил голову. Золотой свет соединил их, и единорог благословил сундук защитным заклинанием.',
+    next:'s3'
+  },
+  s2a_b: {
+    img:'comic/s2a_b.jpg',
+    text:'Добби просто протянул руку и сказал: «Добби хочет быть другом!» Единорог почувствовал искренность и они пошли по волшебной тропе вместе, освещая путь магическим светом.',
+    next:'s3'
+  },
+  s2b: {
+    img:'comic/s2b.jpg',
+    text:'В подземных пещерах три хитрых гоблина окружили Добби. Они хотели забрать золотой сундук себе! Добби должен был найти выход...',
+    choices:[
+      {text:'Загадать загадку',icon:'🧩',next:'s2b_a'},
+      {text:'Помочь починить кузницу',icon:'🔨',next:'s2b_b'}
+    ]
+  },
+  s2b_a: {
+    img:'comic/s2b_a.jpg',
+    text:'«Что можно хранить 10 лет, и оно станет только ценнее?» — спросил Добби. Гоблины чесали затылки, но не смогли ответить. «Любовь!» — сказал Добби, и магические руны осветили пещеру, открывая тайный проход.',
+    next:'s3'
+  },
+  s2b_b: {
+    img:'comic/s2b_b.jpg',
+    text:'Добби увидел, что великая кузница гоблинов сломана, и предложил помощь. Вместе они разожгли магическое пламя и починили древний горн. Благодарные гоблины подарили Добби защитный амулет.',
+    next:'s3'
+  },
+  s3: {
+    img:'comic/s3.jpg',
+    text:'На обратном пути тёмные дементоры напали! Они хотели поглотить магию сундука. Холод пронизывал до костей, но Добби крепко прижимал сокровище...',
+    choices:[
+      {text:'Спрятаться в Хогвартсе',icon:'🏰',next:'s3_a'},
+      {text:'Использовать магию носка!',icon:'✨',next:'s3_b'}
+    ]
+  },
+  s3_a: {
+    img:'comic/s3_a.jpg',
+    text:'Добби нашёл убежище на кухне Хогвартса среди верных домовых эльфов. Они окружили его теплом и заботой, а древняя магия замка не пропустила дементоров. Сундук был в безопасности!',
+    next:'s4'
+  },
+  s3_b: {
+    img:'comic/s3_b.jpg',
+    text:'Добби поднял свой носок высоко над головой, и он засиял ослепительным золотым светом! Мощный магический щит разметал дементоров. Это был самый храбрый поступок Добби!',
+    next:'s4'
+  },
+  s4: {
+    img:'comic/s4.jpg',
+    text:'Прошло 10 долгих лет. Добби хранил сундук через снег и дождь, через жару и холод. И вот однажды, на древнем свитке пророчества, золотыми буквами проявилось имя: «Кэтти». Момент настал!',
+    next:'s5'
+  },
+  s5: {
+    img:'comic/s5.jpg',
+    text:'Добби открыл сундук, и оттуда хлынул волшебный свет! Внутри лежало сокровище, которое он хранил 10 лет. Но чтобы его получить, мисс Кэтти должна пройти 3 магических испытания...',
+    final:true
+  }
+};
+
+let comicStep = 0;
+let comicTwTimer = null;
+
+function startComic() {
+  comicStep = 0;
+  showScreen('screen-comic');
+  showComicScene('s1');
+}
+
+function showComicScene(id) {
+  const scene = COMIC[id];
+  if (!scene) return;
+  comicStep++;
+
+  const panel = document.getElementById('comic-panel');
+  const img = document.getElementById('comic-img');
+  const narr = document.getElementById('comic-narration');
+  const choices = document.getElementById('comic-choices');
+  const counter = document.getElementById('comic-counter');
+
+  panel.style.opacity = '0';
+  panel.style.transform = 'translateY(20px)';
+  choices.innerHTML = '';
+  counter.textContent = 'Глава ' + comicStep + ' из истории Добби';
+
+  setTimeout(() => {
+    const reveal = () => {
+      panel.style.transition = 'all .6s ease-out';
+      panel.style.opacity = '1';
+      panel.style.transform = 'translateY(0)';
+      comicTypewrite(narr, scene.text, () => {
+        if (scene.choices) {
+          scene.choices.forEach((c, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'comic-choice';
+            btn.innerHTML = '<span class="comic-choice-icon">'+c.icon+'</span><span>'+c.text+'</span>';
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateX(-20px)';
+            btn.onclick = () => {
+              const r = btn.getBoundingClientRect();
+              sparkle(r.x + r.width/2, r.y);
+              showComicScene(c.next);
+            };
+            choices.appendChild(btn);
+            setTimeout(() => {
+              btn.style.transition = 'all .4s ease-out';
+              btn.style.opacity = '1';
+              btn.style.transform = 'translateX(0)';
+            }, 200 + i * 150);
+          });
+        } else if (scene.final) {
+          const btn = document.createElement('button');
+          btn.className = 'btn gold';
+          btn.textContent = 'Начать испытания!';
+          btn.style.opacity = '0';
+          btn.style.marginTop = '16px';
+          btn.onclick = () => { sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
+          choices.appendChild(btn);
+          setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+        } else if (scene.next) {
+          const btn = document.createElement('button');
+          btn.className = 'btn';
+          btn.textContent = 'Продолжить →';
+          btn.style.opacity = '0';
+          btn.style.marginTop = '16px';
+          btn.onclick = () => showComicScene(scene.next);
+          choices.appendChild(btn);
+          setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+        }
+      });
+    };
+    img.onload = reveal;
+    img.onerror = reveal;
+    img.src = scene.img;
+  }, 300);
+}
+
+function comicTypewrite(el, text, cb) {
+  if (comicTwTimer) clearInterval(comicTwTimer);
+  el.textContent = '';
+  let i = 0;
+  comicTwTimer = setInterval(() => {
+    if (i < text.length) { el.textContent += text[i]; i++; }
+    else { clearInterval(comicTwTimer); comicTwTimer = null; if (cb) cb(); }
+  }, 25);
+}
+
 function startGame(n) {
   if (n===1) { showScreen('screen-game1'); initPuzzle(); }
   else if (n===2) { showScreen('screen-game2'); initRiddles(); }
@@ -910,7 +1114,7 @@ function mmSubmit() {
 }
 
 // ===== SKIP (testing): triple-tap title =====
-const screenOrder = ['screen-intro','screen-game1','screen-trans1','screen-game2','screen-trans2','screen-game3','screen-trans3','screen-final'];
+const screenOrder = ['screen-intro','screen-comic','screen-game1','screen-trans1','screen-game2','screen-trans2','screen-game3','screen-trans3','screen-final'];
 let skipTaps = 0, skipTimer = null;
 document.addEventListener('click', e => {
   if (e.target.matches('h1,h2')) {
