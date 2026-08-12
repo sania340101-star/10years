@@ -567,6 +567,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 <div class="screen" id="screen-final">
   <div class="dobby-slot small"></div>
   <h1>С 10-летием, Кэтти!</h1>
+  <audio id="bg-music" preload="auto" loop><source src="hp-theme.mp3" type="audio/mpeg"></audio>
   <audio id="song-audio" preload="auto"><source src="song.mp3" type="audio/mpeg"></audio>
   <div class="music-player" id="music-player">
     <div class="music-area">
@@ -811,10 +812,23 @@ const COMIC = {
 let comicStep = 0;
 let comicTwTimer = null;
 
+function startBgMusic() {
+  const bg = document.getElementById('bg-music');
+  bg.volume = 0.3;
+  bg.play().catch(() => {});
+}
+function fadeBgMusic() {
+  const bg = document.getElementById('bg-music');
+  if (bg.paused) return;
+  let v = bg.volume;
+  const fade = setInterval(() => { v -= 0.03; if (v <= 0) { bg.pause(); bg.volume = 0.3; clearInterval(fade); } else bg.volume = v; }, 80);
+}
+
 function startComic() {
   comicStep = 0;
   showScreen('screen-comic');
   showComicScene('s1');
+  startBgMusic();
 }
 
 function showComicScene(id) {
@@ -923,6 +937,7 @@ function toggleMusic() {
 }
 
 function showFinal() {
+  fadeBgMusic();
   showScreen('screen-final');
   for (let i = 0; i < 6; i++) {
     setTimeout(() => sparkle(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*300);
@@ -1038,7 +1053,7 @@ function checkRiddle(chosen, btn) {
 
 // ===== GAME 3: MASTERMIND =====
 let mmSecret=[], mmGuesses=[], mmCurrent=[];
-const MM_LEN=4, MM_MAX=8, MM_DIGITS=[1,2,3,4,5,6,7,8,9];
+const MM_LEN=4, MM_MAX=10, MM_DIGITS=[1,2,3,4,5,6,7,8,9];
 
 function initMastermind() {
   mmGuesses=[]; mmCurrent=[];
