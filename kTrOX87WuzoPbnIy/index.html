@@ -447,6 +447,10 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .comic-choice-icon{font-size:1.4em;flex-shrink:0}
 .comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
 
+.imgtap-active{cursor:pointer;animation:imgPulse 1.5s infinite;border:2px solid rgba(218,165,32,.5)!important;border-radius:12px}
+@keyframes imgPulse{0%,100%{box-shadow:0 0 10px rgba(218,165,32,.3)}50%{box-shadow:0 0 30px rgba(218,165,32,.7)}}
+.imgtap-glow{animation:imgGlow .8s ease-out;border:2px solid var(--gold)!important;border-radius:12px}
+@keyframes imgGlow{0%{filter:brightness(1)}30%{filter:brightness(1.8) saturate(1.5)}100%{filter:brightness(1.1)}}
 .interact-zone{text-align:center;margin:16px 0;position:relative;z-index:1}
 .scratch-wrap{position:relative;width:240px;height:120px;margin:12px auto;border-radius:16px;overflow:hidden;box-shadow:0 0 20px rgba(218,165,32,.3)}
 .scratch-under{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3em;background:radial-gradient(circle,rgba(218,165,32,.2),rgba(30,15,60,.8));border-radius:16px}
@@ -796,7 +800,7 @@ const COMIC = {
   s1: {
     img:'comic/s1.jpg',
     text:'И вот, в заброшенной башне древних волшебников, Добби обнаружил его — сияющий золотой сундук! Внутри чувствовалась мощная магия. Это был подарок, предназначенный для кого-то особенного. Но путь к получателю был полон опасностей...',
-    interact:{type:'scratch', label:'✨ Сотрите пыль с сундука!', under:'🌟', done:'Сундук засиял!'},
+    interact:{type:'imgtap', label:'✨ Нажмите на сундук!', done:'Сундук засиял!'},
     choices:[
       {text:'Пойти через Волшебный Лес',icon:'🌲',next:'s2a'},
       {text:'Спуститься в Подземелье Гоблинов',icon:'⛏️',next:'s2b'}
@@ -1023,7 +1027,36 @@ function showInteract(cfg, container, onDone) {
   container.appendChild(wrap);
   setTimeout(() => { wrap.style.transition = 'all .5s ease-out'; wrap.style.opacity = '1'; }, 100);
 
-  if (cfg.type === 'scratch') {
+  if (cfg.type === 'imgtap') {
+    let done = false;
+    const lbl = document.createElement('div');
+    lbl.className = 'interact-label pulse-glow';
+    lbl.textContent = cfg.label;
+    wrap.appendChild(lbl);
+    const img = document.getElementById('comic-img');
+    img.classList.add('imgtap-active');
+    const handler = (e) => {
+      if (done) return;
+      done = true;
+      img.removeEventListener('click', handler);
+      img.classList.remove('imgtap-active');
+      img.classList.add('imgtap-glow');
+      const r = img.getBoundingClientRect();
+      sparkle(e.clientX || r.x+r.width/2, e.clientY || r.y+r.height/2);
+      sparkle(r.x+r.width*0.3, r.y+r.height*0.5);
+      sparkle(r.x+r.width*0.7, r.y+r.height*0.5);
+      if(navigator.vibrate) navigator.vibrate([30,20,30]);
+      lbl.textContent = cfg.done;
+      lbl.classList.remove('pulse-glow');
+      lbl.classList.add('interact-done');
+      setTimeout(() => {
+        img.classList.remove('imgtap-glow');
+        wrap.style.transition='all .4s'; wrap.style.opacity='0';
+        setTimeout(() => { wrap.remove(); onDone(); }, 400);
+      }, 1000);
+    };
+    img.addEventListener('click', handler);
+  } else if (cfg.type === 'scratch') {
     let finished = false;
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
