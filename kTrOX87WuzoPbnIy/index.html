@@ -1064,7 +1064,9 @@ function showInteract(cfg, container, onDone) {
   } else if (cfg.type === 'imgscratch') {
     let finished = false;
     let moves = 0;
-    const MOVES_NEEDED = 15;
+    let lastX = -999, lastY = -999;
+    const MOVE_DIST = 15;
+    const MOVES_NEEDED = 30;
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
     lbl.textContent = cfg.label;
@@ -1116,9 +1118,13 @@ function showInteract(cfg, container, onDone) {
       e.preventDefault();
       const p = getPos(e);
       ctx.beginPath(); ctx.arc(p.x, p.y, 30, 0, Math.PI*2); ctx.fill();
-      moves++;
-      if(moves % 3 === 0 && navigator.vibrate) navigator.vibrate(10);
-      if (moves >= MOVES_NEEDED) finishInteract();
+      const dx = p.x - lastX, dy = p.y - lastY;
+      if (dx*dx + dy*dy > MOVE_DIST*MOVE_DIST) {
+        moves++;
+        lastX = p.x; lastY = p.y;
+        if(moves % 5 === 0 && navigator.vibrate) navigator.vibrate(10);
+        if (moves >= MOVES_NEEDED) finishInteract();
+      }
     };
     canvas.addEventListener('mousedown', () => scratching=true);
     canvas.addEventListener('mouseup', () => scratching=false);
