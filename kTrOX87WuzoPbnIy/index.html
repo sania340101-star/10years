@@ -452,11 +452,13 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .imgtap-glow{animation:imgGlow .8s ease-out;border:2px solid var(--gold)!important;border-radius:12px}
 @keyframes imgGlow{0%{filter:brightness(1)}30%{filter:brightness(1.8) saturate(1.5)}100%{filter:brightness(1.1)}}
 .interact-zone{text-align:center;margin:16px 0;position:relative;z-index:1}
-.scratch-wrap{position:relative;width:240px;height:120px;margin:12px auto;border-radius:16px;overflow:hidden;box-shadow:0 0 20px rgba(218,165,32,.3)}
-.scratch-under{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3em;background:radial-gradient(circle,rgba(218,165,32,.2),rgba(30,15,60,.8));border-radius:16px}
-.scratch-under.scratch-revealed{animation:scratchReveal .6s ease-out;background:radial-gradient(circle,rgba(218,165,32,.4),rgba(30,15,60,.6))}
+.scratch-wrap{position:relative;width:260px;height:130px;margin:12px auto;border-radius:16px;overflow:hidden;box-shadow:0 0 20px rgba(218,165,32,.5);border:2px solid rgba(218,165,32,.4)}
+.scratch-under{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3em;background:radial-gradient(circle,rgba(218,165,32,.3),rgba(20,10,40,.9));border-radius:16px}
+.scratch-under.scratch-revealed{animation:scratchReveal .6s ease-out;background:radial-gradient(circle,rgba(218,165,32,.5),rgba(20,10,40,.6))}
 @keyframes scratchReveal{0%{transform:scale(.8);opacity:.5}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
 .scratch-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;touch-action:none;border-radius:16px}
+.scratch-skip{margin-top:8px;font-size:.75em;color:rgba(255,255,255,.4);cursor:pointer}
+.scratch-skip:hover{color:rgba(255,255,255,.7)}
 .interact-label{font-size:1em;color:var(--gold);margin-bottom:12px;font-family:'Cinzel',serif}
 .pulse-glow{animation:pulseGlow 1.5s infinite}
 @keyframes pulseGlow{0%,100%{text-shadow:0 0 8px rgba(218,165,32,.4)}50%{text-shadow:0 0 20px rgba(218,165,32,.8)}}
@@ -793,7 +795,7 @@ const COMIC = {
     ]
   },
   s0_a: {
-    img:'comic/s0.jpg',
+    img:'comic/s0_a.jpg',
     text:'Добби провёл целую ночь над свитком. Древние руны открыли ещё одну тайну: «Сундук охраняет башня на краю мира. Тьма будет преследовать хранителя, но чистое сердце победит...» Добби сжал кулаки — он готов!',
     next:'s1'
   },
@@ -851,12 +853,12 @@ const COMIC = {
     ]
   },
   s2_mid_a: {
-    img:'comic/s2_mid.jpg',
+    img:'comic/s2_mid_a.jpg',
     text:'Добби побежал изо всех сил! Маленькие ножки мелькали среди цветов, а за спиной тени становились всё ближе. Сундук светился, указывая путь. Но на полпути дорогу перекрыла стена тьмы...',
     next:'s3'
   },
   s2_mid_b: {
-    img:'comic/s2_mid.jpg',
+    img:'comic/s2_mid_b.jpg',
     text:'Добби остановился и прижал сундук к груди. «Добби не боится! Добби свободный эльф!» — крикнул он в надвигающуюся тьму. Его храбрость на мгновение замедлила тени, но их было слишком много...',
     next:'s3'
   },
@@ -888,12 +890,12 @@ const COMIC = {
     ]
   },
   s4a_a: {
-    img:'comic/s4a.jpg',
+    img:'comic/s4a_a.jpg',
     text:'«Нет! Добби обещал!» — эльф стиснул зубы и обнял сундук ещё крепче. Каждую ночь он шептал сундуку: «Добби сохранит тебя. Добби свободный эльф, и свободные эльфы держат слово!» И сундук каждый раз отвечал тёплым свечением...',
     next:'s4'
   },
   s4a_b: {
-    img:'comic/s4a.jpg',
+    img:'comic/s4a_b.jpg',
     text:'Добби послал весточку в Хогвартс, и верные домовые эльфы пришли на помощь! Они по очереди грели сундук, пели колыбельные и не давали заклинаниям усилиться. Вместе — они выстояли все 10 зим!',
     next:'s4'
   },
@@ -1069,16 +1071,21 @@ function showInteract(cfg, container, onDone) {
     underEl.textContent = cfg.under;
     scratchWrap.appendChild(underEl);
     const canvas = document.createElement('canvas');
-    canvas.width = 240; canvas.height = 120;
+    canvas.width = 260; canvas.height = 130;
     canvas.className = 'scratch-canvas';
     scratchWrap.appendChild(canvas);
     wrap.appendChild(scratchWrap);
+    const skip = document.createElement('div');
+    skip.className = 'scratch-skip';
+    skip.textContent = '(или нажмите сюда)';
+    wrap.appendChild(skip);
     const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0,0,240,120);
-    grad.addColorStop(0,'#3a2060'); grad.addColorStop(0.5,'#2a1845'); grad.addColorStop(1,'#1a0e30');
-    ctx.fillStyle = grad; ctx.fillRect(0,0,240,120);
-    ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.font = '14px Cinzel,serif'; ctx.textAlign = 'center';
-    ctx.fillText('☝️ Сотрите здесь', 120, 65);
+    const grad = ctx.createLinearGradient(0,0,260,130);
+    grad.addColorStop(0,'#8b7daa'); grad.addColorStop(0.5,'#6a5a8e'); grad.addColorStop(1,'#9585b0');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,260,130);
+    ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '16px Cinzel,serif'; ctx.textAlign = 'center';
+    ctx.fillText('☝️ Проведите пальцем', 130, 60);
+    ctx.fillText('чтобы стереть', 130, 82);
     ctx.globalCompositeOperation = 'destination-out';
     let scratching = false;
     const getPos = (e) => {
@@ -1114,6 +1121,19 @@ function showInteract(cfg, container, onDone) {
     canvas.addEventListener('touchstart', (e) => { scratching=true; e.preventDefault(); }, {passive:false});
     canvas.addEventListener('touchend', () => scratching=false);
     canvas.addEventListener('touchmove', scratch, {passive:false});
+    const finishScratch = () => {
+      if (finished) return;
+      finished = true;
+      canvas.style.transition = 'opacity .5s'; canvas.style.opacity = '0';
+      underEl.classList.add('scratch-revealed');
+      lbl.textContent = cfg.done;
+      lbl.classList.remove('pulse-glow');
+      lbl.classList.add('interact-done');
+      sparkle(window.innerWidth/2, window.innerHeight/3);
+      if(navigator.vibrate) navigator.vibrate([50,30,50]);
+      setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1000);
+    };
+    skip.addEventListener('click', finishScratch);
   } else if (cfg.type === 'reveal') {
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
