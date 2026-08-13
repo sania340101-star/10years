@@ -961,13 +961,17 @@ function showComicScene(id) {
   const choices = document.getElementById('comic-choices');
   const counter = document.getElementById('comic-counter');
 
+  panel.style.transition = 'none';
   panel.style.opacity = '0';
   panel.style.transform = 'translateY(20px)';
   choices.innerHTML = '';
   counter.textContent = 'Глава ' + comicStep + ' из истории Добби';
 
   setTimeout(() => {
+    let revealed = false;
     const reveal = () => {
+      if (revealed) return;
+      revealed = true;
       panel.style.transition = 'all .6s ease-out';
       panel.style.opacity = '1';
       panel.style.transform = 'translateY(0)';
@@ -1022,6 +1026,7 @@ function showComicScene(id) {
     img.onload = reveal;
     img.onerror = reveal;
     img.src = scene.img;
+    if (img.complete) reveal();
   }, 300);
 }
 
