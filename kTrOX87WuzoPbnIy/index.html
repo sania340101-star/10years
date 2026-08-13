@@ -424,9 +424,9 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 30px rgba(106,61,184,.3),inset 0 1px 0 rgba(255,255,255,.05);
   border:2px solid rgba(240,192,64,.4);
   transition:all .6s ease-out;
-  animation:panelFloat 4s ease-in-out infinite;
+  animation:panelGlow 4s ease-in-out infinite;
 }
-@keyframes panelFloat{0%,100%{transform:translateY(0);box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 30px rgba(106,61,184,.3)}50%{transform:translateY(-3px);box-shadow:0 14px 50px rgba(0,0,0,.5),0 0 40px rgba(106,61,184,.4)}}
+@keyframes panelGlow{0%,100%{box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 30px rgba(106,61,184,.3);border-color:rgba(240,192,64,.3)}50%{box-shadow:0 8px 50px rgba(0,0,0,.5),0 0 45px rgba(106,61,184,.4),0 0 15px rgba(240,192,64,.15);border-color:rgba(240,192,64,.5)}}
 .comic-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#1a0a2e;filter:saturate(1.1) contrast(1.05)}
 .comic-narration{
   background:linear-gradient(135deg,rgba(42,21,72,.95),rgba(26,10,46,.95));
