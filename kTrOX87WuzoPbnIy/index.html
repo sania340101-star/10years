@@ -245,8 +245,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   font-family:'Comfortaa',sans-serif;
   background:linear-gradient(135deg,var(--purple),#8b5cf6);
   color:#fff;border:none;padding:14px 36px;border-radius:30px;font-size:1em;
-  cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(106,61,184,.4),0 0 15px rgba(106,61,184,.2);
-  text-shadow:0 1px 2px rgba(0,0,0,.3);
+  cursor:pointer;transition:all .3s;box-shadow:0 4px 20px rgba(106,61,184,.4);
   position:relative;z-index:1;min-width:200px;overflow:hidden;
 }
 .btn::after{
@@ -257,8 +256,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(106,61,184,.5)}
 .btn:hover::after{animation:btnShine .6s ease-out}
 .btn:active{transform:translateY(0)}
-.btn.gold{background:linear-gradient(135deg,#c09020,var(--gold));box-shadow:0 4px 20px var(--glow),0 0 40px rgba(218,165,32,.2);animation:goldPulse 2s ease-in-out infinite}
-@keyframes goldPulse{0%,100%{box-shadow:0 4px 20px var(--glow),0 0 30px rgba(218,165,32,.15)}50%{box-shadow:0 6px 30px var(--glow),0 0 50px rgba(218,165,32,.3)}}
+.btn.gold{background:linear-gradient(135deg,#c09020,var(--gold));box-shadow:0 4px 20px var(--glow)}
 .btn.tw-hidden{opacity:0;pointer-events:none;transform:translateY(10px)}
 .btn.tw-visible{opacity:1;pointer-events:auto;transform:translateY(0);transition:all .6s ease-out}
 @keyframes btnShine{from{transform:rotate(45deg) translateX(-100%)}to{transform:rotate(45deg) translateX(100%)}}
@@ -420,20 +418,16 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 
 /* ===== COMIC ENGINE ===== */
 .comic-panel{position:relative;
-  width:100%;max-width:440px;border-radius:16px;overflow:hidden;z-index:1;
-  box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 30px rgba(106,61,184,.3),inset 0 1px 0 rgba(255,255,255,.05);
-  border:2px solid rgba(240,192,64,.4);
+  width:100%;max-width:440px;border-radius:12px;overflow:hidden;position:relative;z-index:1;
+  box-shadow:0 4px 30px rgba(0,0,0,.5),0 0 20px rgba(106,61,184,.2);
+  border:2px solid rgba(240,192,64,.3);
   transition:all .6s ease-out;
-  animation:panelGlow 4s ease-in-out infinite;
 }
-@keyframes panelGlow{0%,100%{box-shadow:0 8px 40px rgba(0,0,0,.6),0 0 30px rgba(106,61,184,.3);border-color:rgba(240,192,64,.3)}50%{box-shadow:0 8px 50px rgba(0,0,0,.5),0 0 45px rgba(106,61,184,.4),0 0 15px rgba(240,192,64,.15);border-color:rgba(240,192,64,.5)}}
-.comic-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#1a0a2e;filter:saturate(1.1) contrast(1.05)}
+.comic-img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#1a0a2e}
 .comic-narration{
   background:linear-gradient(135deg,rgba(42,21,72,.95),rgba(26,10,46,.95));
-  border-top:1px solid rgba(240,192,64,.3);
+  border-top:1px solid rgba(240,192,64,.25);
   padding:16px 20px;font-size:.9em;line-height:1.6;min-height:60px;
-  box-shadow:inset 0 2px 15px rgba(0,0,0,.3),inset 0 -1px 0 rgba(240,192,64,.1);
-  text-shadow:0 1px 3px rgba(0,0,0,.5);
 }
 .comic-choices{
   display:flex;flex-direction:column;gap:10px;margin-top:16px;
@@ -444,18 +438,14 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   border:2px solid rgba(240,192,64,.3);border-radius:14px;padding:14px 20px;
   color:#fff;font-family:'Comfortaa',sans-serif;font-size:.95em;cursor:pointer;
   transition:all .3s;text-align:left;display:flex;align-items:center;gap:12px;
-  box-shadow:0 4px 15px rgba(0,0,0,.3),0 0 8px rgba(106,61,184,.2);
-  text-shadow:0 1px 2px rgba(0,0,0,.4);
-  backdrop-filter:blur(4px);
 }
 .comic-choice:hover{
   background:linear-gradient(135deg,rgba(106,61,184,.5),rgba(106,61,184,.7));
-  border-color:var(--gold);transform:translateX(6px) translateY(-2px);
-  box-shadow:0 8px 25px rgba(0,0,0,.4),0 0 20px rgba(240,192,64,.3);
+  border-color:var(--gold);transform:translateX(6px);box-shadow:0 0 20px rgba(240,192,64,.2);
 }
-.comic-choice:active{transform:translateX(3px) translateY(1px);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.comic-choice:active{transform:translateX(3px)}
 .comic-choice-icon{font-size:1.4em;flex-shrink:0}
-.comic-counter{font-size:.75em;opacity:.6;margin-bottom:8px;position:relative;z-index:1;text-shadow:0 0 10px rgba(240,192,64,.3);letter-spacing:1px}
+.comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
 
 .imgscratch-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;touch-action:none;border-radius:12px}
 .imgscratch-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.3);z-index:3;font-family:'Cinzel',serif;font-size:4em;font-weight:bold;color:#fff;text-shadow:0 0 40px var(--gold),0 0 80px var(--gold),0 0 120px rgba(218,165,32,.6),0 2px 4px rgba(0,0,0,.8);opacity:0;transition:all .8s ease-out;letter-spacing:4px}
@@ -961,64 +951,67 @@ function showComicScene(id) {
   const choices = document.getElementById('comic-choices');
   const counter = document.getElementById('comic-counter');
 
-  panel.style.transition = 'none';
   panel.style.opacity = '0';
   panel.style.transform = 'translateY(20px)';
   choices.innerHTML = '';
   counter.textContent = 'Глава ' + comicStep + ' из истории Добби';
 
   setTimeout(() => {
-    img.src = scene.img;
-    panel.style.transition = 'all .6s ease-out';
-    panel.style.opacity = '1';
-    panel.style.transform = 'translateY(0)';
-    comicTypewrite(narr, scene.text, () => {
-      const showButtons = () => {
-        if (scene.choices) {
-          scene.choices.forEach((c, i) => {
+    const reveal = () => {
+      panel.style.transition = 'all .6s ease-out';
+      panel.style.opacity = '1';
+      panel.style.transform = 'translateY(0)';
+      comicTypewrite(narr, scene.text, () => {
+        const showButtons = () => {
+          if (scene.choices) {
+            scene.choices.forEach((c, i) => {
+              const btn = document.createElement('button');
+              btn.className = 'comic-choice';
+              btn.innerHTML = '<span class="comic-choice-icon">'+c.icon+'</span><span>'+c.text+'</span>';
+              btn.style.opacity = '0';
+              btn.style.transform = 'translateX(-20px)';
+              btn.onclick = () => {
+                const r = btn.getBoundingClientRect();
+                sparkle(r.x + r.width/2, r.y);
+                showComicScene(c.next);
+              };
+              choices.appendChild(btn);
+              setTimeout(() => {
+                btn.style.transition = 'all .4s ease-out';
+                btn.style.opacity = '1';
+                btn.style.transform = 'translateX(0)';
+              }, 200 + i * 150);
+            });
+          } else if (scene.final) {
             const btn = document.createElement('button');
-            btn.className = 'comic-choice';
-            btn.innerHTML = '<span class="comic-choice-icon">'+c.icon+'</span><span>'+c.text+'</span>';
+            btn.className = 'btn gold';
+            btn.textContent = 'Начать испытания!';
             btn.style.opacity = '0';
-            btn.style.transform = 'translateX(-20px)';
-            btn.onclick = () => {
-              const r = btn.getBoundingClientRect();
-              sparkle(r.x + r.width/2, r.y);
-              showComicScene(c.next);
-            };
+            btn.style.marginTop = '16px';
+            btn.onclick = () => { sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
             choices.appendChild(btn);
-            setTimeout(() => {
-              btn.style.transition = 'all .4s ease-out';
-              btn.style.opacity = '1';
-              btn.style.transform = 'translateX(0)';
-            }, 200 + i * 150);
-          });
-        } else if (scene.final) {
-          const btn = document.createElement('button');
-          btn.className = 'btn gold';
-          btn.textContent = 'Начать испытания!';
-          btn.style.opacity = '0';
-          btn.style.marginTop = '16px';
-          btn.onclick = () => { sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
-          choices.appendChild(btn);
-          setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
-        } else if (scene.next) {
-          const btn = document.createElement('button');
-          btn.className = 'btn';
-          btn.textContent = 'Продолжить →';
-          btn.style.opacity = '0';
-          btn.style.marginTop = '16px';
-          btn.onclick = () => showComicScene(scene.next);
-          choices.appendChild(btn);
-          setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+            setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+          } else if (scene.next) {
+            const btn = document.createElement('button');
+            btn.className = 'btn';
+            btn.textContent = 'Продолжить →';
+            btn.style.opacity = '0';
+            btn.style.marginTop = '16px';
+            btn.onclick = () => showComicScene(scene.next);
+            choices.appendChild(btn);
+            setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+          }
+        };
+        if (scene.interact) {
+          showInteract(scene.interact, choices, showButtons);
+        } else {
+          showButtons();
         }
-      };
-      if (scene.interact) {
-        showInteract(scene.interact, choices, showButtons);
-      } else {
-        showButtons();
-      }
-    });
+      });
+    };
+    img.onload = reveal;
+    img.onerror = reveal;
+    img.src = scene.img;
   }, 300);
 }
 
