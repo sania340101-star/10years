@@ -67,34 +67,42 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .dobby-head{
   position:absolute;width:84px;height:90px;
   background:
-    radial-gradient(ellipse at 28% 25%,rgba(255,240,220,.22) 0%,transparent 45%),
-    radial-gradient(ellipse at 72% 75%,rgba(80,40,10,.15) 0%,transparent 40%),
-    radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.03) 0%,transparent 70%),
-    radial-gradient(circle at 20% 80%,rgba(200,140,100,.08) 0%,transparent 30%),
-    linear-gradient(165deg,#f5e2c8 0%,#ecd4aa 15%,var(--skin-lt) 28%,var(--skin) 50%,var(--skin-dk) 75%,#9a6840 90%,#7d5230 100%);
+    radial-gradient(ellipse at 28% 25%,rgba(255,240,220,.25) 0%,transparent 42%),
+    radial-gradient(ellipse at 72% 75%,rgba(80,40,10,.18) 0%,transparent 38%),
+    radial-gradient(ellipse at 30% 40%,rgba(120,70,30,.08) 0%,transparent 25%),
+    radial-gradient(ellipse at 70% 40%,rgba(120,70,30,.08) 0%,transparent 25%),
+    radial-gradient(ellipse at 50% 92%,rgba(80,40,10,.12) 0%,transparent 40%),
+    radial-gradient(ellipse at 50% 50%,rgba(210,160,110,.04) 0%,transparent 70%),
+    radial-gradient(circle at 20% 80%,rgba(200,140,100,.08) 0%,transparent 28%),
+    radial-gradient(circle at 80% 30%,rgba(255,220,180,.06) 0%,transparent 25%),
+    linear-gradient(165deg,#f5e2c8 0%,#ecd4aa 12%,var(--skin-lt) 25%,var(--skin) 48%,var(--skin-dk) 72%,#9a6840 88%,#7d5230 100%);
   border-radius:42px 42px 36px 36px;
   top:0;left:50%;transform:translateX(-50%) translateZ(4px);
   box-shadow:
-    inset 5px 5px 14px rgba(255,255,255,.15),
-    inset -4px -6px 12px rgba(0,0,0,.2),
-    inset 0 -3px 8px rgba(140,80,30,.12),
-    2px 4px 8px rgba(0,0,0,.2),
-    0 8px 20px rgba(0,0,0,.25),
-    -2px -2px 12px rgba(240,200,140,.06),
+    inset 5px 5px 16px rgba(255,255,255,.15),
+    inset -5px -7px 14px rgba(0,0,0,.22),
+    inset 0 -4px 10px rgba(140,80,30,.15),
+    inset 2px 0 8px rgba(255,220,180,.06),
+    inset -2px 0 8px rgba(80,40,10,.06),
+    2px 4px 8px rgba(0,0,0,.22),
+    0 8px 22px rgba(0,0,0,.28),
+    -2px -2px 14px rgba(240,200,140,.06),
     0 0 30px rgba(240,192,64,.05);
 }
 .dobby-head::before{
-  content:'';position:absolute;top:8px;left:20px;right:20px;height:22px;z-index:1;
+  content:'';position:absolute;top:6px;left:18px;right:18px;height:26px;z-index:1;
   background:
-    linear-gradient(0deg,transparent 0%,transparent 20%,rgba(150,110,70,.13) 22%,transparent 25%,
-    transparent 42%,rgba(150,110,70,.11) 44%,transparent 47%,
-    transparent 65%,rgba(150,110,70,.09) 67%,transparent 70%,
-    transparent 85%,rgba(150,110,70,.07) 87%,transparent 90%);
+    linear-gradient(0deg,transparent 0%,transparent 14%,rgba(140,100,60,.14) 16%,transparent 19%,
+    transparent 30%,rgba(140,100,60,.12) 32%,transparent 35%,
+    transparent 48%,rgba(140,100,60,.1) 50%,transparent 53%,
+    transparent 66%,rgba(140,100,60,.08) 68%,transparent 71%,
+    transparent 84%,rgba(140,100,60,.06) 86%,transparent 89%);
   border-radius:10px;
 }
 .dobby-head::after{
-  content:'';position:absolute;top:4px;left:10px;width:28px;height:18px;
-  background:radial-gradient(ellipse at 40% 40%,rgba(255,255,255,.2),rgba(255,240,220,.08) 60%,transparent);
+  content:'';position:absolute;top:4px;left:8px;width:30px;height:20px;
+  background:
+    radial-gradient(ellipse at 40% 40%,rgba(255,255,255,.22),rgba(255,240,220,.1) 55%,transparent);
   border-radius:50%;transform:rotate(-12deg);
 }
 
@@ -150,17 +158,20 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .dobby-eye{
   position:absolute;width:26px;height:30px;
   background:
-    radial-gradient(circle at 40% 35%,#f0fff0 0%,#d0ffd8 8%,#a0ffb0 16%,
-      #60e870 30%,#40c850 45%,#2a9a30 60%,#1a6a1a 78%,#0d4a0d 92%,#082808 100%);
+    radial-gradient(circle at 40% 35%,#f0fff0 0%,#d0ffd8 6%,#b0ffb8 12%,#80f090 20%,
+      #55dd65 32%,#40c850 42%,#30a840 52%,#2a9a30 60%,#1a7020 72%,#0d4a0d 88%,#082808 100%);
   border-radius:50%;top:28px;overflow:hidden;
   box-shadow:
-    0 0 18px rgba(127,255,127,.5),
-    0 0 6px rgba(80,255,100,.35),
+    0 0 20px rgba(127,255,127,.45),
+    0 0 8px rgba(80,255,100,.3),
     0 0 3px rgba(60,200,80,.5),
-    inset 0 4px 6px rgba(255,255,255,.3),
-    inset 0 -3px 5px rgba(0,0,0,.3),
-    inset 2px 0 4px rgba(255,255,255,.1),
-    inset -2px 0 4px rgba(0,0,0,.1);
+    inset 0 5px 8px rgba(255,255,255,.3),
+    inset 0 -4px 6px rgba(0,0,0,.35),
+    inset 3px 2px 5px rgba(255,255,255,.12),
+    inset -3px 0 5px rgba(0,0,0,.12),
+    0 -3px 4px rgba(120,70,30,.2),
+    2px -2px 3px rgba(120,70,30,.15),
+    -2px -2px 3px rgba(120,70,30,.15);
   animation:blink 4.5s ease-in-out infinite;
   transform:translateZ(6px);
 }
@@ -195,14 +206,34 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .dobby-brow-l{left:10px;transform:rotate(-10deg) translateZ(5px)}
 .dobby-brow-r{right:10px;transform:rotate(10deg) translateZ(5px)}
 
+/* --- EYELIDS (socket shadow) --- */
+.dobby-lid{
+  position:absolute;width:30px;height:10px;top:24px;z-index:3;
+  background:
+    radial-gradient(ellipse at 50% 100%,rgba(140,90,50,.2) 0%,rgba(120,70,30,.1) 50%,transparent 80%);
+  border-radius:50% 50% 40% 40%;pointer-events:none;
+  transform:translateZ(7px);
+}
+.dobby-lid-l{left:9px}.dobby-lid-r{right:9px}
+
 /* --- CHEEKS --- */
 .dobby-cheek{
-  position:absolute;width:16px;height:10px;bottom:22px;z-index:1;
-  background:radial-gradient(ellipse,rgba(240,130,110,.35) 0%,rgba(220,120,100,.15) 50%,transparent 80%);
+  position:absolute;width:18px;height:11px;bottom:21px;z-index:1;
+  background:
+    radial-gradient(ellipse,rgba(240,125,105,.4) 0%,rgba(225,115,95,.2) 40%,transparent 75%);
   border-radius:50%;pointer-events:none;
-  transform:translateZ(3px);
+  transform:translateZ(4px);
 }
-.dobby-cheek-l{left:3px}.dobby-cheek-r{right:3px}
+.dobby-cheek-l{left:2px}.dobby-cheek-r{right:2px}
+
+/* --- CHIN --- */
+.dobby-chin{
+  position:absolute;bottom:2px;left:50%;transform:translateX(-50%) translateZ(5px);
+  width:22px;height:8px;
+  background:
+    radial-gradient(ellipse at 50% 0%,rgba(100,60,20,.1) 0%,transparent 70%);
+  border-radius:50%;pointer-events:none;
+}
 
 /* --- NOSE --- */
 .dobby-nose{
@@ -227,23 +258,39 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 
 /* --- MOUTH --- */
 .dobby-mouth{
-  position:absolute;width:14px;height:3px;
-  background:linear-gradient(180deg,#6e4428,#8b5e3c,#7a4e30);
-  border-radius:1px 1px 7px 7px;
-  bottom:12px;left:50%;transform:translateX(-50%) translateZ(6px);
-  box-shadow:0 1px 3px rgba(0,0,0,.15),inset 0 1px 1px rgba(0,0,0,.2);
+  position:absolute;width:12px;height:2px;
+  background:
+    linear-gradient(180deg,#5a3820,#7a4e30,#6e4428);
+  border-radius:1px 1px 6px 6px;
+  bottom:12px;left:50%;transform:translateX(-50%) translateZ(8px);
+  box-shadow:
+    0 1px 2px rgba(0,0,0,.2),
+    inset 0 1px 1px rgba(0,0,0,.3),
+    0 -1px 2px rgba(255,200,160,.06);
   transition:all .12s;
+  overflow:hidden;
+}
+.dobby-mouth::before{
+  content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);
+  width:6px;height:0;
+  background:radial-gradient(ellipse,#4a1818 30%,#6a2828 70%,#3a1010);
+  border-radius:50%;transition:height .12s;
 }
 .dobby-mouth::after{
   content:'';position:absolute;top:-2px;left:50%;transform:translateX(-50%);
-  width:10px;height:2px;
-  background:linear-gradient(90deg,transparent,rgba(200,140,100,.2),transparent);
+  width:8px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(240,180,140,.15),transparent);
   border-radius:50%;
 }
-.dobby.speaking .dobby-mouth{animation:mouthMove .22s ease-in-out infinite}
+.dobby.speaking .dobby-mouth{animation:mouthMove .25s ease-in-out infinite}
+.dobby.speaking .dobby-mouth::before{animation:mouthInner .25s ease-in-out infinite}
 @keyframes mouthMove{
-  0%,100%{height:3px;width:14px;border-radius:1px 1px 7px 7px}
-  50%{height:11px;width:16px;border-radius:50%}
+  0%,100%{height:2px;width:12px;border-radius:1px 1px 6px 6px}
+  50%{height:5px;width:13px;border-radius:3px 3px 6px 6px}
+}
+@keyframes mouthInner{
+  0%,100%{height:0;width:6px}
+  50%{height:3px;width:8px}
 }
 
 /* --- BODY (pillowcase) --- */
@@ -297,6 +344,39 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   border-radius:2px;border:1px solid rgba(180,150,80,.5);
   box-shadow:inset 1px 1px 2px rgba(255,255,200,.3),0 1px 3px rgba(0,0,0,.2);
 }
+
+/* --- NECK --- */
+.dobby-neck{
+  position:absolute;top:78px;left:50%;transform:translateX(-50%) translateZ(0px);
+  width:18px;height:14px;
+  background:
+    linear-gradient(180deg,var(--skin-dk) 0%,#9a6840 40%,#8a5c38 100%);
+  border-radius:4px 4px 0 0;
+  box-shadow:inset 2px 0 4px rgba(0,0,0,.15),inset -2px 0 4px rgba(0,0,0,.15),
+    0 4px 6px rgba(0,0,0,.2);
+}
+.dobby-neck::after{
+  content:'';position:absolute;top:3px;left:50%;transform:translateX(-50%);
+  width:10px;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(0,0,0,.08),transparent);
+  border-radius:50%;
+}
+
+/* --- COLLAR (pillowcase neckline) --- */
+.dobby-collar{
+  position:absolute;top:-3px;left:-4px;right:-4px;height:8px;
+  background:linear-gradient(180deg,#c4a484 0%,#a08562 50%,transparent 100%);
+  border-radius:6px 6px 0 0;
+  box-shadow:inset 0 2px 3px rgba(255,255,255,.08),0 -1px 3px rgba(0,0,0,.15);
+}
+
+/* --- STITCHING --- */
+.dobby-stitch{
+  position:absolute;width:1px;pointer-events:none;
+  background:repeating-linear-gradient(180deg,rgba(160,120,70,.3) 0px,rgba(160,120,70,.3) 2px,transparent 2px,transparent 5px);
+}
+.dobby-stitch-1{top:8px;left:16px;height:20px;transform:rotate(5deg)}
+.dobby-stitch-2{top:30px;right:12px;height:18px;transform:rotate(-8deg)}
 
 /* --- FEET --- */
 .dobby-foot{
@@ -371,12 +451,18 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .dobby.small .dobby-pupil{width:7px;height:9px}
 .dobby.small .dobby-shine{width:4px;height:4px;top:3px;right:3px;box-shadow:-6px 8px 0 1px rgba(255,255,255,.25),-3px 10px 0 1px rgba(255,255,255,.12)}
 .dobby.small .dobby-brow{width:12px;height:3px;top:14px}
-.dobby.small .dobby-cheek{width:11px;height:7px;bottom:15px}
-.dobby.small .dobby-nose{width:7px;height:10px;bottom:13px}
-.dobby.small .dobby-mouth{width:9px;height:2px;bottom:9px}
-.dobby.small .dobby-body{width:38px;height:44px;top:57px}
+.dobby.small .dobby-lid{width:20px;height:7px;top:16px}
+.dobby.small .dobby-lid-l{left:6px}.dobby.small .dobby-lid-r{right:6px}
+.dobby.small .dobby-cheek{width:12px;height:7px;bottom:14px}
+.dobby.small .dobby-chin{bottom:1px;width:14px;height:5px}
+.dobby.small .dobby-nose{width:7px;height:10px;bottom:12px}
+.dobby.small .dobby-mouth{width:7px;height:2px;bottom:8px}
+.dobby.small .dobby-neck{top:52px;width:12px;height:10px}
+.dobby.small .dobby-body{width:38px;height:44px;top:59px}
+.dobby.small .dobby-collar{top:-2px;left:-3px;right:-3px;height:6px}
 .dobby.small .dobby-belt{top:16px;height:4px}
 .dobby.small .dobby-belt::after{width:5px;height:6px;top:-1px}
+.dobby.small .dobby-stitch{display:none}
 .dobby.small .dobby-body::after{top:7px;right:5px;width:8px;height:8px}
 .dobby.small .dobby-foot{width:12px;height:6px}
 .dobby.small .dobby-foot-l{left:4px}.dobby.small .dobby-foot-r{right:4px}
@@ -700,8 +786,12 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   .dobby-eye-l{left:10px}.dobby-eye-r{right:10px}
   .dobby-brow{width:14px;height:4px;top:18px}
   .dobby-cheek{width:13px;height:8px;bottom:19px}
-  .dobby-nose{width:9px;height:13px;bottom:16px}.dobby-mouth{width:11px;bottom:10px}
-  .dobby-body{width:46px;height:58px;top:72px}
+  .dobby-lid{width:25px;height:8px;top:20px}
+  .dobby-nose{width:9px;height:13px;bottom:16px}.dobby-mouth{width:10px;bottom:10px}
+  .dobby-chin{width:18px;height:6px}
+  .dobby-neck{top:66px;width:15px;height:12px}
+  .dobby-body{width:46px;height:58px;top:74px}
+  .dobby-collar{height:7px}
   .dobby-belt{top:20px;height:5px}
   .dobby-arm{width:7px;height:34px;top:76px}
   .dobby-arm-l{left:40px}.dobby-arm-r{right:40px}
@@ -854,15 +944,22 @@ const DOBBY_HTML = `<div class="dobby">
     <div class="dobby-ear dobby-ear-r"></div>
     <div class="dobby-brow dobby-brow-l"></div>
     <div class="dobby-brow dobby-brow-r"></div>
+    <div class="dobby-lid dobby-lid-l"></div>
+    <div class="dobby-lid dobby-lid-r"></div>
     <div class="dobby-eye dobby-eye-l"><div class="dobby-pupil"></div><div class="dobby-shine"></div></div>
     <div class="dobby-eye dobby-eye-r"><div class="dobby-pupil"></div><div class="dobby-shine"></div></div>
     <div class="dobby-cheek dobby-cheek-l"></div>
     <div class="dobby-cheek dobby-cheek-r"></div>
     <div class="dobby-nose"></div>
     <div class="dobby-mouth"></div>
+    <div class="dobby-chin"></div>
   </div>
+  <div class="dobby-neck"></div>
   <div class="dobby-body">
+    <div class="dobby-collar"></div>
     <div class="dobby-belt"></div>
+    <div class="dobby-stitch dobby-stitch-1"></div>
+    <div class="dobby-stitch dobby-stitch-2"></div>
     <div class="dobby-foot dobby-foot-l"></div>
     <div class="dobby-foot dobby-foot-r"></div>
   </div>
