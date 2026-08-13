@@ -448,6 +448,11 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
 
 .interact-zone{text-align:center;margin:16px 0;position:relative;z-index:1}
+.scratch-wrap{position:relative;width:240px;height:120px;margin:12px auto;border-radius:16px;overflow:hidden;box-shadow:0 0 20px rgba(218,165,32,.3)}
+.scratch-under{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:3em;background:radial-gradient(circle,rgba(218,165,32,.2),rgba(30,15,60,.8));border-radius:16px}
+.scratch-under.scratch-revealed{animation:scratchReveal .6s ease-out;background:radial-gradient(circle,rgba(218,165,32,.4),rgba(30,15,60,.6))}
+@keyframes scratchReveal{0%{transform:scale(.8);opacity:.5}50%{transform:scale(1.2)}100%{transform:scale(1);opacity:1}}
+.scratch-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;touch-action:none;border-radius:16px}
 .interact-label{font-size:1em;color:var(--gold);margin-bottom:12px;font-family:'Cinzel',serif}
 .pulse-glow{animation:pulseGlow 1.5s infinite}
 @keyframes pulseGlow{0%,100%{text-shadow:0 0 8px rgba(218,165,32,.4)}50%{text-shadow:0 0 20px rgba(218,165,32,.8)}}
@@ -778,12 +783,20 @@ const COMIC = {
   s0: {
     img:'comic/s0.jpg',
     text:'Глубоко в подземельях Хогвартса Добби нашёл древний свиток пророчества. Магические руны светились в темноте: «Тот, кто найдёт золотой сундук, должен хранить его, пока не явится та, чьё имя проявит магия...»',
+    choices:[
+      {text:'Немедленно искать сундук!',icon:'🏃',next:'s1'},
+      {text:'Расшифровать весь свиток',icon:'📜',next:'s0_a'}
+    ]
+  },
+  s0_a: {
+    img:'comic/s0.jpg',
+    text:'Добби провёл целую ночь над свитком. Древние руны открыли ещё одну тайну: «Сундук охраняет башня на краю мира. Тьма будет преследовать хранителя, но чистое сердце победит...» Добби сжал кулаки — он готов!',
     next:'s1'
   },
   s1: {
     img:'comic/s1.jpg',
     text:'И вот, в заброшенной башне древних волшебников, Добби обнаружил его — сияющий золотой сундук! Внутри чувствовалась мощная магия. Это был подарок, предназначенный для кого-то особенного. Но путь к получателю был полон опасностей...',
-    interact:{type:'tap', target:'chest', label:'✨ Нажмите на сундук!', done:'Сундук засиял ярче!'},
+    interact:{type:'scratch', label:'✨ Сотрите пыль с сундука!', under:'🌟', done:'Сундук засиял!'},
     choices:[
       {text:'Пойти через Волшебный Лес',icon:'🌲',next:'s2a'},
       {text:'Спуститься в Подземелье Гоблинов',icon:'⛏️',next:'s2b'}
@@ -827,13 +840,26 @@ const COMIC = {
   },
   s2_mid: {
     img:'comic/s2_mid.jpg',
-    text:'Добби шёл через волшебный луг на закате. Светлячки танцевали в тёплом воздухе, полевые цветы светились магическим светом. Впереди ждал дом... но Добби не знал, что тьма уже следила за ним из-за деревьев...',
+    text:'Добби шёл через волшебный луг на закате. Светлячки танцевали в тёплом воздухе, полевые цветы светились магическим светом. Вдруг Добби почувствовал холод — что-то тёмное приближалось...',
+    choices:[
+      {text:'Бежать к Хогвартсу!',icon:'🏰',next:'s2_mid_a'},
+      {text:'Приготовиться к бою!',icon:'⚔️',next:'s2_mid_b'}
+    ]
+  },
+  s2_mid_a: {
+    img:'comic/s2_mid.jpg',
+    text:'Добби побежал изо всех сил! Маленькие ножки мелькали среди цветов, а за спиной тени становились всё ближе. Сундук светился, указывая путь. Но на полпути дорогу перекрыла стена тьмы...',
+    next:'s3'
+  },
+  s2_mid_b: {
+    img:'comic/s2_mid.jpg',
+    text:'Добби остановился и прижал сундук к груди. «Добби не боится! Добби свободный эльф!» — крикнул он в надвигающуюся тьму. Его храбрость на мгновение замедлила тени, но их было слишком много...',
     next:'s3'
   },
   s3: {
     img:'comic/s3.jpg',
     text:'На обратном пути тёмные дементоры напали! Они не смогли отнять сундук, но наложили на него 3 могущественных заклинания! Холод пронизывал до костей, но Добби крепко прижимал сокровище...',
-    interact:{type:'rapidtap', count:10, label:'⚡ Быстро тапай — помоги Добби создать щит!', done:'Щит активирован!'},
+    interact:{type:'scratch', label:'🛡️ Сотрите тьму — помогите Добби!', under:'✨', done:'Тьма рассеялась!'},
     choices:[
       {text:'Спрятаться в Хогвартсе',icon:'🏰',next:'s3_a'},
       {text:'Использовать магию носка!',icon:'✨',next:'s3_b'}
@@ -851,7 +877,20 @@ const COMIC = {
   },
   s4a: {
     img:'comic/s4a.jpg',
-    text:'Зимы сменялись вёснами... Добби сидел один в снегу, обнимая сундук. Маленький шарф едва согревал, но эльф не сдавался. Он знал — однажды придёт та, для кого это сокровище предназначено...',
+    text:'Зимы сменялись вёснами... Добби сидел один в снегу, обнимая сундук. Маленький шарф едва согревал. Годы шли, а заклинания не слабели. Добби начал сомневаться...',
+    choices:[
+      {text:'Добби не сдаётся!',icon:'💪',next:'s4a_a'},
+      {text:'Позвать друзей-эльфов',icon:'🤝',next:'s4a_b'}
+    ]
+  },
+  s4a_a: {
+    img:'comic/s4a.jpg',
+    text:'«Нет! Добби обещал!» — эльф стиснул зубы и обнял сундук ещё крепче. Каждую ночь он шептал сундуку: «Добби сохранит тебя. Добби свободный эльф, и свободные эльфы держат слово!» И сундук каждый раз отвечал тёплым свечением...',
+    next:'s4'
+  },
+  s4a_b: {
+    img:'comic/s4a.jpg',
+    text:'Добби послал весточку в Хогвартс, и верные домовые эльфы пришли на помощь! Они по очереди грели сундук, пели колыбельные и не давали заклинаниям усилиться. Вместе — они выстояли все 10 зим!',
     next:'s4'
   },
   s4: {
@@ -984,56 +1023,64 @@ function showInteract(cfg, container, onDone) {
   container.appendChild(wrap);
   setTimeout(() => { wrap.style.transition = 'all .5s ease-out'; wrap.style.opacity = '1'; }, 100);
 
-  if (cfg.type === 'tap') {
+  if (cfg.type === 'scratch') {
+    let finished = false;
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
     lbl.textContent = cfg.label;
     wrap.appendChild(lbl);
-    const area = document.createElement('div');
-    area.className = 'interact-tap-area';
-    area.innerHTML = '✨';
-    wrap.appendChild(area);
-    area.addEventListener('click', () => {
-      area.classList.add('tapped');
-      sparkle(window.innerWidth/2, window.innerHeight/3);
-      lbl.textContent = cfg.done;
-      lbl.classList.remove('pulse-glow');
-      lbl.classList.add('interact-done');
-      if(navigator.vibrate) navigator.vibrate(50);
-      setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 800);
-    });
-  } else if (cfg.type === 'rapidtap') {
-    let taps = 0;
-    const lbl = document.createElement('div');
-    lbl.className = 'interact-label pulse-glow';
-    lbl.textContent = cfg.label;
-    wrap.appendChild(lbl);
-    const bar = document.createElement('div');
-    bar.className = 'interact-bar';
-    const fill = document.createElement('div');
-    fill.className = 'interact-bar-fill';
-    bar.appendChild(fill);
-    wrap.appendChild(bar);
-    const tapBtn = document.createElement('button');
-    tapBtn.className = 'interact-rapid-btn';
-    tapBtn.textContent = '⚡ ТАП! ⚡';
-    wrap.appendChild(tapBtn);
-    tapBtn.addEventListener('click', () => {
-      taps++;
-      if(navigator.vibrate) navigator.vibrate(30);
-      const pct = Math.min(100, (taps / cfg.count) * 100);
-      fill.style.width = pct + '%';
-      sparkle(tapBtn.getBoundingClientRect().x + 60, tapBtn.getBoundingClientRect().y);
-      if (taps >= cfg.count) {
+    const scratchWrap = document.createElement('div');
+    scratchWrap.className = 'scratch-wrap';
+    const underEl = document.createElement('div');
+    underEl.className = 'scratch-under';
+    underEl.textContent = cfg.under;
+    scratchWrap.appendChild(underEl);
+    const canvas = document.createElement('canvas');
+    canvas.width = 240; canvas.height = 120;
+    canvas.className = 'scratch-canvas';
+    scratchWrap.appendChild(canvas);
+    wrap.appendChild(scratchWrap);
+    const ctx = canvas.getContext('2d');
+    const grad = ctx.createLinearGradient(0,0,240,120);
+    grad.addColorStop(0,'#3a2060'); grad.addColorStop(0.5,'#2a1845'); grad.addColorStop(1,'#1a0e30');
+    ctx.fillStyle = grad; ctx.fillRect(0,0,240,120);
+    ctx.fillStyle = 'rgba(255,255,255,.15)'; ctx.font = '14px Cinzel,serif'; ctx.textAlign = 'center';
+    ctx.fillText('☝️ Сотрите здесь', 120, 65);
+    ctx.globalCompositeOperation = 'destination-out';
+    let scratching = false;
+    const getPos = (e) => {
+      const r = canvas.getBoundingClientRect();
+      const t = e.touches ? e.touches[0] : e;
+      return {x: (t.clientX - r.left) * (canvas.width/r.width), y: (t.clientY - r.top) * (canvas.height/r.height)};
+    };
+    const scratch = (e) => {
+      if (!scratching || finished) return;
+      e.preventDefault();
+      const p = getPos(e);
+      ctx.beginPath(); ctx.arc(p.x, p.y, 22, 0, Math.PI*2); ctx.fill();
+      const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+      let clear = 0;
+      for (let i=3; i<data.length; i+=4) if(data[i]===0) clear++;
+      const pct = clear / (canvas.width * canvas.height) * 100;
+      if (pct > 55 && !finished) {
+        finished = true;
+        canvas.style.transition = 'opacity .5s'; canvas.style.opacity = '0';
+        underEl.classList.add('scratch-revealed');
         lbl.textContent = cfg.done;
         lbl.classList.remove('pulse-glow');
         lbl.classList.add('interact-done');
-        tapBtn.disabled = true;
-        fill.style.width = '100%';
-        fill.style.background = 'var(--gold)';
-        setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 800);
+        sparkle(window.innerWidth/2, window.innerHeight/3);
+        if(navigator.vibrate) navigator.vibrate([50,30,50]);
+        setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1000);
       }
-    });
+    };
+    canvas.addEventListener('mousedown', () => scratching=true);
+    canvas.addEventListener('mouseup', () => scratching=false);
+    canvas.addEventListener('mouseleave', () => scratching=false);
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('touchstart', (e) => { scratching=true; e.preventDefault(); }, {passive:false});
+    canvas.addEventListener('touchend', () => scratching=false);
+    canvas.addEventListener('touchmove', scratch, {passive:false});
   } else if (cfg.type === 'reveal') {
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
