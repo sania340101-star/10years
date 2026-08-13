@@ -968,65 +968,57 @@ function showComicScene(id) {
   counter.textContent = 'Глава ' + comicStep + ' из истории Добби';
 
   setTimeout(() => {
-    let revealed = false;
-    const reveal = () => {
-      if (revealed) return;
-      revealed = true;
-      panel.style.transition = 'all .6s ease-out';
-      panel.style.opacity = '1';
-      panel.style.transform = 'translateY(0)';
-      comicTypewrite(narr, scene.text, () => {
-        const showButtons = () => {
-          if (scene.choices) {
-            scene.choices.forEach((c, i) => {
-              const btn = document.createElement('button');
-              btn.className = 'comic-choice';
-              btn.innerHTML = '<span class="comic-choice-icon">'+c.icon+'</span><span>'+c.text+'</span>';
-              btn.style.opacity = '0';
-              btn.style.transform = 'translateX(-20px)';
-              btn.onclick = () => {
-                const r = btn.getBoundingClientRect();
-                sparkle(r.x + r.width/2, r.y);
-                showComicScene(c.next);
-              };
-              choices.appendChild(btn);
-              setTimeout(() => {
-                btn.style.transition = 'all .4s ease-out';
-                btn.style.opacity = '1';
-                btn.style.transform = 'translateX(0)';
-              }, 200 + i * 150);
-            });
-          } else if (scene.final) {
-            const btn = document.createElement('button');
-            btn.className = 'btn gold';
-            btn.textContent = 'Начать испытания!';
-            btn.style.opacity = '0';
-            btn.style.marginTop = '16px';
-            btn.onclick = () => { sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
-            choices.appendChild(btn);
-            setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
-          } else if (scene.next) {
-            const btn = document.createElement('button');
-            btn.className = 'btn';
-            btn.textContent = 'Продолжить →';
-            btn.style.opacity = '0';
-            btn.style.marginTop = '16px';
-            btn.onclick = () => showComicScene(scene.next);
-            choices.appendChild(btn);
-            setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
-          }
-        };
-        if (scene.interact) {
-          showInteract(scene.interact, choices, showButtons);
-        } else {
-          showButtons();
-        }
-      });
-    };
-    img.onload = reveal;
-    img.onerror = reveal;
     img.src = scene.img;
-    if (img.complete) reveal();
+    panel.style.transition = 'all .6s ease-out';
+    panel.style.opacity = '1';
+    panel.style.transform = 'translateY(0)';
+    comicTypewrite(narr, scene.text, () => {
+      const showButtons = () => {
+        if (scene.choices) {
+          scene.choices.forEach((c, i) => {
+            const btn = document.createElement('button');
+            btn.className = 'comic-choice';
+            btn.innerHTML = '<span class="comic-choice-icon">'+c.icon+'</span><span>'+c.text+'</span>';
+            btn.style.opacity = '0';
+            btn.style.transform = 'translateX(-20px)';
+            btn.onclick = () => {
+              const r = btn.getBoundingClientRect();
+              sparkle(r.x + r.width/2, r.y);
+              showComicScene(c.next);
+            };
+            choices.appendChild(btn);
+            setTimeout(() => {
+              btn.style.transition = 'all .4s ease-out';
+              btn.style.opacity = '1';
+              btn.style.transform = 'translateX(0)';
+            }, 200 + i * 150);
+          });
+        } else if (scene.final) {
+          const btn = document.createElement('button');
+          btn.className = 'btn gold';
+          btn.textContent = 'Начать испытания!';
+          btn.style.opacity = '0';
+          btn.style.marginTop = '16px';
+          btn.onclick = () => { sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
+          choices.appendChild(btn);
+          setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+        } else if (scene.next) {
+          const btn = document.createElement('button');
+          btn.className = 'btn';
+          btn.textContent = 'Продолжить →';
+          btn.style.opacity = '0';
+          btn.style.marginTop = '16px';
+          btn.onclick = () => showComicScene(scene.next);
+          choices.appendChild(btn);
+          setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
+        }
+      };
+      if (scene.interact) {
+        showInteract(scene.interact, choices, showButtons);
+      } else {
+        showButtons();
+      }
+    });
   }, 300);
 }
 
