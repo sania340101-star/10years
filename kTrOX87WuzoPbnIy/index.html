@@ -449,6 +449,25 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 
 .fade-in{animation:fadeIn .8s ease-out}
 @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-out{animation:fadeOut .4s ease-in forwards;position:fixed!important;top:0;left:0;right:0;z-index:10}
+@keyframes fadeOut{from{opacity:1;transform:translateY(0)}to{opacity:0;transform:translateY(-20px)}}
+
+/* ===== CONFETTI ===== */
+.confetti-piece{position:fixed;width:10px;height:16px;z-index:9999;pointer-events:none;animation:confettiFall var(--fall-dur,3s) ease-in forwards}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(100vh) rotate(var(--rot,720deg)) scale(.3)}}
+
+/* ===== CERTIFICATE REVEAL ===== */
+.certificate{transform:scale(0);opacity:0;transition:none}
+.certificate.revealed{animation:certReveal 1.2s cubic-bezier(.34,1.56,.64,1) forwards}
+@keyframes certReveal{
+  0%{transform:scale(0) rotate(-8deg);opacity:0;filter:brightness(2)}
+  50%{transform:scale(1.05) rotate(1deg);opacity:1;filter:brightness(1.5)}
+  70%{transform:scale(.98) rotate(-.5deg);filter:brightness(1.2)}
+  100%{transform:scale(1) rotate(0deg);opacity:1;filter:brightness(1)}
+}
+.cert-glow{position:absolute;inset:-20px;border-radius:30px;background:radial-gradient(circle,rgba(240,192,64,.4),transparent 70%);opacity:0;z-index:-1;pointer-events:none}
+.certificate.revealed .cert-glow{animation:certGlow 2s ease-out forwards}
+@keyframes certGlow{0%{opacity:0;transform:scale(.5)}40%{opacity:1}100%{opacity:0;transform:scale(1.5)}}
 
 @media(max-width:400px){
   h1{font-size:1.6em}h2{font-size:1.2em}
@@ -585,7 +604,8 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
     </div>
     <div class="music-title">&#9835; &#1050;&#1072;&#1090;&#1103; &#1080; &#1042;&#1072;&#1088;&#1103; &#9835;</div>
   </div>
-  <div class="certificate">
+  <div class="certificate" id="certificate">
+    <div class="cert-glow"></div>
     <div class="cert-title">Магический Сертификат</div>
     <p class="cert-text">За 10 лет совместного волшебства</p>
     <div class="cert-name">Кэтти</div>
@@ -695,11 +715,19 @@ function typewrite(el, text, onDone) {
 
 // ===== SCREEN MANAGEMENT =====
 function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const prev = document.querySelector('.screen.active');
   const el = document.getElementById(id);
-  el.classList.add('active','fade-in');
-  setTimeout(() => el.classList.remove('fade-in'), 800);
-  window.scrollTo(0,0);
+  if (prev && prev !== el) {
+    prev.classList.add('fade-out');
+    setTimeout(() => { prev.classList.remove('active','fade-out'); }, 400);
+  } else if (prev) {
+    prev.classList.remove('active');
+  }
+  setTimeout(() => {
+    el.classList.add('active','fade-in');
+    setTimeout(() => el.classList.remove('fade-in'), 800);
+    window.scrollTo(0,0);
+  }, prev && prev !== el ? 300 : 0);
 
   const speech = el.querySelector('.dobby-speech[data-speech]');
   if (speech) {
@@ -939,12 +967,37 @@ function toggleMusic() {
   }
 }
 
+function launchConfetti() {
+  const colors = ['#f0c040','#e040a0','#40c0f0','#60e060','#f08040','#c060f0','#ff6b8a','#ffd700'];
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random()*100+'vw';
+    el.style.top = -20-Math.random()*40+'px';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.setProperty('--fall-dur', (2+Math.random()*2)+'s');
+    el.style.setProperty('--rot', (360+Math.random()*720)+'deg');
+    el.style.width = (6+Math.random()*8)+'px';
+    el.style.height = (10+Math.random()*10)+'px';
+    el.style.borderRadius = Math.random()>.5?'50%':'2px';
+    el.style.animationDelay = Math.random()*1.5+'s';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+
 function showFinal() {
   fadeBgMusic();
   showScreen('screen-final');
-  for (let i = 0; i < 6; i++) {
-    setTimeout(() => sparkle(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*300);
-  }
+  const cert = document.getElementById('certificate');
+  cert.classList.remove('revealed');
+  setTimeout(() => {
+    cert.classList.add('revealed');
+    launchConfetti();
+    for (let i = 0; i < 6; i++) {
+      setTimeout(() => sparkle(Math.random()*window.innerWidth, Math.random()*window.innerHeight), i*300);
+    }
+  }, 800);
   const audio = document.getElementById('song-audio');
   const btn = document.getElementById('music-btn');
   const player = document.getElementById('music-player');
