@@ -1144,7 +1144,9 @@ document.addEventListener('click', e => {
       const cur = document.querySelector('.screen.active');
       const idx = screenOrder.indexOf(cur?.id);
       if (idx >= 0 && idx < screenOrder.length - 1) {
-        const next = screenOrder[idx + 1];
+        let nextIdx = idx + 1;
+        if (cur.id === 'screen-intro') nextIdx = screenOrder.indexOf('screen-game1');
+        const next = screenOrder[nextIdx];
         if (next === 'screen-game1') { showScreen(next); initPuzzle(); }
         else if (next === 'screen-game2') { showScreen(next); initRiddles(); }
         else if (next === 'screen-game3') { showScreen(next); initMastermind(); }
