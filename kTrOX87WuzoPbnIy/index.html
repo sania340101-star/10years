@@ -935,6 +935,7 @@ function fadeBgMusic() {
 
 function startComic() {
   comicStep = 0;
+  Object.values(COMIC).forEach(s => { const i = new Image(); i.src = s.img; });
   showScreen('screen-comic');
   showComicScene('s0');
   startBgMusic();
