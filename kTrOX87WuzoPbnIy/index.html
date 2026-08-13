@@ -524,8 +524,17 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 <audio id="voice-audio" preload="none"></audio>
 <button id="voice-toggle" onclick="toggleVoice()" style="position:fixed;top:12px;right:12px;z-index:9999;background:rgba(42,21,72,.8);border:1px solid rgba(240,192,64,.4);border-radius:50%;width:40px;height:40px;font-size:1.2em;cursor:pointer;color:#fff;backdrop-filter:blur(8px)">🔊</button>
 
+<!-- LOADING -->
+<div class="screen active" id="screen-loading" style="justify-content:center;gap:20px">
+  <h1>Магический Квест</h1>
+  <p style="color:#e8daf0;font-size:.9em" id="loading-text">Загрузка магии...</p>
+  <div style="width:80%;max-width:300px;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;border:1px solid rgba(240,192,64,.3)">
+    <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c09020,#f0c040);border-radius:4px;transition:width .3s"></div>
+  </div>
+</div>
+
 <!-- INTRO -->
-<div class="screen active" id="screen-intro">
+<div class="screen" id="screen-intro">
   <div class="dobby-slot"></div>
   <h1>Мисс Кэтти!<br>У Добби есть история...</h1>
   <div class="dobby-speech" data-speech="intro"></div>
@@ -683,18 +692,23 @@ const SPEECHES = {
   final: '10 лет волшебства — и это только начало! Добби желает мисс Кэтти и мистеру Алексу ещё 100 лет вместе! \u{1F9E6}✨'
 };
 
-let voiceEnabled = true;
+let soundEnabled = true;
 const voiceAudio = document.getElementById('voice-audio');
 function playVoice(name) {
-  if (!voiceEnabled) return;
+  if (!soundEnabled) return;
   voiceAudio.pause();
   voiceAudio.src = 'comic/' + name + '.mp3';
   voiceAudio.play().catch(() => {});
 }
 function toggleVoice() {
-  voiceEnabled = !voiceEnabled;
-  document.getElementById('voice-toggle').textContent = voiceEnabled ? '🔊' : '🔇';
-  if (!voiceEnabled) voiceAudio.pause();
+  soundEnabled = !soundEnabled;
+  document.getElementById('voice-toggle').textContent = soundEnabled ? '🔊' : '🔇';
+  if (!soundEnabled) {
+    voiceAudio.pause();
+    document.querySelectorAll('audio').forEach(a => { if (a !== voiceAudio) a.muted = true; });
+  } else {
+    document.querySelectorAll('audio').forEach(a => a.muted = false);
+  }
 }
 
 // ===== STARS + PARTICLES =====
@@ -937,6 +951,7 @@ let comicStep = 0;
 let comicTwTimer = null;
 
 function startBgMusic() {
+  if (!soundEnabled) return;
   const bg = document.getElementById('bg-music');
   if (!bg.paused) return;
   bg.currentTime = 0;
@@ -953,7 +968,6 @@ function fadeBgMusic() {
 
 function startComic() {
   comicStep = 0;
-  Object.values(COMIC).forEach(s => { const i = new Image(); i.src = s.img; });
   showScreen('screen-comic');
   showComicScene('s0');
   startBgMusic();
@@ -1432,8 +1446,38 @@ document.getElementById('song-audio').addEventListener('ended', () => {
   document.getElementById('music-player').classList.remove('playing');
 });
 
-// ===== INIT: trigger typewriter on intro =====
-setTimeout(() => showScreen('screen-intro'), 100);
+// ===== INIT: preload all assets, then show intro =====
+(function preloadAll() {
+  const bar = document.getElementById('loading-bar');
+  const txt = document.getElementById('loading-text');
+  const imgFiles = Object.values(COMIC).map(s => s.img);
+  const audioFiles = Object.keys(COMIC).concat(['intro','trans1','trans2','trans3','final']).map(k => 'comic/' + k + '.mp3');
+  const total = imgFiles.length + audioFiles.length;
+  let loaded = 0;
+  function tick() {
+    loaded++;
+    const pct = Math.round(loaded / total * 100);
+    bar.style.width = pct + '%';
+    txt.textContent = 'Загрузка магии... ' + pct + '%';
+    if (loaded >= total) {
+      setTimeout(() => showScreen('screen-intro'), 300);
+    }
+  }
+  imgFiles.forEach(src => {
+    const img = new Image();
+    img.onload = tick;
+    img.onerror = tick;
+    img.src = src;
+  });
+  audioFiles.forEach(src => {
+    const a = new Audio();
+    a.oncanplaythrough = tick;
+    a.onerror = tick;
+    a.preload = 'auto';
+    a.src = src;
+  });
+  setTimeout(() => { if (loaded < total) { loaded = total; showScreen('screen-intro'); } }, 15000);
+})();
 </script>
 </body>
 </html>
