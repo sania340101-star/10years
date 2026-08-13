@@ -520,6 +520,8 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 <body>
 
 <div class="stars" id="stars"></div>
+<audio id="voice-audio" preload="none"></audio>
+<button id="voice-toggle" onclick="toggleVoice()" style="position:fixed;top:12px;right:12px;z-index:9999;background:rgba(42,21,72,.8);border:1px solid rgba(240,192,64,.4);border-radius:50%;width:40px;height:40px;font-size:1.2em;cursor:pointer;color:#fff;backdrop-filter:blur(8px)">🔊</button>
 
 <!-- INTRO -->
 <div class="screen active" id="screen-intro">
@@ -680,6 +682,20 @@ const SPEECHES = {
   final: '10 лет волшебства — и это только начало! Добби желает мисс Кэтти и мистеру Алексу ещё 100 лет вместе! \u{1F9E6}✨'
 };
 
+let voiceEnabled = true;
+const voiceAudio = document.getElementById('voice-audio');
+function playVoice(name) {
+  if (!voiceEnabled) return;
+  voiceAudio.pause();
+  voiceAudio.src = 'comic/' + name + '.mp3';
+  voiceAudio.play().catch(() => {});
+}
+function toggleVoice() {
+  voiceEnabled = !voiceEnabled;
+  document.getElementById('voice-toggle').textContent = voiceEnabled ? '🔊' : '🔇';
+  if (!voiceEnabled) voiceAudio.pause();
+}
+
 // ===== STARS + PARTICLES =====
 (function(){
   const c = document.getElementById('stars');
@@ -762,6 +778,7 @@ function showScreen(id) {
     if (text) {
       const btn = el.querySelector('[data-tw-btn]');
       if (btn) { btn.classList.remove('tw-visible'); btn.classList.add('tw-hidden'); }
+      playVoice(key);
       typewrite(speech, text, () => {
         if (btn) { btn.classList.remove('tw-hidden'); btn.classList.add('tw-visible'); }
       });
@@ -962,6 +979,7 @@ function showComicScene(id) {
       panel.style.transition = 'all .6s ease-out';
       panel.style.opacity = '1';
       panel.style.transform = 'translateY(0)';
+      playVoice(id);
       comicTypewrite(narr, scene.text, () => {
         const showButtons = () => {
           if (scene.choices) {
