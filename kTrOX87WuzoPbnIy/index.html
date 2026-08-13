@@ -46,276 +46,362 @@ h1{
 h2{font-family:'Caveat',cursive;font-size:1.6em;color:var(--gold);margin-bottom:16px;position:relative;z-index:1}
 p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relative;z-index:1;max-width:360px}
 
-/* ===== DOBBY CHARACTER ===== */
+/* ===== DOBBY CHARACTER (3D) ===== */
 .dobby{
-  position:relative;width:150px;height:170px;
+  position:relative;width:150px;height:175px;
   margin:0 auto 12px;z-index:1;
-  animation:dobbyFloat 3s ease-in-out infinite;
-  filter:drop-shadow(0 10px 20px rgba(0,0,0,.4));
+  transform-style:preserve-3d;
+  perspective:800px;
+  animation:dobbyFloat 4s ease-in-out infinite;
+  filter:drop-shadow(0 12px 24px rgba(0,0,0,.45)) drop-shadow(0 2px 6px rgba(0,0,0,.3));
 }
-@keyframes dobbyFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes dobbyFloat{
+  0%{transform:translateY(0) rotateY(0deg)}
+  25%{transform:translateY(-6px) rotateY(3deg)}
+  50%{transform:translateY(-8px) rotateY(0deg)}
+  75%{transform:translateY(-6px) rotateY(-3deg)}
+  100%{transform:translateY(0) rotateY(0deg)}
+}
 
+/* --- HEAD --- */
 .dobby-head{
-  position:absolute;width:82px;height:86px;
+  position:absolute;width:84px;height:90px;
   background:
-    radial-gradient(ellipse at 25% 30%,rgba(255,255,255,.12) 0%,transparent 50%),
-    radial-gradient(ellipse at 75% 70%,rgba(0,0,0,.1) 0%,transparent 40%),
-    linear-gradient(165deg,#f2ddc0 0%,var(--skin-lt) 25%,var(--skin) 55%,var(--skin-dk) 85%,#9a6840 100%);
-  border-radius:40px 40px 34px 34px;
-  top:0;left:50%;transform:translateX(-50%);
-  box-shadow:inset 3px 3px 8px rgba(255,255,255,.12),inset -3px -5px 8px rgba(0,0,0,.18),
-             0 4px 14px rgba(0,0,0,.3),0 0 24px rgba(240,192,64,.08);
+    radial-gradient(ellipse at 28% 25%,rgba(255,240,220,.22) 0%,transparent 45%),
+    radial-gradient(ellipse at 72% 75%,rgba(80,40,10,.15) 0%,transparent 40%),
+    radial-gradient(ellipse at 50% 50%,rgba(0,0,0,.03) 0%,transparent 70%),
+    radial-gradient(circle at 20% 80%,rgba(200,140,100,.08) 0%,transparent 30%),
+    linear-gradient(165deg,#f5e2c8 0%,#ecd4aa 15%,var(--skin-lt) 28%,var(--skin) 50%,var(--skin-dk) 75%,#9a6840 90%,#7d5230 100%);
+  border-radius:42px 42px 36px 36px;
+  top:0;left:50%;transform:translateX(-50%) translateZ(4px);
+  box-shadow:
+    inset 5px 5px 14px rgba(255,255,255,.15),
+    inset -4px -6px 12px rgba(0,0,0,.2),
+    inset 0 -3px 8px rgba(140,80,30,.12),
+    2px 4px 8px rgba(0,0,0,.2),
+    0 8px 20px rgba(0,0,0,.25),
+    -2px -2px 12px rgba(240,200,140,.06),
+    0 0 30px rgba(240,192,64,.05);
 }
 .dobby-head::before{
-  content:'';position:absolute;top:10px;left:22px;right:22px;height:18px;
+  content:'';position:absolute;top:8px;left:20px;right:20px;height:22px;z-index:1;
   background:
-    linear-gradient(0deg,transparent 0%,transparent 28%,rgba(160,120,80,.12) 30%,transparent 32%,
-    transparent 55%,rgba(160,120,80,.1) 57%,transparent 59%,
-    transparent 82%,rgba(160,120,80,.08) 84%,transparent 86%);
-  border-radius:8px;
+    linear-gradient(0deg,transparent 0%,transparent 20%,rgba(150,110,70,.13) 22%,transparent 25%,
+    transparent 42%,rgba(150,110,70,.11) 44%,transparent 47%,
+    transparent 65%,rgba(150,110,70,.09) 67%,transparent 70%,
+    transparent 85%,rgba(150,110,70,.07) 87%,transparent 90%);
+  border-radius:10px;
 }
 .dobby-head::after{
-  content:'';position:absolute;top:6px;left:14px;width:22px;height:14px;
-  background:radial-gradient(ellipse,rgba(255,255,255,.18),transparent);border-radius:50%;
-  transform:rotate(-15deg);
+  content:'';position:absolute;top:4px;left:10px;width:28px;height:18px;
+  background:radial-gradient(ellipse at 40% 40%,rgba(255,255,255,.2),rgba(255,240,220,.08) 60%,transparent);
+  border-radius:50%;transform:rotate(-12deg);
 }
+
+/* --- EARS --- */
 .dobby-ear{
   position:absolute;
   background:
-    linear-gradient(170deg,var(--skin-lt) 15%,var(--skin) 50%,var(--skin-dk) 85%,#9a6840 100%);
-  box-shadow:inset 0 -2px 6px rgba(0,0,0,.18),1px 3px 6px rgba(0,0,0,.25);
+    radial-gradient(ellipse at 40% 50%,rgba(255,200,180,.15) 0%,transparent 60%),
+    linear-gradient(170deg,#ecd0a8 10%,var(--skin-lt) 25%,var(--skin) 50%,var(--skin-dk) 80%,#8a5c38 100%);
+  box-shadow:
+    inset 0 2px 5px rgba(255,220,180,.15),
+    inset 0 -3px 8px rgba(0,0,0,.2),
+    2px 4px 8px rgba(0,0,0,.25),
+    0 1px 3px rgba(0,0,0,.15);
+  transform-style:preserve-3d;
 }
 .dobby-ear::before{
-  content:'';position:absolute;width:55%;height:40%;top:25%;
-  background:radial-gradient(ellipse,rgba(210,140,120,.35),transparent);border-radius:50%;
+  content:'';position:absolute;width:60%;height:50%;top:20%;
+  background:
+    radial-gradient(ellipse,rgba(230,150,130,.4) 0%,rgba(210,130,110,.2) 50%,transparent 80%);
+  border-radius:50%;
 }
 .dobby-ear::after{
-  content:'';position:absolute;width:30%;height:65%;top:15%;
-  background:linear-gradient(180deg,transparent,rgba(180,120,80,.15),transparent);
+  content:'';position:absolute;width:25%;height:70%;top:12%;
+  background:
+    linear-gradient(180deg,transparent 10%,rgba(180,120,80,.18) 30%,rgba(180,120,80,.12) 70%,transparent 90%);
   border-radius:50%;
 }
 .dobby-ear-l{
-  width:54px;height:24px;left:-40px;top:18px;
-  border-radius:50% 25% 8px 45%;
-  transform:rotate(-32deg) scaleY(1.15);
+  width:56px;height:25px;left:-42px;top:18px;
+  border-radius:50% 22% 10px 45%;
+  transform:rotate(-30deg) scaleY(1.15) translateZ(-3px);
   animation:earL 4s ease-in-out infinite;
   transform-origin:right center;
 }
-.dobby-ear-l::before{left:12%}.dobby-ear-l::after{left:25%}
+.dobby-ear-l::before{left:10%}.dobby-ear-l::after{left:22%}
 .dobby-ear-r{
-  width:54px;height:24px;right:-40px;top:18px;
-  border-radius:25% 50% 45% 8%;
-  transform:rotate(32deg) scaleY(1.15);
+  width:56px;height:25px;right:-42px;top:18px;
+  border-radius:22% 50% 45% 10px;
+  transform:rotate(30deg) scaleY(1.15) translateZ(-3px);
   animation:earR 4s ease-in-out infinite .3s;
   transform-origin:left center;
 }
-.dobby-ear-r::before{right:12%}.dobby-ear-r::after{right:25%}
-@keyframes earL{0%,100%{transform:rotate(-32deg) scaleY(1.15)}30%{transform:rotate(-25deg) scaleY(1.12)}70%{transform:rotate(-28deg) scaleY(1.18)}}
-@keyframes earR{0%,100%{transform:rotate(32deg) scaleY(1.15)}30%{transform:rotate(25deg) scaleY(1.12)}70%{transform:rotate(28deg) scaleY(1.18)}}
-.dobby.speaking .dobby-ear-l{animation:earTalkL .55s ease-in-out infinite}
-.dobby.speaking .dobby-ear-r{animation:earTalkR .55s ease-in-out infinite .08s}
-@keyframes earTalkL{0%,100%{transform:rotate(-32deg) scaleY(1.15)}50%{transform:rotate(-12deg) scaleY(1.2)}}
-@keyframes earTalkR{0%,100%{transform:rotate(32deg) scaleY(1.15)}50%{transform:rotate(12deg) scaleY(1.2)}}
+.dobby-ear-r::before{right:10%}.dobby-ear-r::after{right:22%}
+@keyframes earL{0%,100%{transform:rotate(-30deg) scaleY(1.15) translateZ(-3px)}30%{transform:rotate(-24deg) scaleY(1.12) translateZ(-3px)}70%{transform:rotate(-27deg) scaleY(1.18) translateZ(-3px)}}
+@keyframes earR{0%,100%{transform:rotate(30deg) scaleY(1.15) translateZ(-3px)}30%{transform:rotate(24deg) scaleY(1.12) translateZ(-3px)}70%{transform:rotate(27deg) scaleY(1.18) translateZ(-3px)}}
+.dobby.speaking .dobby-ear-l{animation:earTalkL .5s ease-in-out infinite}
+.dobby.speaking .dobby-ear-r{animation:earTalkR .5s ease-in-out infinite .08s}
+@keyframes earTalkL{0%,100%{transform:rotate(-30deg) scaleY(1.15) translateZ(-3px)}50%{transform:rotate(-10deg) scaleY(1.22) translateZ(-3px)}}
+@keyframes earTalkR{0%,100%{transform:rotate(30deg) scaleY(1.15) translateZ(-3px)}50%{transform:rotate(10deg) scaleY(1.22) translateZ(-3px)}}
 
+/* --- EYES --- */
 .dobby-eye{
-  position:absolute;width:24px;height:28px;
+  position:absolute;width:26px;height:30px;
   background:
-    radial-gradient(circle at 38% 38%,#e8ffe8 0%,#b0ffb8 12%,#70ee80 28%,#40c850 50%,#2a8a30 72%,#1a5a1a 90%,#0d3d0d 100%);
-  border-radius:50%;top:26px;overflow:hidden;
-  box-shadow:0 0 14px rgba(127,255,127,.55),0 0 4px rgba(80,255,100,.3),
-    inset 0 3px 5px rgba(255,255,255,.35),inset 0 -2px 4px rgba(0,0,0,.25);
+    radial-gradient(circle at 40% 35%,#f0fff0 0%,#d0ffd8 8%,#a0ffb0 16%,
+      #60e870 30%,#40c850 45%,#2a9a30 60%,#1a6a1a 78%,#0d4a0d 92%,#082808 100%);
+  border-radius:50%;top:28px;overflow:hidden;
+  box-shadow:
+    0 0 18px rgba(127,255,127,.5),
+    0 0 6px rgba(80,255,100,.35),
+    0 0 3px rgba(60,200,80,.5),
+    inset 0 4px 6px rgba(255,255,255,.3),
+    inset 0 -3px 5px rgba(0,0,0,.3),
+    inset 2px 0 4px rgba(255,255,255,.1),
+    inset -2px 0 4px rgba(0,0,0,.1);
   animation:blink 4.5s ease-in-out infinite;
+  transform:translateZ(6px);
 }
 .dobby-eye-l{left:12px}.dobby-eye-r{right:12px}
-@keyframes blink{0%,42%,48%,100%{transform:scaleY(1)}45%{transform:scaleY(.06)}}
+@keyframes blink{0%,42%,48%,100%{transform:translateZ(6px) scaleY(1)}45%{transform:translateZ(6px) scaleY(.06)}}
 .dobby-pupil{
-  width:10px;height:12px;background:radial-gradient(circle at 45% 42%,#222 60%,#000 100%);
+  width:11px;height:13px;
+  background:
+    radial-gradient(circle at 42% 40%,#333 0%,#1a1a1a 50%,#000 100%);
   border-radius:50%;
-  position:absolute;top:46%;left:46%;transform:translate(-50%,-50%);
+  position:absolute;top:45%;left:45%;transform:translate(-50%,-50%);
 }
 .dobby-shine{
-  width:6px;height:6px;background:radial-gradient(circle,#fff 40%,rgba(255,255,255,.5));
+  width:7px;height:7px;
+  background:radial-gradient(circle,#fff 30%,rgba(255,255,255,.6) 60%,transparent);
   border-radius:50%;
-  position:absolute;top:4px;right:4px;opacity:.9;
+  position:absolute;top:3px;right:4px;opacity:.95;
   box-shadow:
-    -8px 10px 0 2px rgba(255,255,255,.25),
-    -3px 14px 0 1px rgba(255,255,255,.15);
+    -9px 12px 0 2px rgba(255,255,255,.3),
+    -4px 16px 0 1px rgba(255,255,255,.15),
+    -12px 6px 0 0px rgba(200,255,200,.1);
 }
+
+/* --- BROWS --- */
 .dobby-brow{
-  position:absolute;width:16px;height:4px;top:20px;
-  background:linear-gradient(90deg,transparent,rgba(140,100,60,.5),rgba(140,100,60,.6),transparent);
-  border-radius:50%;
-}
-.dobby-brow-l{left:12px;transform:rotate(-8deg)}
-.dobby-brow-r{right:12px;transform:rotate(8deg)}
-.dobby-cheek{
-  position:absolute;width:14px;height:9px;bottom:22px;
-  background:radial-gradient(ellipse,rgba(230,140,120,.3),transparent);
-  border-radius:50%;pointer-events:none;
-}
-.dobby-cheek-l{left:4px}.dobby-cheek-r{right:4px}
-.dobby-nose{
-  position:absolute;width:9px;height:14px;
+  position:absolute;width:18px;height:5px;top:22px;z-index:2;
   background:
-    radial-gradient(ellipse at 35% 30%,var(--skin-lt) 0%,var(--skin) 40%,var(--skin-dk) 100%);
-  border-radius:4px 4px 6px 6px;
-  bottom:20px;left:50%;transform:translateX(-50%);
-  box-shadow:1px 1px 3px rgba(0,0,0,.2);
+    radial-gradient(ellipse,rgba(130,90,50,.5) 30%,rgba(130,90,50,.35) 60%,transparent 90%);
+  border-radius:50%;
+  transform:translateZ(5px);
+}
+.dobby-brow-l{left:10px;transform:rotate(-10deg) translateZ(5px)}
+.dobby-brow-r{right:10px;transform:rotate(10deg) translateZ(5px)}
+
+/* --- CHEEKS --- */
+.dobby-cheek{
+  position:absolute;width:16px;height:10px;bottom:22px;z-index:1;
+  background:radial-gradient(ellipse,rgba(240,130,110,.35) 0%,rgba(220,120,100,.15) 50%,transparent 80%);
+  border-radius:50%;pointer-events:none;
+  transform:translateZ(3px);
+}
+.dobby-cheek-l{left:3px}.dobby-cheek-r{right:3px}
+
+/* --- NOSE --- */
+.dobby-nose{
+  position:absolute;width:11px;height:16px;
+  background:
+    radial-gradient(ellipse at 35% 30%,#ecd0a8 0%,var(--skin-lt) 20%,var(--skin) 50%,var(--skin-dk) 90%);
+  border-radius:5px 5px 7px 7px;
+  bottom:19px;left:50%;transform:translateX(-50%) translateZ(10px);
+  box-shadow:
+    2px 2px 4px rgba(0,0,0,.2),
+    -1px -1px 3px rgba(255,220,180,.1),
+    0 3px 6px rgba(0,0,0,.15);
 }
 .dobby-nose::after{
   content:'';position:absolute;bottom:2px;left:50%;transform:translateX(-50%);
-  width:7px;height:3px;
-  background:radial-gradient(ellipse,rgba(0,0,0,.12),transparent);
+  width:9px;height:4px;
+  background:
+    radial-gradient(ellipse at 30% 50%,rgba(0,0,0,.15) 0%,transparent 50%),
+    radial-gradient(ellipse at 70% 50%,rgba(0,0,0,.15) 0%,transparent 50%);
   border-radius:50%;
 }
+
+/* --- MOUTH --- */
 .dobby-mouth{
-  position:absolute;width:12px;height:3px;
-  background:linear-gradient(180deg,#7a4e30,#8b5e3c);
-  border-radius:1px 1px 6px 6px;
-  bottom:13px;left:50%;transform:translateX(-50%);
-  box-shadow:0 1px 2px rgba(0,0,0,.1);
+  position:absolute;width:14px;height:3px;
+  background:linear-gradient(180deg,#6e4428,#8b5e3c,#7a4e30);
+  border-radius:1px 1px 7px 7px;
+  bottom:12px;left:50%;transform:translateX(-50%) translateZ(6px);
+  box-shadow:0 1px 3px rgba(0,0,0,.15),inset 0 1px 1px rgba(0,0,0,.2);
   transition:all .12s;
 }
 .dobby-mouth::after{
-  content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);
-  width:8px;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(255,200,180,.2),transparent);
+  content:'';position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+  width:10px;height:2px;
+  background:linear-gradient(90deg,transparent,rgba(200,140,100,.2),transparent);
   border-radius:50%;
 }
 .dobby.speaking .dobby-mouth{animation:mouthMove .22s ease-in-out infinite}
 @keyframes mouthMove{
-  0%,100%{height:3px;width:12px;border-radius:1px 1px 6px 6px}
-  50%{height:10px;width:14px;border-radius:50%}
+  0%,100%{height:3px;width:14px;border-radius:1px 1px 7px 7px}
+  50%{height:11px;width:16px;border-radius:50%}
 }
 
+/* --- BODY (pillowcase) --- */
 .dobby-body{
-  position:absolute;width:52px;height:64px;
+  position:absolute;width:54px;height:68px;
   background:
-    radial-gradient(ellipse at 30% 20%,rgba(255,255,255,.06) 0%,transparent 50%),
-    linear-gradient(160deg,#b89a78 0%,#a08562 25%,#7a6348 60%,#5a4230 90%,#3e2c1c 100%);
-  border-radius:14px 14px 8px 8px;top:80px;left:50%;transform:translateX(-50%);
-  box-shadow:inset 3px 3px 8px rgba(255,255,255,.06),inset -3px -4px 8px rgba(0,0,0,.22),
-             0 5px 12px rgba(0,0,0,.3);
+    radial-gradient(ellipse at 25% 15%,rgba(255,240,220,.1) 0%,transparent 45%),
+    radial-gradient(ellipse at 75% 85%,rgba(0,0,0,.1) 0%,transparent 40%),
+    radial-gradient(circle at 38% 55%,rgba(255,255,255,.03) 0%,transparent 30%),
+    linear-gradient(160deg,#c4a484 0%,#b89a78 15%,#a08562 30%,#8a7050 50%,#6b5440 70%,#4a3828 88%,#352818 100%);
+  border-radius:14px 14px 8px 8px;top:84px;left:50%;
+  transform:translateX(-50%) translateZ(-1px);
+  box-shadow:
+    inset 4px 4px 10px rgba(255,255,255,.08),
+    inset -4px -5px 10px rgba(0,0,0,.25),
+    inset 0 -2px 6px rgba(0,0,0,.1),
+    3px 6px 14px rgba(0,0,0,.3),
+    0 2px 4px rgba(0,0,0,.15);
   animation:breathe 3.5s ease-in-out infinite;
 }
-@keyframes breathe{0%,100%{transform:translateX(-50%) scaleX(1)}50%{transform:translateX(-50%) scaleX(1.02)}}
+@keyframes breathe{0%,100%{transform:translateX(-50%) translateZ(-1px) scaleX(1)}50%{transform:translateX(-50%) translateZ(-1px) scaleX(1.025)}}
 .dobby-body::before{
-  content:'';position:absolute;top:6px;left:5px;right:5px;height:52px;
+  content:'';position:absolute;top:4px;left:4px;right:4px;bottom:4px;
   background:
-    linear-gradient(0deg,transparent 0%,transparent 14%,rgba(255,255,255,.05) 15%,transparent 16%,
-    transparent 30%,rgba(255,255,255,.04) 31%,transparent 32%,
-    transparent 48%,rgba(255,255,255,.035) 49%,transparent 50%,
-    transparent 66%,rgba(255,255,255,.03) 67%,transparent 68%,
-    transparent 84%,rgba(255,255,255,.025) 85%,transparent 86%);
-  border-radius:8px;
+    linear-gradient(8deg,transparent 0%,transparent 12%,rgba(255,255,255,.04) 13%,transparent 15%,
+    transparent 26%,rgba(0,0,0,.03) 27%,transparent 29%,
+    transparent 38%,rgba(255,255,255,.035) 39%,transparent 41%,
+    transparent 52%,rgba(0,0,0,.025) 53%,transparent 55%,
+    transparent 66%,rgba(255,255,255,.03) 67%,transparent 69%,
+    transparent 80%,rgba(0,0,0,.02) 81%,transparent 83%);
+  border-radius:10px;
 }
 .dobby-body::after{
-  content:'';position:absolute;top:12px;right:8px;width:10px;height:10px;
+  content:'';position:absolute;top:10px;right:7px;width:12px;height:12px;
   background:
-    linear-gradient(45deg,rgba(160,120,80,.3) 0%,rgba(120,85,50,.25) 100%);
-  border:1px solid rgba(120,85,50,.2);border-radius:2px;transform:rotate(12deg);
+    linear-gradient(45deg,rgba(170,130,85,.35) 0%,rgba(130,95,55,.3) 100%);
+  border:1px solid rgba(130,95,55,.25);border-radius:2px;transform:rotate(12deg);
+  box-shadow:inset 1px 1px 2px rgba(255,255,255,.05),-18px 20px 0 0 rgba(120,85,50,.15);
 }
 .dobby-belt{
-  position:absolute;top:22px;left:-2px;right:-2px;height:5px;
-  background:linear-gradient(180deg,#6b5535,#8a7050,#6b5535);
-  border-radius:2px;
-  box-shadow:0 1px 2px rgba(0,0,0,.2);
+  position:absolute;top:24px;left:-3px;right:-3px;height:6px;
+  background:
+    linear-gradient(180deg,#5a4428 0%,#7a6040 30%,#8a7050 50%,#7a6040 70%,#5a4428 100%);
+  border-radius:3px;
+  box-shadow:0 2px 4px rgba(0,0,0,.25),inset 0 1px 1px rgba(255,255,255,.08),inset 0 -1px 1px rgba(0,0,0,.15);
 }
 .dobby-belt::after{
-  content:'';position:absolute;left:50%;top:-1px;transform:translateX(-50%);
-  width:7px;height:7px;background:radial-gradient(circle,#c0a060,#8a7040);
-  border-radius:50%;border:1px solid rgba(200,170,100,.4);
+  content:'';position:absolute;left:50%;top:-2px;transform:translateX(-50%);
+  width:8px;height:10px;
+  background:radial-gradient(ellipse at 40% 35%,#ddc070,#c0a050 40%,#8a7030 100%);
+  border-radius:2px;border:1px solid rgba(180,150,80,.5);
+  box-shadow:inset 1px 1px 2px rgba(255,255,200,.3),0 1px 3px rgba(0,0,0,.2);
 }
+
+/* --- FEET --- */
 .dobby-foot{
-  position:absolute;width:16px;height:8px;
-  background:linear-gradient(180deg,var(--skin),var(--skin-dk));
-  border-radius:8px 8px 4px 4px;bottom:-4px;
-  box-shadow:0 2px 3px rgba(0,0,0,.2);
+  position:absolute;width:17px;height:9px;
+  background:
+    radial-gradient(ellipse at 40% 30%,var(--skin-lt) 0%,var(--skin) 50%,var(--skin-dk) 100%);
+  border-radius:9px 9px 4px 4px;bottom:-5px;
+  box-shadow:0 3px 5px rgba(0,0,0,.25),inset 0 1px 2px rgba(255,220,180,.15);
 }
 .dobby-foot::after{
-  content:'';position:absolute;top:1px;width:3px;height:4px;
-  background:var(--skin-dk);border-radius:0 0 2px 2px;
+  content:'';position:absolute;top:1px;width:3px;height:5px;
+  background:linear-gradient(180deg,var(--skin),var(--skin-dk));border-radius:0 0 2px 2px;
 }
-.dobby-foot-l{left:6px}
-.dobby-foot-l::after{left:3px;box-shadow:4px 0 0 var(--skin-dk),8px 0 0 var(--skin-dk)}
-.dobby-foot-r{right:6px}
-.dobby-foot-r::after{right:3px;box-shadow:-4px 0 0 var(--skin-dk),-8px 0 0 var(--skin-dk)}
+.dobby-foot-l{left:5px}
+.dobby-foot-l::after{left:2px;box-shadow:4px 0 0 var(--skin-dk),8px 0 0 var(--skin-dk),12px -1px 0 var(--skin-dk)}
+.dobby-foot-r{right:5px}
+.dobby-foot-r::after{right:2px;box-shadow:-4px 0 0 var(--skin-dk),-8px 0 0 var(--skin-dk),-12px -1px 0 var(--skin-dk)}
 
+/* --- ARMS --- */
 .dobby-arm{
-  position:absolute;width:7px;height:38px;
-  background:linear-gradient(90deg,var(--skin-dk) 0%,var(--skin-lt) 35%,var(--skin) 100%);
-  border-radius:4px;top:84px;transform-origin:top center;
-  box-shadow:1px 2px 4px rgba(0,0,0,.22);
+  position:absolute;width:8px;height:40px;
+  background:
+    linear-gradient(90deg,var(--skin-dk) 0%,var(--skin) 30%,var(--skin-lt) 50%,var(--skin) 70%,var(--skin-dk) 100%);
+  border-radius:4px 4px 3px 3px;top:88px;transform-origin:top center;
+  box-shadow:2px 3px 6px rgba(0,0,0,.25),inset 1px 0 2px rgba(255,220,180,.1);
+}
+.dobby-arm::after{
+  content:'';position:absolute;top:45%;left:1px;right:1px;height:4px;
+  background:radial-gradient(ellipse,rgba(0,0,0,.08),transparent);border-radius:50%;
 }
 .dobby-arm-l{left:44px;transform:rotate(20deg);animation:armWave 2.5s ease-in-out infinite}
 .dobby-arm-r{right:44px;transform:rotate(-8deg)}
 @keyframes armWave{0%,100%{transform:rotate(20deg)}50%{transform:rotate(32deg)}}
 
+/* --- HANDS --- */
 .dobby-hand{
-  position:absolute;bottom:-2px;width:10px;height:10px;
-  background:var(--skin);border-radius:50%;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:-3px;width:11px;height:11px;
+  background:radial-gradient(circle at 40% 35%,var(--skin-lt),var(--skin),var(--skin-dk));
+  border-radius:50%;left:50%;transform:translateX(-50%);
+  box-shadow:1px 1px 3px rgba(0,0,0,.2);
 }
 .dobby-hand::before{
-  content:'';position:absolute;bottom:0;left:-2px;
-  width:3px;height:6px;background:var(--skin);border-radius:2px;
+  content:'';position:absolute;bottom:-1px;left:-3px;
+  width:3px;height:7px;
+  background:linear-gradient(180deg,var(--skin-lt),var(--skin),var(--skin-dk));border-radius:2px;
   box-shadow:3px -1px 0 var(--skin),6px -2px 0 var(--skin),9px -1px 0 var(--skin);
   transform:rotate(15deg);transform-origin:top center;
 }
 .dobby-arm-r .dobby-hand::before{
-  left:auto;right:-2px;transform:rotate(-15deg);
+  left:auto;right:-3px;transform:rotate(-15deg);
   box-shadow:-3px -1px 0 var(--skin),-6px -2px 0 var(--skin),-9px -1px 0 var(--skin);
 }
 .dobby-sock{
-  position:absolute;bottom:-16px;left:-8px;font-size:20px;
+  position:absolute;bottom:-18px;left:-9px;font-size:22px;
   transform:rotate(-15deg);
   animation:sockDangle 2s ease-in-out infinite;
-  filter:drop-shadow(0 0 8px rgba(240,192,64,.6));
+  filter:drop-shadow(0 0 10px rgba(240,192,64,.7)) drop-shadow(0 0 4px rgba(240,180,40,.4));
 }
-@keyframes sockDangle{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(-3deg) translateY(3px)}}
+@keyframes sockDangle{0%,100%{transform:rotate(-15deg)}50%{transform:rotate(-2deg) translateY(3px)}}
 
 /* --- small variant --- */
 .dobby.small{
-  width:95px;height:112px;transform-origin:center bottom;
+  width:100px;height:118px;transform-origin:center bottom;
   margin-bottom:4px;
 }
-.dobby.small .dobby-head{width:54px;height:58px}
-.dobby.small .dobby-head::before{top:7px;left:15px;right:15px;height:12px}
-.dobby.small .dobby-ear-l{width:38px;height:17px;left:-27px;top:12px}
-.dobby.small .dobby-ear-r{width:38px;height:17px;right:-27px;top:12px}
-.dobby.small .dobby-eye{width:16px;height:19px;top:18px}
+.dobby.small .dobby-head{width:56px;height:60px}
+.dobby.small .dobby-head::before{top:6px;left:14px;right:14px;height:14px}
+.dobby.small .dobby-ear-l{width:38px;height:17px;left:-28px;top:12px}
+.dobby.small .dobby-ear-r{width:38px;height:17px;right:-28px;top:12px}
+.dobby.small .dobby-eye{width:17px;height:20px;top:19px}
 .dobby.small .dobby-eye-l{left:8px}.dobby.small .dobby-eye-r{right:8px}
-.dobby.small .dobby-pupil{width:7px;height:8px}
-.dobby.small .dobby-shine{width:4px;height:4px;top:3px;right:2px;box-shadow:-5px 7px 0 1px rgba(255,255,255,.2)}
-.dobby.small .dobby-brow{width:11px;height:3px;top:13px}
-.dobby.small .dobby-cheek{width:10px;height:6px;bottom:15px}
-.dobby.small .dobby-nose{width:6px;height:9px;bottom:14px}
-.dobby.small .dobby-mouth{width:8px;height:2px;bottom:9px}
-.dobby.small .dobby-body{width:36px;height:42px;top:55px}
-.dobby.small .dobby-belt{top:15px;height:3px}
-.dobby.small .dobby-belt::after{width:5px;height:5px;top:-1px}
-.dobby.small .dobby-foot{width:11px;height:5px}
+.dobby.small .dobby-pupil{width:7px;height:9px}
+.dobby.small .dobby-shine{width:4px;height:4px;top:3px;right:3px;box-shadow:-6px 8px 0 1px rgba(255,255,255,.25),-3px 10px 0 1px rgba(255,255,255,.12)}
+.dobby.small .dobby-brow{width:12px;height:3px;top:14px}
+.dobby.small .dobby-cheek{width:11px;height:7px;bottom:15px}
+.dobby.small .dobby-nose{width:7px;height:10px;bottom:13px}
+.dobby.small .dobby-mouth{width:9px;height:2px;bottom:9px}
+.dobby.small .dobby-body{width:38px;height:44px;top:57px}
+.dobby.small .dobby-belt{top:16px;height:4px}
+.dobby.small .dobby-belt::after{width:5px;height:6px;top:-1px}
+.dobby.small .dobby-body::after{top:7px;right:5px;width:8px;height:8px}
+.dobby.small .dobby-foot{width:12px;height:6px}
 .dobby.small .dobby-foot-l{left:4px}.dobby.small .dobby-foot-r{right:4px}
-.dobby.small .dobby-arm{width:5px;height:26px;top:58px}
-.dobby.small .dobby-arm-l{left:28px}.dobby.small .dobby-arm-r{right:28px}
-.dobby.small .dobby-hand{width:7px;height:7px}
-.dobby.small .dobby-hand::before{width:2px;height:4px;box-shadow:2px -1px 0 var(--skin),4px -1px 0 var(--skin),6px 0 0 var(--skin)}
-.dobby.small .dobby-sock{font-size:13px;bottom:-12px;left:-5px}
-.dobby.small::after{width:55px;height:10px;bottom:-6px}
-.dobby.small::before{width:115px;height:125px}
+.dobby.small .dobby-arm{width:6px;height:27px;top:60px}
+.dobby.small .dobby-arm-l{left:30px}.dobby.small .dobby-arm-r{right:30px}
+.dobby.small .dobby-hand{width:8px;height:8px}
+.dobby.small .dobby-hand::before{width:2px;height:5px;box-shadow:2px -1px 0 var(--skin),4px -1px 0 var(--skin),6px 0 0 var(--skin)}
+.dobby.small .dobby-sock{font-size:14px;bottom:-13px;left:-6px}
+.dobby.small::after{width:58px;height:12px;bottom:-7px}
+.dobby.small::before{width:120px;height:130px}
 
 /* --- glow & shadow --- */
 .dobby::before{
   content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:170px;height:190px;border-radius:50%;
-  background:radial-gradient(ellipse,rgba(240,192,64,.06),transparent 70%);
+  width:180px;height:200px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(240,192,64,.07),transparent 65%);
   transition:opacity .5s;opacity:0;pointer-events:none;
 }
 .dobby.speaking::before{opacity:1;animation:speakGlow 1.5s ease-in-out infinite}
-@keyframes speakGlow{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.05)}}
+@keyframes speakGlow{0%,100%{opacity:.6;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.08)}}
 .dobby::after{
-  content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);
-  width:75px;height:14px;
-  background:radial-gradient(ellipse,rgba(240,192,64,.2),transparent);border-radius:50%;
+  content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);
+  width:80px;height:16px;
+  background:radial-gradient(ellipse,rgba(0,0,0,.2) 0%,rgba(0,0,0,.1) 40%,transparent 70%);
+  border-radius:50%;
 }
 
 /* ===== SPEECH BUBBLE ===== */
@@ -606,19 +692,19 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 
 @media(max-width:400px){
   h1{font-size:1.6em}h2{font-size:1.2em}
-  .dobby{width:125px;height:145px}
-  .dobby-head{width:68px;height:72px}
-  .dobby-head::before{top:8px;left:18px;right:18px;height:14px}
-  .dobby-ear-l{width:44px;height:19px;left:-32px}.dobby-ear-r{width:44px;height:19px;right:-32px}
-  .dobby-eye{width:20px;height:23px;top:22px}
+  .dobby{width:128px;height:150px}
+  .dobby-head{width:70px;height:75px}
+  .dobby-head::before{top:7px;left:16px;right:16px;height:16px}
+  .dobby-ear-l{width:46px;height:20px;left:-34px}.dobby-ear-r{width:46px;height:20px;right:-34px}
+  .dobby-eye{width:21px;height:25px;top:23px}
   .dobby-eye-l{left:10px}.dobby-eye-r{right:10px}
-  .dobby-brow{width:13px;height:3px;top:17px}
-  .dobby-cheek{width:12px;height:7px;bottom:18px}
-  .dobby-nose{width:7px;height:11px;bottom:17px}.dobby-mouth{bottom:11px}
-  .dobby-body{width:44px;height:54px;top:68px}
-  .dobby-belt{top:18px;height:4px}
-  .dobby-arm{height:32px;top:72px}
-  .dobby-arm-l{left:38px}.dobby-arm-r{right:38px}
+  .dobby-brow{width:14px;height:4px;top:18px}
+  .dobby-cheek{width:13px;height:8px;bottom:19px}
+  .dobby-nose{width:9px;height:13px;bottom:16px}.dobby-mouth{width:11px;bottom:10px}
+  .dobby-body{width:46px;height:58px;top:72px}
+  .dobby-belt{top:20px;height:5px}
+  .dobby-arm{width:7px;height:34px;top:76px}
+  .dobby-arm-l{left:40px}.dobby-arm-r{right:40px}
   .puzzle-grid{width:240px}
   .mm-cell{width:42px;height:42px;font-size:1.2em}
   .dobby-speech{padding:12px 16px;font-size:.85em}
