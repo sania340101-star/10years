@@ -1065,8 +1065,8 @@ function showInteract(cfg, container, onDone) {
     let finished = false;
     let moves = 0;
     let lastX = -999, lastY = -999;
-    const MOVE_DIST = 15;
-    const MOVES_NEEDED = 30;
+    const MOVE_DIST = 10;
+    const MOVES_NEEDED = 60;
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
     lbl.textContent = cfg.label;
@@ -1133,118 +1133,6 @@ function showInteract(cfg, container, onDone) {
     skipBtn.textContent = '(или нажмите сюда)';
     skipBtn.addEventListener('click', finishInteract);
     wrap.appendChild(skipBtn);
-  } else if (cfg.type === 'scratch') {
-    let finished = false;
-    const lbl = document.createElement('div');
-    lbl.className = 'interact-label pulse-glow';
-    lbl.textContent = cfg.label;
-    wrap.appendChild(lbl);
-    const scratchWrap = document.createElement('div');
-    scratchWrap.className = 'scratch-wrap';
-    const underEl = document.createElement('div');
-    underEl.className = 'scratch-under';
-    underEl.textContent = cfg.under;
-    scratchWrap.appendChild(underEl);
-    const canvas = document.createElement('canvas');
-    canvas.width = 260; canvas.height = 130;
-    canvas.className = 'scratch-canvas';
-    scratchWrap.appendChild(canvas);
-    wrap.appendChild(scratchWrap);
-    const skip = document.createElement('div');
-    skip.className = 'scratch-skip';
-    skip.textContent = '(или нажмите сюда)';
-    wrap.appendChild(skip);
-    const ctx = canvas.getContext('2d');
-    const grad = ctx.createLinearGradient(0,0,260,130);
-    grad.addColorStop(0,'#8b7daa'); grad.addColorStop(0.5,'#6a5a8e'); grad.addColorStop(1,'#9585b0');
-    ctx.fillStyle = grad; ctx.fillRect(0,0,260,130);
-    ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.font = '16px Cinzel,serif'; ctx.textAlign = 'center';
-    ctx.fillText('☝️ Проведите пальцем', 130, 60);
-    ctx.fillText('чтобы стереть', 130, 82);
-    ctx.globalCompositeOperation = 'destination-out';
-    let scratching = false;
-    const getPos = (e) => {
-      const r = canvas.getBoundingClientRect();
-      const t = e.touches ? e.touches[0] : e;
-      return {x: (t.clientX - r.left) * (canvas.width/r.width), y: (t.clientY - r.top) * (canvas.height/r.height)};
-    };
-    const scratch = (e) => {
-      if (!scratching || finished) return;
-      e.preventDefault();
-      const p = getPos(e);
-      ctx.beginPath(); ctx.arc(p.x, p.y, 22, 0, Math.PI*2); ctx.fill();
-      const data = ctx.getImageData(0,0,canvas.width,canvas.height).data;
-      let clear = 0;
-      for (let i=3; i<data.length; i+=4) if(data[i]===0) clear++;
-      const pct = clear / (canvas.width * canvas.height) * 100;
-      if (pct > 55 && !finished) {
-        finished = true;
-        canvas.style.transition = 'opacity .5s'; canvas.style.opacity = '0';
-        underEl.classList.add('scratch-revealed');
-        lbl.textContent = cfg.done;
-        lbl.classList.remove('pulse-glow');
-        lbl.classList.add('interact-done');
-        sparkle(window.innerWidth/2, window.innerHeight/3);
-        if(navigator.vibrate) navigator.vibrate([50,30,50]);
-        setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1000);
-      }
-    };
-    canvas.addEventListener('mousedown', () => scratching=true);
-    canvas.addEventListener('mouseup', () => scratching=false);
-    canvas.addEventListener('mouseleave', () => scratching=false);
-    canvas.addEventListener('mousemove', scratch);
-    canvas.addEventListener('touchstart', (e) => { scratching=true; e.preventDefault(); }, {passive:false});
-    canvas.addEventListener('touchend', () => scratching=false);
-    canvas.addEventListener('touchmove', scratch, {passive:false});
-    const finishScratch = () => {
-      if (finished) return;
-      finished = true;
-      canvas.style.transition = 'opacity .5s'; canvas.style.opacity = '0';
-      underEl.classList.add('scratch-revealed');
-      lbl.textContent = cfg.done;
-      lbl.classList.remove('pulse-glow');
-      lbl.classList.add('interact-done');
-      sparkle(window.innerWidth/2, window.innerHeight/3);
-      if(navigator.vibrate) navigator.vibrate([50,30,50]);
-      setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1000);
-    };
-    skip.addEventListener('click', finishScratch);
-  } else if (cfg.type === 'reveal') {
-    const lbl = document.createElement('div');
-    lbl.className = 'interact-label pulse-glow';
-    lbl.textContent = cfg.label;
-    wrap.appendChild(lbl);
-    const reveal = document.createElement('div');
-    reveal.className = 'interact-reveal';
-    const hidden = document.createElement('div');
-    hidden.className = 'interact-reveal-text';
-    hidden.textContent = cfg.text;
-    const fog = document.createElement('div');
-    fog.className = 'interact-fog';
-    reveal.appendChild(hidden);
-    reveal.appendChild(fog);
-    wrap.appendChild(reveal);
-    let progress = 0;
-    const onMove = (e) => {
-      e.preventDefault();
-      progress += 3;
-      fog.style.opacity = Math.max(0, 1 - progress/100);
-      hidden.style.opacity = Math.min(1, progress/100);
-      hidden.style.transform = 'scale('+Math.min(1.2, 0.5 + progress/150)+')';
-      if (progress >= 100) {
-        reveal.removeEventListener('touchmove', onMove);
-        reveal.removeEventListener('mousemove', onMove);
-        lbl.textContent = cfg.done;
-        lbl.classList.remove('pulse-glow');
-        lbl.classList.add('interact-done');
-        sparkle(window.innerWidth/2, window.innerHeight/2);
-        if(navigator.vibrate) navigator.vibrate([50,30,50]);
-        setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1000);
-      }
-    };
-    reveal.addEventListener('touchmove', onMove, {passive:false});
-    reveal.addEventListener('mousemove', onMove);
-    reveal.addEventListener('click', () => { progress += 20; onMove({preventDefault:()=>{}}); });
   }
 }
 
