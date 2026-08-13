@@ -1167,11 +1167,6 @@ function showInteract(cfg, container, onDone) {
     canvas.addEventListener('touchstart', (e) => { scratching=true; e.preventDefault(); }, {passive:false});
     canvas.addEventListener('touchend', () => scratching=false);
     canvas.addEventListener('touchmove', doScratch, {passive:false});
-    const skipBtn = document.createElement('div');
-    skipBtn.className = 'scratch-skip';
-    skipBtn.textContent = '(или нажмите сюда)';
-    skipBtn.addEventListener('click', finishInteract);
-    wrap.appendChild(skipBtn);
   }
 }
 
