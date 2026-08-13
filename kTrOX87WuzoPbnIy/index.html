@@ -448,8 +448,8 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
 
 .imgscratch-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;touch-action:none;border-radius:12px}
-.imgscratch-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.5);z-index:3;font-family:'Cinzel',serif;font-size:2.5em;color:var(--gold);text-shadow:0 0 30px rgba(218,165,32,.8),0 0 60px rgba(218,165,32,.4);opacity:0;transition:all .6s ease-out}
-.imgscratch-name.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.imgscratch-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.3);z-index:3;font-family:'Cinzel',serif;font-size:4em;font-weight:bold;color:#fff;text-shadow:0 0 40px var(--gold),0 0 80px var(--gold),0 0 120px rgba(218,165,32,.6),0 2px 4px rgba(0,0,0,.8);opacity:0;transition:all .8s ease-out;letter-spacing:4px}
+.imgscratch-name.visible{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
 .imgtap-active{cursor:pointer;animation:imgPulse 1.5s infinite;border:2px solid rgba(218,165,32,.5)!important;border-radius:12px}
 @keyframes imgPulse{0%,100%{box-shadow:0 0 10px rgba(218,165,32,.3)}50%{box-shadow:0 0 30px rgba(218,165,32,.7)}}
 .imgtap-glow{animation:imgGlow .8s ease-out;border:2px solid var(--gold)!important;border-radius:12px}
@@ -1080,11 +1080,6 @@ function showInteract(cfg, container, onDone) {
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = cfg.color;
     ctx.fillRect(0, 0, 480, 270);
-    ctx.fillStyle = 'rgba(255,255,255,.4)';
-    ctx.font = '18px Cinzel,serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('☝️ Проведите пальцем', 240, 125);
-    ctx.fillText('чтобы стереть', 240, 150);
     ctx.globalCompositeOperation = 'destination-out';
     let scratching = false;
     const finishInteract = () => {
@@ -1098,7 +1093,7 @@ function showInteract(cfg, container, onDone) {
         nameEl.textContent = cfg.revealText;
         imgWrap.appendChild(nameEl);
         setTimeout(() => nameEl.classList.add('visible'), 100);
-        setTimeout(() => { nameEl.style.transition='opacity .5s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 500); }, 2500);
+        setTimeout(() => { nameEl.style.transition='opacity .8s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 800); }, 4000);
       }
       lbl.textContent = cfg.done;
       lbl.classList.remove('pulse-glow');
