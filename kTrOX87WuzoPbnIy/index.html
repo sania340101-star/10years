@@ -447,7 +447,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .comic-choice-icon{font-size:1.4em;flex-shrink:0}
 .comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
 
-.imgscratch-canvas{position:absolute;top:0;left:0;z-index:2;cursor:pointer;touch-action:none;border-radius:12px}
+.imgscratch-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;touch-action:none;border-radius:12px}
 .imgscratch-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.5);z-index:3;font-family:'Cinzel',serif;font-size:2.5em;color:var(--gold);text-shadow:0 0 30px rgba(218,165,32,.8),0 0 60px rgba(218,165,32,.4);opacity:0;transition:all .6s ease-out}
 .imgscratch-name.visible{opacity:1;transform:translate(-50%,-50%) scale(1)}
 .imgtap-active{cursor:pointer;animation:imgPulse 1.5s infinite;border:2px solid rgba(218,165,32,.5)!important;border-radius:12px}
@@ -1063,95 +1063,74 @@ function showInteract(cfg, container, onDone) {
     img.addEventListener('click', handler);
   } else if (cfg.type === 'imgscratch') {
     let finished = false;
+    let moves = 0;
+    const MOVES_NEEDED = 15;
     const lbl = document.createElement('div');
     lbl.className = 'interact-label pulse-glow';
     lbl.textContent = cfg.label;
     wrap.appendChild(lbl);
     const img = document.getElementById('comic-img');
     const imgWrap = img.parentElement;
-    imgWrap.style.position = 'relative';
     const canvas = document.createElement('canvas');
     canvas.className = 'imgscratch-canvas';
-    const rect = img.getBoundingClientRect();
-    canvas.width = rect.width; canvas.height = rect.height;
-    canvas.style.width = '100%'; canvas.style.height = '100%';
+    canvas.width = 480; canvas.height = 270;
     imgWrap.insertBefore(canvas, img.nextSibling);
     const ctx = canvas.getContext('2d');
     ctx.fillStyle = cfg.color;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgba(255,255,255,.3)';
-    ctx.font = (Math.round(canvas.height * 0.08)) + 'px Cinzel,serif';
+    ctx.fillRect(0, 0, 480, 270);
+    ctx.fillStyle = 'rgba(255,255,255,.4)';
+    ctx.font = '18px Cinzel,serif';
     ctx.textAlign = 'center';
-    ctx.fillText('☝️ Проведите пальцем', canvas.width/2, canvas.height * 0.45);
-    ctx.fillText('чтобы стереть', canvas.width/2, canvas.height * 0.55);
+    ctx.fillText('☝️ Проведите пальцем', 240, 125);
+    ctx.fillText('чтобы стереть', 240, 150);
     ctx.globalCompositeOperation = 'destination-out';
     let scratching = false;
+    const finishInteract = () => {
+      if (finished) return;
+      finished = true;
+      canvas.style.transition = 'opacity .6s'; canvas.style.opacity = '0';
+      setTimeout(() => { if(canvas.parentElement) canvas.remove(); }, 600);
+      if (cfg.revealText) {
+        const nameEl = document.createElement('div');
+        nameEl.className = 'imgscratch-name';
+        nameEl.textContent = cfg.revealText;
+        imgWrap.appendChild(nameEl);
+        setTimeout(() => nameEl.classList.add('visible'), 100);
+        setTimeout(() => { nameEl.style.transition='opacity .5s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 500); }, 2500);
+      }
+      lbl.textContent = cfg.done;
+      lbl.classList.remove('pulse-glow');
+      lbl.classList.add('interact-done');
+      const r = img.getBoundingClientRect();
+      sparkle(window.innerWidth/2, r.top + r.height/2);
+      if(navigator.vibrate) navigator.vibrate([50,30,50]);
+      setTimeout(() => { wrap.style.transition='all .4s'; wrap.style.opacity='0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1500);
+    };
     const getPos = (e) => {
       const r = canvas.getBoundingClientRect();
       const t = e.touches ? e.touches[0] : e;
-      return {x: (t.clientX - r.left) * (canvas.width / r.width), y: (t.clientY - r.top) * (canvas.height / r.height)};
+      return {x:(t.clientX-r.left)*(480/r.width), y:(t.clientY-r.top)*(270/r.height)};
     };
     const doScratch = (e) => {
       if (!scratching || finished) return;
       e.preventDefault();
       const p = getPos(e);
-      const radius = Math.max(25, canvas.width * 0.06);
-      ctx.beginPath(); ctx.arc(p.x, p.y, radius, 0, Math.PI * 2); ctx.fill();
-      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
-      let clear = 0;
-      for (let i = 3; i < data.length; i += 16) if (data[i] === 0) clear++;
-      const pct = clear / (canvas.width * canvas.height / 16) * 100;
-      if (pct > 45 && !finished) {
-        finished = true;
-        canvas.style.transition = 'opacity .6s';
-        canvas.style.opacity = '0';
-        setTimeout(() => canvas.remove(), 600);
-        if (cfg.revealText) {
-          const nameEl = document.createElement('div');
-          nameEl.className = 'imgscratch-name';
-          nameEl.textContent = cfg.revealText;
-          imgWrap.appendChild(nameEl);
-          setTimeout(() => nameEl.classList.add('visible'), 100);
-          setTimeout(() => { nameEl.style.transition = 'opacity .5s'; nameEl.style.opacity = '0'; setTimeout(() => nameEl.remove(), 500); }, 2500);
-        }
-        lbl.textContent = cfg.done;
-        lbl.classList.remove('pulse-glow');
-        lbl.classList.add('interact-done');
-        sparkle(window.innerWidth / 2, rect.top + rect.height / 2);
-        if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
-        setTimeout(() => { wrap.style.transition = 'all .4s'; wrap.style.opacity = '0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1500);
-      }
+      ctx.beginPath(); ctx.arc(p.x, p.y, 30, 0, Math.PI*2); ctx.fill();
+      moves++;
+      if(moves % 3 === 0 && navigator.vibrate) navigator.vibrate(10);
+      if (moves >= MOVES_NEEDED) finishInteract();
     };
-    canvas.addEventListener('mousedown', () => scratching = true);
-    canvas.addEventListener('mouseup', () => scratching = false);
-    canvas.addEventListener('mouseleave', () => scratching = false);
+    canvas.addEventListener('mousedown', () => scratching=true);
+    canvas.addEventListener('mouseup', () => scratching=false);
+    canvas.addEventListener('mouseleave', () => scratching=false);
     canvas.addEventListener('mousemove', doScratch);
-    canvas.addEventListener('touchstart', (e) => { scratching = true; e.preventDefault(); }, {passive: false});
-    canvas.addEventListener('touchend', () => scratching = false);
-    canvas.addEventListener('touchmove', doScratch, {passive: false});
+    canvas.addEventListener('touchstart', (e) => { scratching=true; e.preventDefault(); }, {passive:false});
+    canvas.addEventListener('touchend', () => scratching=false);
+    canvas.addEventListener('touchmove', doScratch, {passive:false});
     const skipBtn = document.createElement('div');
     skipBtn.className = 'scratch-skip';
     skipBtn.textContent = '(или нажмите сюда)';
-    skipBtn.addEventListener('click', () => {
-      if (finished) return;
-      finished = true;
-      canvas.style.transition = 'opacity .6s'; canvas.style.opacity = '0';
-      setTimeout(() => canvas.remove(), 600);
-      if (cfg.revealText) {
-        const nameEl = document.createElement('div');
-        nameEl.className = 'imgscratch-name';
-        imgWrap.appendChild(nameEl);
-        nameEl.textContent = cfg.revealText;
-        setTimeout(() => nameEl.classList.add('visible'), 100);
-        setTimeout(() => { nameEl.style.transition = 'opacity .5s'; nameEl.style.opacity = '0'; setTimeout(() => nameEl.remove(), 500); }, 2500);
-      }
-      lbl.textContent = cfg.done;
-      lbl.classList.remove('pulse-glow');
-      lbl.classList.add('interact-done');
-      sparkle(window.innerWidth / 2, rect.top + rect.height / 2);
-      if (navigator.vibrate) navigator.vibrate([50, 30, 50]);
-      setTimeout(() => { wrap.style.transition = 'all .4s'; wrap.style.opacity = '0'; setTimeout(() => { wrap.remove(); onDone(); }, 400); }, 1500);
-    });
+    skipBtn.addEventListener('click', finishInteract);
     wrap.appendChild(skipBtn);
   } else if (cfg.type === 'scratch') {
     let finished = false;
