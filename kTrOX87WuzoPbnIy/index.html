@@ -715,46 +715,198 @@ function toggleVoice() {
   }
 }
 
+const SCENE_FX = {
+  s0: [
+    {type:'glow',x:65,y:25,w:25,h:40,color:'#40d0ff',pulse:true},
+    {type:'flame',x:65,y:20,spread:12,color:'#40d0ff',count:8}
+  ],
+  s0_a: [
+    {type:'glow',x:55,y:40,w:20,h:30,color:'#40d0ff',pulse:true},
+    {type:'sparkle',x:50,y:35,spread:25,color:'#80e0ff',count:6}
+  ],
+  s1: [
+    {type:'glow',x:28,y:55,w:22,h:25,color:'#ffaa00',pulse:true},
+    {type:'sparkle',x:28,y:50,spread:15,color:'#ffd700',count:8},
+    {type:'glow',x:47,y:8,w:15,h:15,color:'#cc88ff',pulse:true}
+  ],
+  s2a: [
+    {type:'glow',x:8,y:50,w:12,h:20,color:'#ff8800',pulse:true},
+    {type:'glow',x:5,y:58,w:8,h:12,color:'#ffaa00',pulse:true},
+    {type:'fireflies',x:50,y:40,spread:40,count:10},
+    {type:'glow',x:50,y:60,w:30,h:15,color:'#40ffa0',pulse:true,opacity:0.15}
+  ],
+  s2a_a: [
+    {type:'glow',x:45,y:45,w:20,h:20,color:'#ffd700',pulse:true},
+    {type:'sparkle',x:45,y:40,spread:20,color:'#ffd700',count:10}
+  ],
+  s2a_b: [
+    {type:'fireflies',x:50,y:40,spread:40,count:12},
+    {type:'glow',x:50,y:70,w:40,h:10,color:'#80ffcc',pulse:true,opacity:0.15}
+  ],
+  s2b: [
+    {type:'glow',x:80,y:65,w:15,h:20,color:'#ff6600',pulse:true},
+    {type:'flame',x:80,y:60,spread:8,color:'#ff6600',count:6},
+    {type:'glow',x:30,y:35,w:30,h:40,color:'#ff2200',pulse:true,opacity:0.1}
+  ],
+  s2b_a: [
+    {type:'sparkle',x:50,y:40,spread:35,color:'#80c0ff',count:8},
+    {type:'glow',x:50,y:50,w:40,h:30,color:'#6060ff',pulse:true,opacity:0.12}
+  ],
+  s2b_b: [
+    {type:'glow',x:50,y:70,w:25,h:20,color:'#ffaa00',pulse:true},
+    {type:'flame',x:50,y:55,spread:15,color:'#ff8800',count:12},
+    {type:'sparkle',x:50,y:50,spread:15,color:'#ffcc00',count:6}
+  ],
+  s2_mid: [
+    {type:'fireflies',x:50,y:50,spread:45,count:15},
+    {type:'glow',x:45,y:20,w:30,h:20,color:'#ffcc40',pulse:true,opacity:0.1}
+  ],
+  s2_mid_a: [
+    {type:'fog',x:70,y:60,w:40,h:30,color:'#1a0530'},
+    {type:'fireflies',x:30,y:60,spread:25,count:6}
+  ],
+  s2_mid_b: [
+    {type:'glow',x:45,y:60,w:15,h:15,color:'#ffd700',pulse:true},
+    {type:'fog',x:70,y:50,w:35,h:35,color:'#1a0530'}
+  ],
+  s3: [
+    {type:'glow',x:20,y:25,w:8,h:8,color:'#cc44ff',pulse:true},
+    {type:'glow',x:75,y:15,w:8,h:8,color:'#cc44ff',pulse:true},
+    {type:'glow',x:50,y:65,w:12,h:12,color:'#ffcc00',pulse:true},
+    {type:'fog',x:50,y:80,w:80,h:25,color:'#2d1050'}
+  ],
+  s3_a: [
+    {type:'candle',x:75,y:30},
+    {type:'glow',x:75,y:32,w:10,h:15,color:'#ffaa40',pulse:true},
+    {type:'glow',x:50,y:60,w:40,h:20,color:'#ffcc80',pulse:true,opacity:0.08}
+  ],
+  s3_b: [
+    {type:'glow',x:50,y:15,w:30,h:25,color:'#ffcc00',pulse:true},
+    {type:'sparkle',x:50,y:20,spread:25,color:'#ffd700',count:15},
+    {type:'glow',x:15,y:40,w:6,h:6,color:'#ff2020',pulse:true},
+    {type:'glow',x:85,y:40,w:6,h:6,color:'#ff4400',pulse:true}
+  ],
+  s4a: [
+    {type:'snow',count:25},
+    {type:'glow',x:30,y:65,w:12,h:15,color:'#ff6600',pulse:true},
+    {type:'flame',x:30,y:60,spread:6,color:'#ff8830',count:5}
+  ],
+  s4a_a: [
+    {type:'glow',x:50,y:60,w:15,h:15,color:'#ffd700',pulse:true},
+    {type:'sparkle',x:50,y:55,spread:12,color:'#ffd700',count:5}
+  ],
+  s4a_b: [
+    {type:'snow',count:15},
+    {type:'sparkle',x:50,y:50,spread:30,color:'#ffe080',count:8}
+  ],
+  s4: [
+    {type:'sparkle',x:50,y:45,spread:20,color:'#ffd700',count:10},
+    {type:'glow',x:50,y:50,w:25,h:20,color:'#ffd700',pulse:true}
+  ],
+  s5: [
+    {type:'glow',x:65,y:55,w:20,h:25,color:'#ffd700',pulse:true},
+    {type:'sparkle',x:65,y:45,spread:25,color:'#ffd700',count:15},
+    {type:'fireflies',x:40,y:30,spread:35,count:10}
+  ]
+};
 let fxInterval = null;
-function startPanelFx(type) {
+function startPanelFx(sceneId) {
   stopPanelFx();
+  const hotspots = SCENE_FX[sceneId]; if (!hotspots) return;
   const panel = document.getElementById('comic-panel');
   let container = panel.querySelector('.panel-fx');
   if (!container) { container = document.createElement('div'); container.className = 'panel-fx'; panel.appendChild(container); }
   container.innerHTML = '';
   const W = panel.offsetWidth, H = panel.offsetHeight;
-  const configs = {
-    fireflies: {count:12, colors:['#90ff90','#c0ff60','#ffff80','#60ff90'], size:[3,6], speed:0.3, glow:true, drift:true},
-    fire: {count:15, colors:['#ff6020','#ff9030','#ffcc00','#ff4500'], size:[3,7], speed:0.8, glow:true, rise:true, bottom:true},
-    sparkle: {count:10, colors:['#f0c040','#ffe082','#fff8dc','#daa520'], size:[2,5], speed:0.4, glow:true, blink:true},
-    snow: {count:20, colors:['#ffffff','#e0e8ff','#c8d8ff'], size:[2,5], speed:0.5, fall:true},
-    fog: {count:8, colors:['#1a0a2e','#2d1050','#0d0520'], size:[40,80], speed:0.15, fog:true}
-  };
-  const cfg = configs[type]; if (!cfg) return;
   const particles = [];
-  for (let i = 0; i < cfg.count; i++) {
-    const el = document.createElement('div');
-    el.className = 'fx-particle';
-    const sz = cfg.size[0] + Math.random() * (cfg.size[1] - cfg.size[0]);
-    const color = cfg.colors[Math.floor(Math.random() * cfg.colors.length)];
-    el.style.width = sz + 'px'; el.style.height = sz + 'px'; el.style.background = color;
-    if (cfg.glow) el.style.boxShadow = '0 0 ' + sz*2 + 'px ' + color;
-    if (cfg.fog) { el.style.borderRadius = '50%'; el.style.background = 'radial-gradient(circle,'+color+',transparent)'; el.style.opacity = '0.4'; }
-    const x = Math.random() * W, y = cfg.bottom ? H - Math.random() * H * 0.3 : Math.random() * H;
-    el.style.left = x + 'px'; el.style.top = y + 'px';
-    container.appendChild(el);
-    particles.push({el, x, y, sz, ox: x, oy: y, phase: Math.random() * Math.PI * 2, speed: cfg.speed * (0.5 + Math.random())});
-  }
-  let t = 0;
+  hotspots.forEach(h => {
+    if (h.type === 'glow') {
+      const el = document.createElement('div');
+      el.className = 'fx-particle';
+      const w = (h.w||20)/100*W, ht = (h.h||20)/100*H;
+      Object.assign(el.style, {width:w+'px',height:ht+'px',left:(h.x/100*W-w/2)+'px',top:(h.y/100*H-ht/2)+'px',
+        background:'radial-gradient(ellipse,'+h.color+',transparent 70%)',borderRadius:'50%',opacity:String(h.opacity||0.35)});
+      container.appendChild(el);
+      if (h.pulse) particles.push({el,type:'glow',baseOp:h.opacity||0.35,phase:Math.random()*6.28});
+    }
+    if (h.type === 'flame') {
+      for (let i=0;i<(h.count||8);i++) {
+        const el = document.createElement('div'); el.className='fx-particle';
+        const sz = 3+Math.random()*4, cx = h.x/100*W+(Math.random()-.5)*(h.spread||10)/100*W;
+        const cy = h.y/100*H;
+        Object.assign(el.style,{width:sz+'px',height:sz+'px',background:h.color||'#ff8830',
+          boxShadow:'0 0 '+sz*3+'px '+(h.color||'#ff8830'),left:cx+'px',top:cy+'px',borderRadius:'50%'});
+        container.appendChild(el);
+        particles.push({el,type:'flame',ox:cx,oy:cy,phase:Math.random()*6.28,speed:0.5+Math.random()*0.5,
+          spread:(h.spread||10)/100*W,H});
+      }
+    }
+    if (h.type === 'candle') {
+      const cx = h.x/100*W, cy = h.y/100*H;
+      for (let i=0;i<3;i++) {
+        const el = document.createElement('div'); el.className='fx-particle';
+        const sz=2+Math.random()*2;
+        Object.assign(el.style,{width:sz+'px',height:sz*1.5+'px',background:'#ffcc40',
+          boxShadow:'0 0 8px #ffaa20, 0 0 20px #ff880060',left:(cx-sz/2+Math.random()*4-2)+'px',top:(cy-i*3)+'px',borderRadius:'50% 50% 50% 50% / 60% 60% 40% 40%'});
+        container.appendChild(el);
+        particles.push({el,type:'candle',ox:cx,oy:cy-i*3,phase:Math.random()*6.28});
+      }
+    }
+    if (h.type === 'sparkle') {
+      for (let i=0;i<(h.count||8);i++) {
+        const el = document.createElement('div'); el.className='fx-particle';
+        const sz=2+Math.random()*3;
+        const cx=h.x/100*W+(Math.random()-.5)*(h.spread||20)/100*W*2;
+        const cy=h.y/100*H+(Math.random()-.5)*(h.spread||20)/100*H*2;
+        Object.assign(el.style,{width:sz+'px',height:sz+'px',background:h.color||'#ffd700',
+          boxShadow:'0 0 '+sz*3+'px '+(h.color||'#ffd700'),left:cx+'px',top:cy+'px',borderRadius:'50%',opacity:'0'});
+        container.appendChild(el);
+        particles.push({el,type:'sparkle',ox:cx,oy:cy,phase:Math.random()*6.28,speed:1+Math.random()});
+      }
+    }
+    if (h.type === 'fireflies') {
+      for (let i=0;i<(h.count||10);i++) {
+        const el = document.createElement('div'); el.className='fx-particle';
+        const sz=2+Math.random()*3, colors=['#90ff90','#c0ff60','#ffff80','#60ff90'];
+        const color=colors[Math.floor(Math.random()*4)];
+        const cx=h.x/100*W+(Math.random()-.5)*(h.spread||30)/100*W*2;
+        const cy=h.y/100*H+(Math.random()-.5)*(h.spread||30)/100*H*2;
+        Object.assign(el.style,{width:sz+'px',height:sz+'px',background:color,
+          boxShadow:'0 0 '+sz*3+'px '+color,left:cx+'px',top:cy+'px',borderRadius:'50%'});
+        container.appendChild(el);
+        particles.push({el,type:'firefly',ox:cx,oy:cy,phase:Math.random()*6.28,speed:0.3+Math.random()*0.3});
+      }
+    }
+    if (h.type === 'snow') {
+      for (let i=0;i<(h.count||20);i++) {
+        const el = document.createElement('div'); el.className='fx-particle';
+        const sz=1.5+Math.random()*3;
+        Object.assign(el.style,{width:sz+'px',height:sz+'px',background:'#fff',
+          boxShadow:'0 0 '+sz*2+'px rgba(255,255,255,.8)',left:Math.random()*W+'px',top:Math.random()*H+'px',borderRadius:'50%',opacity:String(.4+Math.random()*.5)});
+        container.appendChild(el);
+        particles.push({el,type:'snow',x:Math.random()*W,y:Math.random()*H,phase:Math.random()*6.28,speed:.3+Math.random()*.4,W,H});
+      }
+    }
+    if (h.type === 'fog') {
+      const el = document.createElement('div'); el.className='fx-particle';
+      const w=(h.w||30)/100*W, ht=(h.h||20)/100*H;
+      Object.assign(el.style,{width:w+'px',height:ht+'px',left:(h.x/100*W-w/2)+'px',top:(h.y/100*H-ht/2)+'px',
+        background:'radial-gradient(ellipse,'+(h.color||'#1a0530')+',transparent 70%)',borderRadius:'50%',opacity:'0.4'});
+      container.appendChild(el);
+      particles.push({el,type:'fog',ox:h.x/100*W-w/2,phase:Math.random()*6.28});
+    }
+  });
+  let t=0;
   fxInterval = setInterval(() => {
-    t += 0.03;
+    t+=0.03;
     particles.forEach(p => {
-      if (cfg.drift) { p.x = p.ox + Math.sin(t * p.speed + p.phase) * 20; p.y = p.oy + Math.cos(t * p.speed * 0.7 + p.phase) * 15; }
-      if (cfg.rise) { p.y -= p.speed * 1.5; if (p.y < -10) { p.y = H; p.x = p.ox + (Math.random()-0.5) * 30; } }
-      if (cfg.fall) { p.y += p.speed; p.x += Math.sin(t + p.phase) * 0.3; if (p.y > H + 10) { p.y = -10; p.x = Math.random() * W; } }
-      if (cfg.fog) { p.x = p.ox + Math.sin(t * p.speed * 0.3 + p.phase) * 40; }
-      p.el.style.left = p.x + 'px'; p.el.style.top = p.y + 'px';
-      if (cfg.blink) p.el.style.opacity = 0.3 + Math.sin(t * 2 + p.phase) * 0.7;
+      if (p.type==='glow') p.el.style.opacity = String(p.baseOp*(0.7+Math.sin(t*1.5+p.phase)*0.3));
+      if (p.type==='flame') { p.el.style.top=(p.oy-Math.abs(Math.sin(t*p.speed*3+p.phase))*25)+'px'; p.el.style.left=(p.ox+Math.sin(t*2+p.phase)*4)+'px'; p.el.style.opacity=String(.3+Math.sin(t*p.speed*4+p.phase)*.7); }
+      if (p.type==='candle') { p.el.style.left=(p.ox+Math.sin(t*3+p.phase)*2)+'px'; p.el.style.opacity=String(.5+Math.sin(t*4+p.phase)*.5); }
+      if (p.type==='sparkle') { const v=Math.sin(t*p.speed+p.phase); p.el.style.opacity=String(Math.max(0,v)); if(v<-0.8){p.el.style.left=(p.ox+(Math.random()-.5)*20)+'px';p.el.style.top=(p.oy+(Math.random()-.5)*20)+'px';} }
+      if (p.type==='firefly') { p.el.style.left=(p.ox+Math.sin(t*p.speed+p.phase)*25)+'px'; p.el.style.top=(p.oy+Math.cos(t*p.speed*.7+p.phase)*18)+'px'; p.el.style.opacity=String(.2+Math.sin(t*2+p.phase)*.8); }
+      if (p.type==='snow') { p.y+=p.speed; p.x+=Math.sin(t+p.phase)*.4; if(p.y>p.H){p.y=-5;p.x=Math.random()*p.W;} p.el.style.left=p.x+'px'; p.el.style.top=p.y+'px'; }
+      if (p.type==='fog') { p.el.style.left=(p.ox+Math.sin(t*0.2+p.phase)*15)+'px'; p.el.style.opacity=String(.25+Math.sin(t*0.5+p.phase)*.15); }
     });
   }, 33);
 }
@@ -876,7 +1028,7 @@ const COMIC = {
   s0: {
     img:'comic/s0.jpg',
     text:'Глубоко в подземельях Хогвартса Добби нашёл древний свиток пророчества. Магические руны светились в темноте: «Тот, кто найдёт золотой сундук, должен хранить его, пока не явится та, чьё имя проявит магия...»',
-    fx:'sparkle',
+
     choices:[
       {text:'Немедленно искать сундук!',icon:'🏃',next:'s1'},
       {text:'Расшифровать весь свиток',icon:'📜',next:'s0_a'}
@@ -885,13 +1037,13 @@ const COMIC = {
   s0_a: {
     img:'comic/s0_a.jpg',
     text:'Добби провёл целую ночь над свитком. Древние руны открыли ещё одну тайну: «Сундук охраняет башня на краю мира. Тьма будет преследовать хранителя, но чистое сердце победит...» Добби сжал кулаки — он готов!',
-    fx:'sparkle',
+
     next:'s1'
   },
   s1: {
     img:'comic/s1.jpg',
     text:'И вот, в заброшенной башне древних волшебников, Добби обнаружил его — сияющий золотой сундук! Внутри чувствовалась мощная магия. Это был подарок, предназначенный для кого-то особенного. Но путь к получателю был полон опасностей...',
-    fx:'fire',
+
     interact:{type:'imgtap', label:'✨ Нажмите на сундук!', done:'Сундук засиял!'},
     choices:[
       {text:'Пойти через Волшебный Лес',icon:'🌲',next:'s2a'},
@@ -901,7 +1053,7 @@ const COMIC = {
   s2a: {
     img:'comic/s2a.jpg',
     text:'В зачарованном лесу Добби встретил величественного серебряного единорога на каменном мосту. Единорог не пропускал никого без доказательства чистого сердца...',
-    fx:'fireflies',
+
     choices:[
       {text:'Подарить свой любимый носок',icon:'🧦',next:'s2a_a'},
       {text:'Предложить дружбу',icon:'🤝',next:'s2a_b'}
@@ -910,19 +1062,19 @@ const COMIC = {
   s2a_a: {
     img:'comic/s2a_a.jpg',
     text:'Добби протянул свой самый ценный носок — символ свободы. Единорог был тронут такой жертвой и склонил голову. Золотой свет соединил их, и единорог благословил сундук защитным заклинанием.',
-    fx:'sparkle',
+
     next:'s2_mid'
   },
   s2a_b: {
     img:'comic/s2a_b.jpg',
     text:'Добби просто протянул руку и сказал: «Добби хочет быть другом!» Единорог почувствовал искренность и они пошли по волшебной тропе вместе, освещая путь магическим светом.',
-    fx:'fireflies',
+
     next:'s2_mid'
   },
   s2b: {
     img:'comic/s2b.jpg',
     text:'В подземных пещерах три хитрых гоблина окружили Добби. Они хотели забрать золотой сундук себе! Добби должен был найти выход...',
-    fx:'fire',
+
     choices:[
       {text:'Загадать загадку',icon:'🧩',next:'s2b_a'},
       {text:'Помочь починить кузницу',icon:'🔨',next:'s2b_b'}
@@ -931,19 +1083,19 @@ const COMIC = {
   s2b_a: {
     img:'comic/s2b_a.jpg',
     text:'«Что можно хранить 10 лет, и оно станет только ценнее?» — спросил Добби. Гоблины чесали затылки, но не смогли ответить. «Любовь!» — сказал Добби, и магические руны осветили пещеру, открывая тайный проход.',
-    fx:'sparkle',
+
     next:'s2_mid'
   },
   s2b_b: {
     img:'comic/s2b_b.jpg',
     text:'Добби увидел, что великая кузница гоблинов сломана, и предложил помощь. Вместе они разожгли магическое пламя и починили древний горн. Благодарные гоблины подарили Добби защитный амулет.',
-    fx:'fire',
+
     next:'s2_mid'
   },
   s2_mid: {
     img:'comic/s2_mid.jpg',
     text:'Добби шёл через волшебный луг на закате. Светлячки танцевали в тёплом воздухе, полевые цветы светились магическим светом. Вдруг Добби почувствовал холод — что-то тёмное приближалось...',
-    fx:'fireflies',
+
     choices:[
       {text:'Бежать к Хогвартсу!',icon:'🏰',next:'s2_mid_a'},
       {text:'Приготовиться к бою!',icon:'⚔️',next:'s2_mid_b'}
@@ -952,19 +1104,19 @@ const COMIC = {
   s2_mid_a: {
     img:'comic/s2_mid_a.jpg',
     text:'Добби побежал изо всех сил! Маленькие ножки мелькали среди цветов, а за спиной тени становились всё ближе. Сундук светился, указывая путь. Но на полпути дорогу перекрыла стена тьмы...',
-    fx:'fog',
+
     next:'s3'
   },
   s2_mid_b: {
     img:'comic/s2_mid_b.jpg',
     text:'Добби остановился и прижал сундук к груди. «Добби не боится! Добби свободный эльф!» — крикнул он в надвигающуюся тьму. Его храбрость на мгновение замедлила тени, но их было слишком много...',
-    fx:'fog',
+
     next:'s3'
   },
   s3: {
     img:'comic/s3.jpg',
     text:'Тёмные дементоры вышли из тьмы и окружили Добби! Они не смогли отнять сундук, но наложили на него 3 могущественных заклинания! Холод пронизывал до костей, но Добби крепко прижимал сокровище...',
-    fx:'fog',
+
     interact:{type:'imgscratch', label:'👆 Сотрите тьму с картинки!', color:'rgba(10,5,25,.85)', done:'Тьма рассеялась!'},
     choices:[
       {text:'Спрятаться в Хогвартсе',icon:'🏰',next:'s3_a'},
@@ -974,19 +1126,19 @@ const COMIC = {
   s3_a: {
     img:'comic/s3_a.jpg',
     text:'Добби нашёл убежище на кухне Хогвартса среди верных домовых эльфов. Древняя магия замка прогнала дементоров, но их заклинания остались на сундуке... Снять их сможет лишь та, чьё имя проявится на свитке!',
-    fx:'fire',
+
     next:'s4a'
   },
   s3_b: {
     img:'comic/s3_b.jpg',
     text:'Добби поднял свой носок высоко над головой, и он засиял ослепительным золотым светом! Мощный магический щит разметал дементоров, но их заклинания уже впились в сундук... Снять их сможет лишь избранная!',
-    fx:'sparkle',
+
     next:'s4a'
   },
   s4a: {
     img:'comic/s4a.jpg',
     text:'Зимы сменялись вёснами... Добби сидел один в снегу, обнимая сундук. Маленький шарф едва согревал. Годы шли, а заклинания не слабели. Добби начал сомневаться...',
-    fx:'snow',
+
     choices:[
       {text:'Добби не сдаётся!',icon:'💪',next:'s4a_a'},
       {text:'Позвать друзей-эльфов',icon:'🤝',next:'s4a_b'}
@@ -995,26 +1147,26 @@ const COMIC = {
   s4a_a: {
     img:'comic/s4a_a.jpg',
     text:'«Нет! Добби обещал!» — эльф стиснул зубы и обнял сундук ещё крепче. Каждую ночь он шептал сундуку: «Добби сохранит тебя. Добби свободный эльф, и свободные эльфы держат слово!» И сундук каждый раз отвечал тёплым свечением...',
-    fx:'sparkle',
+
     next:'s4'
   },
   s4a_b: {
     img:'comic/s4a_b.jpg',
     text:'Добби послал весточку в Хогвартс, и верные домовые эльфы пришли на помощь! Они по очереди грели сундук, пели колыбельные и не давали заклинаниям усилиться. Вместе — они выстояли все 10 зим!',
-    fx:'snow',
+
     next:'s4'
   },
   s4: {
     img:'comic/s4.jpg',
     text:'Прошло 10 долгих лет. И вот однажды, на древнем свитке пророчества, начали проявляться золотые буквы...',
-    fx:'sparkle',
+
     interact:{type:'imgscratch', label:'👆 Сотрите туман — проявите имя!', color:'rgba(80,50,120,.8)', done:'Имя проявилось! Момент настал!', revealText:'Кэтти'},
     next:'s5'
   },
   s5: {
     img:'comic/s5.jpg',
     text:'Добби открыл сундук, и оттуда хлынул волшебный свет! Но заклинания дементоров всё ещё держат сокровище... Чтобы снять все 3 заклинания, мисс Кэтти должна пройти 3 магических испытания!',
-    fx:'sparkle',
+
     final:true
   }
 };
@@ -1068,7 +1220,7 @@ function showComicScene(id) {
       panel.style.opacity = '1';
       panel.style.transform = 'translateY(0)';
       playVoice(id);
-      if (scene.fx) startPanelFx(scene.fx);
+      startPanelFx(id);
       comicTypewrite(narr, scene.text, () => {
         const showButtons = () => {
           if (scene.choices) {
