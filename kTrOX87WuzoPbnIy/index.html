@@ -939,7 +939,7 @@ function startBgMusic() {
   const bg = document.getElementById('bg-music');
   if (!bg.paused) return;
   bg.currentTime = 0;
-  bg.volume = 0.3;
+  bg.volume = 0.15;
   if (bg.readyState >= 2) { bg.play().catch(() => {}); }
   else { bg.addEventListener('canplay', function h() { bg.play().catch(() => {}); bg.removeEventListener('canplay', h); }); }
 }
@@ -947,7 +947,7 @@ function fadeBgMusic() {
   const bg = document.getElementById('bg-music');
   if (bg.paused) return;
   let v = bg.volume;
-  const fade = setInterval(() => { v -= 0.03; if (v <= 0) { bg.pause(); bg.volume = 0.3; clearInterval(fade); } else bg.volume = v; }, 80);
+  const fade = setInterval(() => { v -= 0.015; if (v <= 0) { bg.pause(); bg.volume = 0.15; clearInterval(fade); } else bg.volume = v; }, 80);
 }
 
 function startComic() {
