@@ -1453,13 +1453,14 @@ document.getElementById('song-audio').addEventListener('ended', () => {
   const imgFiles = Object.values(COMIC).map(s => s.img);
   const audioFiles = Object.keys(COMIC).concat(['intro','trans1','trans2','trans3','final']).map(k => 'comic/' + k + '.mp3');
   const total = imgFiles.length + audioFiles.length;
-  let loaded = 0;
+  let loaded = 0, started = false;
   function tick() {
     loaded++;
-    const pct = Math.round(loaded / total * 100);
+    const pct = Math.min(100, Math.round(loaded / total * 100));
     bar.style.width = pct + '%';
     txt.textContent = 'Загрузка магии... ' + pct + '%';
-    if (loaded >= total) {
+    if (loaded >= total && !started) {
+      started = true;
       setTimeout(() => showScreen('screen-intro'), 300);
     }
   }
@@ -1471,12 +1472,12 @@ document.getElementById('song-audio').addEventListener('ended', () => {
   });
   audioFiles.forEach(src => {
     const a = new Audio();
-    a.oncanplaythrough = tick;
+    a.addEventListener('canplaythrough', tick, {once:true});
     a.onerror = tick;
     a.preload = 'auto';
     a.src = src;
   });
-  setTimeout(() => { if (loaded < total) { loaded = total; showScreen('screen-intro'); } }, 15000);
+  setTimeout(() => { if (loaded < total) { loaded = total; tick(); } }, 15000);
 })();
 </script>
 </body>
