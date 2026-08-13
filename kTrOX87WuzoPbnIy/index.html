@@ -448,9 +448,11 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 .comic-counter{font-size:.75em;opacity:.5;margin-bottom:8px;position:relative;z-index:1}
 
 .imgscratch-canvas{position:absolute;top:0;left:0;width:100%;height:100%;z-index:2;cursor:pointer;touch-action:none;border-radius:12px}
-.imgscratch-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.3);z-index:3;font-family:'Cinzel',serif;font-size:4em;font-weight:bold;background:linear-gradient(135deg,#f0c040,#ffe082,#f0c040,#daa520);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 30px rgba(218,165,32,.8)) drop-shadow(0 0 60px rgba(218,165,32,.5)) drop-shadow(0 2px 4px rgba(0,0,0,.8));opacity:0;transition:all .8s ease-out;letter-spacing:4px;animation:nameGlow 2s ease-in-out infinite}
-.imgscratch-name.visible{opacity:1;transform:translate(-50%,-50%) scale(1.1)}
-@keyframes nameGlow{0%,100%{filter:drop-shadow(0 0 30px rgba(218,165,32,.8)) drop-shadow(0 0 60px rgba(218,165,32,.5)) drop-shadow(0 2px 4px rgba(0,0,0,.8))}50%{filter:drop-shadow(0 0 50px rgba(218,165,32,1)) drop-shadow(0 0 90px rgba(218,165,32,.7)) drop-shadow(0 2px 4px rgba(0,0,0,.8))}}
+.imgscratch-name{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.3);z-index:3;font-family:'Cinzel',serif;font-size:3.5em;font-weight:bold;background:linear-gradient(135deg,#daa520,#f0c040 20%,#ffe082 40%,#fff8dc 50%,#ffe082 60%,#f0c040 80%,#daa520);background-size:200% 200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 20px rgba(218,165,32,.9)) drop-shadow(0 0 50px rgba(218,165,32,.6)) drop-shadow(0 0 80px rgba(218,165,32,.3));opacity:0;transition:all 1s ease-out;letter-spacing:6px;padding:16px 24px}
+.imgscratch-name::before{content:'';position:absolute;inset:-20px;background:radial-gradient(ellipse,rgba(218,165,32,.25),transparent 70%);border-radius:50%;z-index:-1}
+.imgscratch-name.visible{opacity:1;transform:translate(-50%,-50%) scale(1.1);animation:nameShimmer 3s linear infinite,nameGlow 2s ease-in-out infinite}
+@keyframes nameShimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+@keyframes nameGlow{0%,100%{filter:drop-shadow(0 0 20px rgba(218,165,32,.9)) drop-shadow(0 0 50px rgba(218,165,32,.6)) drop-shadow(0 0 80px rgba(218,165,32,.3))}50%{filter:drop-shadow(0 0 35px rgba(218,165,32,1)) drop-shadow(0 0 70px rgba(218,165,32,.8)) drop-shadow(0 0 100px rgba(218,165,32,.4))}}
 .imgtap-active{cursor:pointer;animation:imgPulse 1.5s infinite;border:2px solid rgba(218,165,32,.5)!important;border-radius:12px}
 @keyframes imgPulse{0%,100%{box-shadow:0 0 10px rgba(218,165,32,.3)}50%{box-shadow:0 0 30px rgba(218,165,32,.7)}}
 .imgtap-glow{animation:imgGlow .8s ease-out;border:2px solid var(--gold)!important;border-radius:12px}
@@ -1127,7 +1129,10 @@ function showInteract(cfg, container, onDone) {
         nameEl.textContent = cfg.revealText;
         imgWrap.appendChild(nameEl);
         setTimeout(() => nameEl.classList.add('visible'), 100);
-        setTimeout(() => { nameEl.style.transition='opacity .8s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 800); }, 4000);
+        const r2 = img.getBoundingClientRect();
+        const cx = r2.x + r2.width/2, cy = r2.y + r2.height/2;
+        sparkle(cx, cy); setTimeout(() => sparkle(cx-40, cy-20), 300); setTimeout(() => sparkle(cx+40, cy+10), 600); setTimeout(() => sparkle(cx, cy-30), 900);
+        setTimeout(() => { nameEl.style.transition='opacity .8s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 800); }, 5000);
       }
       lbl.textContent = cfg.done;
       lbl.classList.remove('pulse-glow');
