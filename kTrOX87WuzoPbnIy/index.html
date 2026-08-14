@@ -1741,7 +1741,7 @@ function showInteract(cfg, container, onDone) {
         const r2 = img.getBoundingClientRect();
         const cx = r2.x + r2.width/2, cy = r2.y + r2.height/2;
         sparkle(cx, cy); setTimeout(() => sparkle(cx-40, cy-20), 300); setTimeout(() => sparkle(cx+40, cy+10), 600); setTimeout(() => sparkle(cx, cy-30), 900);
-        setTimeout(() => { nameEl.style.transition='opacity .8s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 800); }, 5000);
+        setTimeout(() => { nameEl.style.transition='opacity .8s'; nameEl.style.opacity='0'; setTimeout(() => { if(nameEl.parentElement) nameEl.remove(); }, 800); }, 4000);
       }
       lbl.textContent = cfg.done;
       lbl.classList.remove('pulse-glow');
