@@ -1008,12 +1008,12 @@ function toggleVoice() {
 
 const SCENE_FX = {
   s0: [
-    {type:'glow',x:62,y:35,w:28,h:50,color:'#40d0ff',pulse:true,opacity:0.5},
-    {type:'flame',x:62,y:20,spread:12,color:'#40d0ff',count:14}
+    {type:'glow',x:65,y:35,w:28,h:50,color:'#40d0ff',pulse:true,opacity:0.5},
+    {type:'flame',x:65,y:22,spread:12,color:'#40d0ff',count:14}
   ],
   s0_a: [
-    {type:'candle',x:73,y:42},
-    {type:'glow',x:73,y:48,w:16,h:24,color:'#ffaa40',pulse:true,opacity:0.5},
+    {type:'candle',x:72,y:45},
+    {type:'glow',x:72,y:50,w:16,h:24,color:'#ffaa40',pulse:true,opacity:0.5},
     {type:'glow',x:50,y:68,w:40,h:18,color:'#ffcc80',pulse:true,opacity:0.12}
   ],
   s1: [
@@ -1023,9 +1023,9 @@ const SCENE_FX = {
     {type:'fireflies',x:55,y:30,spread:35,count:10}
   ],
   s2a: [
-    {type:'glow',x:8,y:62,w:14,h:22,color:'#ff8800',pulse:true,opacity:0.55},
-    {type:'glow',x:10,y:55,w:10,h:16,color:'#ffaa00',pulse:true,opacity:0.45},
-    {type:'glow',x:6,y:68,w:8,h:12,color:'#ff9920',pulse:true,opacity:0.4},
+    {type:'glow',x:10,y:65,w:14,h:22,color:'#ff8800',pulse:true,opacity:0.55},
+    {type:'glow',x:12,y:58,w:10,h:16,color:'#ffaa00',pulse:true,opacity:0.45},
+    {type:'glow',x:8,y:72,w:8,h:12,color:'#ff9920',pulse:true,opacity:0.4},
     {type:'fireflies',x:50,y:40,spread:42,count:16},
     {type:'glow',x:50,y:15,w:40,h:20,color:'#40ffa0',pulse:true,opacity:0.12}
   ],
@@ -1039,9 +1039,9 @@ const SCENE_FX = {
     {type:'glow',x:50,y:40,w:40,h:40,color:'#40c8c0',pulse:true,opacity:0.1}
   ],
   s2b: [
-    {type:'glow',x:78,y:65,w:18,h:22,color:'#ff6600',pulse:true,opacity:0.55},
-    {type:'flame',x:78,y:58,spread:8,color:'#ff6600',count:12},
-    {type:'glow',x:22,y:32,w:30,h:40,color:'#ff2200',pulse:true,opacity:0.15}
+    {type:'glow',x:78,y:72,w:18,h:22,color:'#ff6600',pulse:true,opacity:0.55},
+    {type:'flame',x:78,y:65,spread:8,color:'#ff6600',count:12},
+    {type:'glow',x:22,y:38,w:30,h:40,color:'#ff2200',pulse:true,opacity:0.15}
   ],
   s2b_a: [
     {type:'sparkle',x:50,y:35,spread:28,color:'#80e0c0',count:12},
@@ -1058,9 +1058,10 @@ const SCENE_FX = {
     {type:'sparkle',x:55,y:48,spread:12,color:'#ffd700',count:6}
   ],
   s2_mid_a: [
-    {type:'glow',x:48,y:48,w:12,h:12,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'glow',x:60,y:65,w:50,h:20,color:'#ff8830',pulse:true,opacity:0.1},
-    {type:'fog',x:70,y:50,w:45,h:40,color:'#1a0530'}
+    {type:'glow',x:55,y:55,w:16,h:16,color:'#ff8830',pulse:true,opacity:0.4},
+    {type:'glow',x:60,y:65,w:50,h:25,color:'#ff6620',pulse:true,opacity:0.12},
+    {type:'fog',x:70,y:50,w:45,h:40,color:'#1a0530'},
+    {type:'fireflies',x:50,y:40,spread:40,count:12}
   ],
   s2_mid_b: [
     {type:'glow',x:43,y:52,w:14,h:14,color:'#ffd700',pulse:true,opacity:0.5},
@@ -1069,16 +1070,17 @@ const SCENE_FX = {
     {type:'fog',x:70,y:55,w:40,h:35,color:'#1a0530'}
   ],
   s3: [
-    {type:'glow',x:22,y:35,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.55},
-    {type:'glow',x:78,y:28,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.45},
-    {type:'glow',x:48,y:18,w:18,h:18,color:'#8888cc',pulse:true,opacity:0.2},
-    {type:'glow',x:55,y:65,w:14,h:14,color:'#ffcc00',pulse:true,opacity:0.5},
-    {type:'fog',x:50,y:85,w:90,h:28,color:'#2d1050'}
+    {type:'glow',x:24,y:32,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.55},
+    {type:'glow',x:75,y:30,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.45},
+    {type:'glow',x:48,y:14,w:18,h:18,color:'#8888cc',pulse:true,opacity:0.2},
+    {type:'glow',x:55,y:62,w:14,h:14,color:'#ffcc00',pulse:true,opacity:0.5},
+    {type:'fog',x:50,y:85,w:90,h:28,color:'#2d1050'},
+    {type:'sparkle',x:55,y:58,spread:12,color:'#ffcc00',count:8}
   ],
   s3_a: [
-    {type:'candle',x:72,y:22},
-    {type:'glow',x:72,y:28,w:14,h:20,color:'#ffaa40',pulse:true,opacity:0.55},
-    {type:'glow',x:22,y:22,w:12,h:18,color:'#4488aa',pulse:true,opacity:0.15},
+    {type:'candle',x:75,y:35},
+    {type:'glow',x:75,y:40,w:14,h:20,color:'#ffaa40',pulse:true,opacity:0.55},
+    {type:'glow',x:25,y:35,w:18,h:22,color:'#4488aa',pulse:true,opacity:0.12},
     {type:'glow',x:50,y:55,w:45,h:25,color:'#ffcc80',pulse:true,opacity:0.08}
   ],
   s3_b: [
@@ -1089,8 +1091,8 @@ const SCENE_FX = {
   ],
   s4a: [
     {type:'snow',count:35},
-    {type:'glow',x:30,y:65,w:16,h:20,color:'#ff6600',pulse:true,opacity:0.55},
-    {type:'flame',x:30,y:58,spread:8,color:'#ff8830',count:10}
+    {type:'glow',x:28,y:70,w:16,h:20,color:'#ff6600',pulse:true,opacity:0.55},
+    {type:'flame',x:28,y:62,spread:8,color:'#ff8830',count:10}
   ],
   s4a_a: [
     {type:'snow',count:30},
@@ -1229,9 +1231,9 @@ function stopPanelFx() {
 // ===== SCREEN FX (games & transitions) =====
 let screenFxInterval = null;
 const SCREEN_FX = {
-  'screen-game1': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0'],count:12,speed:0.4},
-  'screen-game2': {type:'ambient',colors:['#40d0ff','#80ffcc','#c4a0ff'],count:14,speed:0.35},
-  'screen-game3': {type:'ambient',colors:['#ffd700','#ff6600','#ffaa40'],count:10,speed:0.5},
+  'screen-game1': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0','#40d0ff'],count:22,speed:0.5},
+  'screen-game2': {type:'ambient',colors:['#40d0ff','#80ffcc','#c4a0ff','#ffd700'],count:24,speed:0.45},
+  'screen-game3': {type:'ambient',colors:['#ffd700','#ff6600','#ffaa40','#ff88d0'],count:20,speed:0.55},
   'screen-trans1': {type:'celebration',colors:['#ffd700','#ff88d0','#40d0ff','#80ff80'],count:24},
   'screen-trans2': {type:'celebration',colors:['#ffd700','#c4a0ff','#ff6600','#40ffa0'],count:28},
   'screen-trans3': {type:'celebration',colors:['#ffd700','#ffaa40','#fff','#ff88d0','#40d0ff'],count:35},
@@ -1253,9 +1255,10 @@ function startScreenFx(screenId) {
   for (let i = 0; i < cfg.count; i++) {
     const el = document.createElement('div');
     const color = cfg.colors[Math.floor(Math.random()*cfg.colors.length)];
-    const sz = cfg.type==='celebration' ? 3+Math.random()*5 : 2+Math.random()*4;
+    const sz = cfg.type==='celebration' ? 3+Math.random()*5 : 3+Math.random()*5;
+    const glowMul = cfg.type==='celebration' ? 3 : 4;
     Object.assign(el.style,{position:'absolute',width:sz+'px',height:sz+'px',background:color,
-      borderRadius:'50%',boxShadow:'0 0 '+sz*3+'px '+sz+'px '+color,opacity:'0'});
+      borderRadius:'50%',boxShadow:'0 0 '+sz*glowMul+'px '+sz*1.5+'px '+color,opacity:'0'});
     container.appendChild(el);
     particles.push({el,x:Math.random()*W,y:Math.random()*H,
       phase:Math.random()*6.28,speed:(cfg.speed||0.4)+Math.random()*0.3,
@@ -1268,7 +1271,7 @@ function startScreenFx(screenId) {
       if (p.type === 'ambient') {
         p.el.style.left = (p.x+Math.sin(t*p.speed+p.phase)*40)+'px';
         p.el.style.top = (p.y+Math.cos(t*p.speed*0.7+p.phase)*30)+'px';
-        p.el.style.opacity = String(.15+Math.sin(t*1.5+p.phase)*.15);
+        p.el.style.opacity = String(.25+Math.sin(t*1.5+p.phase)*.2);
       } else {
         p.y -= p.speed*0.8;
         p.x += Math.sin(t+p.phase)*0.5;
