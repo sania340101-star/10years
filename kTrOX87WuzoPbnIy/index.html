@@ -1009,8 +1009,9 @@ function toggleVoice() {
 
 const SCENE_FX = {
   s0: [
-    {type:'glow',x:65,y:35,w:28,h:50,color:'#40d0ff',pulse:true,opacity:0.5},
-    {type:'flame',x:65,y:22,spread:12,color:'#40d0ff',count:14}
+    {type:'glow',x:68,y:35,w:28,h:50,color:'#40d0ff',pulse:true,opacity:0.5},
+    {type:'flame',x:68,y:22,spread:12,color:'#40d0ff',count:14},
+    {type:'sparkle',x:68,y:30,spread:10,color:'#80e0ff',count:8}
   ],
   s0_a: [
     {type:'candle',x:75,y:40},
@@ -1095,8 +1096,8 @@ const SCENE_FX = {
   ],
   s4a: [
     {type:'snow',count:35},
-    {type:'glow',x:28,y:70,w:16,h:20,color:'#ff6600',pulse:true,opacity:0.55},
-    {type:'flame',x:28,y:62,spread:8,color:'#ff8830',count:10}
+    {type:'glow',x:34,y:70,w:16,h:20,color:'#ff6600',pulse:true,opacity:0.55},
+    {type:'flame',x:34,y:62,spread:8,color:'#ff8830',count:10}
   ],
   s4a_a: [
     {type:'snow',count:30},
@@ -1235,6 +1236,8 @@ function stopPanelFx() {
 // ===== SCREEN FX (games & transitions) =====
 let screenFxInterval = null;
 const SCREEN_FX = {
+  'screen-intro': {type:'ambient',colors:['#f0c040','#c4a0ff','#ff88d0','#80d0ff','#ffd700'],count:35,speed:0.45},
+  'screen-comic': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0','#40d0ff'],count:28,speed:0.4},
   'screen-game1': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0','#40d0ff'],count:22,speed:0.5},
   'screen-game2': {type:'ambient',colors:['#40d0ff','#80ffcc','#c4a0ff','#ffd700'],count:24,speed:0.45},
   'screen-game3': {type:'ambient',colors:['#ffd700','#ff6600','#ffaa40','#ff88d0'],count:20,speed:0.55},
