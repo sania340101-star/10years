@@ -1236,6 +1236,7 @@ function stopPanelFx() {
 // ===== SCREEN FX (games & transitions) =====
 let screenFxInterval = null;
 const SCREEN_FX = {
+  'screen-loading': {type:'ambient',colors:['#f0c040','#c4a0ff','#ff88d0','#40d0ff'],count:30,speed:0.4},
   'screen-intro': {type:'ambient',colors:['#f0c040','#c4a0ff','#ff88d0','#80d0ff','#ffd700'],count:35,speed:0.45},
   'screen-comic': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0','#40d0ff'],count:28,speed:0.4},
   'screen-game1': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0','#40d0ff'],count:22,speed:0.5},
@@ -1323,6 +1324,7 @@ function stopScreenFx() {
     pc.appendChild(p);
   }
 })();
+startScreenFx('screen-loading');
 
 // ===== TYPEWRITER =====
 let twTimer = null;
