@@ -1008,105 +1008,112 @@ function toggleVoice() {
 
 const SCENE_FX = {
   s0: [
-    {type:'glow',x:65,y:28,w:30,h:50,color:'#40d0ff',pulse:true,opacity:0.5},
-    {type:'flame',x:65,y:18,spread:15,color:'#40d0ff',count:14}
+    {type:'glow',x:62,y:35,w:28,h:50,color:'#40d0ff',pulse:true,opacity:0.5},
+    {type:'flame',x:62,y:20,spread:12,color:'#40d0ff',count:14}
   ],
   s0_a: [
-    {type:'candle',x:75,y:48},
-    {type:'glow',x:75,y:52,w:18,h:28,color:'#ffaa40',pulse:true,opacity:0.5},
-    {type:'glow',x:50,y:62,w:30,h:18,color:'#ffcc80',pulse:true,opacity:0.12}
+    {type:'candle',x:73,y:42},
+    {type:'glow',x:73,y:48,w:16,h:24,color:'#ffaa40',pulse:true,opacity:0.5},
+    {type:'glow',x:50,y:68,w:40,h:18,color:'#ffcc80',pulse:true,opacity:0.12}
   ],
   s1: [
-    {type:'glow',x:30,y:60,w:28,h:32,color:'#ffaa00',pulse:true,opacity:0.5},
-    {type:'sparkle',x:30,y:52,spread:18,color:'#ffd700',count:12},
-    {type:'glow',x:47,y:8,w:18,h:18,color:'#cc88ff',pulse:true,opacity:0.4},
-    {type:'fireflies',x:50,y:35,spread:35,count:8}
+    {type:'glow',x:28,y:52,w:26,h:30,color:'#ffaa00',pulse:true,opacity:0.5},
+    {type:'sparkle',x:28,y:45,spread:18,color:'#ffd700',count:12},
+    {type:'glow',x:48,y:12,w:18,h:18,color:'#cc88ff',pulse:true,opacity:0.35},
+    {type:'fireflies',x:55,y:30,spread:35,count:10}
   ],
   s2a: [
-    {type:'glow',x:8,y:58,w:16,h:28,color:'#ff8800',pulse:true,opacity:0.55},
-    {type:'glow',x:5,y:65,w:12,h:18,color:'#ffaa00',pulse:true,opacity:0.45},
+    {type:'glow',x:8,y:62,w:14,h:22,color:'#ff8800',pulse:true,opacity:0.55},
+    {type:'glow',x:10,y:55,w:10,h:16,color:'#ffaa00',pulse:true,opacity:0.45},
+    {type:'glow',x:6,y:68,w:8,h:12,color:'#ff9920',pulse:true,opacity:0.4},
     {type:'fireflies',x:50,y:40,spread:42,count:16},
-    {type:'glow',x:50,y:60,w:45,h:20,color:'#40ffa0',pulse:true,opacity:0.15}
+    {type:'glow',x:50,y:15,w:40,h:20,color:'#40ffa0',pulse:true,opacity:0.12}
   ],
   s2a_a: [
-    {type:'glow',x:42,y:42,w:28,h:28,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'sparkle',x:42,y:38,spread:24,color:'#ffd700',count:14}
+    {type:'glow',x:42,y:18,w:14,h:14,color:'#ffd700',pulse:true,opacity:0.5},
+    {type:'glow',x:50,y:35,w:40,h:40,color:'#ffd700',pulse:true,opacity:0.12},
+    {type:'sparkle',x:46,y:28,spread:28,color:'#ffd700',count:14}
   ],
   s2a_b: [
-    {type:'fireflies',x:50,y:45,spread:48,count:20},
-    {type:'glow',x:50,y:78,w:50,h:15,color:'#80ffcc',pulse:true,opacity:0.18}
+    {type:'fireflies',x:50,y:45,spread:48,count:22},
+    {type:'glow',x:50,y:40,w:40,h:40,color:'#40c8c0',pulse:true,opacity:0.1}
   ],
   s2b: [
-    {type:'glow',x:82,y:70,w:20,h:25,color:'#ff6600',pulse:true,opacity:0.55},
-    {type:'flame',x:82,y:62,spread:10,color:'#ff6600',count:12},
-    {type:'glow',x:25,y:40,w:38,h:48,color:'#ff2200',pulse:true,opacity:0.15}
+    {type:'glow',x:78,y:65,w:18,h:22,color:'#ff6600',pulse:true,opacity:0.55},
+    {type:'flame',x:78,y:58,spread:8,color:'#ff6600',count:12},
+    {type:'glow',x:22,y:32,w:30,h:40,color:'#ff2200',pulse:true,opacity:0.15}
   ],
   s2b_a: [
-    {type:'sparkle',x:55,y:32,spread:30,color:'#80e0c0',count:12},
-    {type:'glow',x:50,y:45,w:50,h:40,color:'#40c0a0',pulse:true,opacity:0.15}
+    {type:'sparkle',x:50,y:35,spread:28,color:'#80e0c0',count:12},
+    {type:'glow',x:50,y:40,w:50,h:45,color:'#40c0a0',pulse:true,opacity:0.12}
   ],
   s2b_b: [
-    {type:'glow',x:50,y:72,w:32,h:28,color:'#ffaa00',pulse:true,opacity:0.55},
-    {type:'flame',x:50,y:55,spread:20,color:'#ff8800',count:18},
-    {type:'sparkle',x:50,y:40,spread:22,color:'#ffcc00',count:12}
+    {type:'glow',x:50,y:75,w:30,h:24,color:'#ffaa00',pulse:true,opacity:0.55},
+    {type:'flame',x:50,y:55,spread:18,color:'#ff8800',count:18},
+    {type:'sparkle',x:50,y:35,spread:20,color:'#ffcc00',count:14}
   ],
   s2_mid: [
     {type:'fireflies',x:50,y:55,spread:48,count:18},
-    {type:'glow',x:42,y:20,w:38,h:28,color:'#ffcc40',pulse:true,opacity:0.15},
-    {type:'sparkle',x:58,y:48,spread:12,color:'#ffd700',count:6}
+    {type:'glow',x:32,y:30,w:30,h:22,color:'#ffcc40',pulse:true,opacity:0.18},
+    {type:'sparkle',x:55,y:48,spread:12,color:'#ffd700',count:6}
   ],
   s2_mid_a: [
-    {type:'glow',x:42,y:55,w:14,h:14,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'fog',x:70,y:60,w:45,h:35,color:'#1a0530'}
+    {type:'glow',x:48,y:48,w:12,h:12,color:'#ffd700',pulse:true,opacity:0.5},
+    {type:'glow',x:60,y:65,w:50,h:20,color:'#ff8830',pulse:true,opacity:0.1},
+    {type:'fog',x:70,y:50,w:45,h:40,color:'#1a0530'}
   ],
   s2_mid_b: [
-    {type:'glow',x:42,y:55,w:16,h:16,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'glow',x:78,y:32,w:10,h:10,color:'#ffaa40',pulse:true,opacity:0.4},
-    {type:'fog',x:75,y:55,w:38,h:38,color:'#1a0530'}
+    {type:'glow',x:43,y:52,w:14,h:14,color:'#ffd700',pulse:true,opacity:0.5},
+    {type:'glow',x:82,y:28,w:8,h:8,color:'#ffaa40',pulse:true,opacity:0.45},
+    {type:'glow',x:82,y:35,w:8,h:8,color:'#ffaa40',pulse:true,opacity:0.4},
+    {type:'fog',x:70,y:55,w:40,h:35,color:'#1a0530'}
   ],
   s3: [
-    {type:'glow',x:20,y:32,w:12,h:12,color:'#cc44ff',pulse:true,opacity:0.55},
-    {type:'glow',x:50,y:10,w:16,h:16,color:'#8888cc',pulse:true,opacity:0.2},
-    {type:'glow',x:55,y:65,w:16,h:16,color:'#ffcc00',pulse:true,opacity:0.5},
+    {type:'glow',x:22,y:35,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.55},
+    {type:'glow',x:78,y:28,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.45},
+    {type:'glow',x:48,y:18,w:18,h:18,color:'#8888cc',pulse:true,opacity:0.2},
+    {type:'glow',x:55,y:65,w:14,h:14,color:'#ffcc00',pulse:true,opacity:0.5},
     {type:'fog',x:50,y:85,w:90,h:28,color:'#2d1050'}
   ],
   s3_a: [
-    {type:'candle',x:75,y:32},
-    {type:'glow',x:75,y:35,w:14,h:20,color:'#ffaa40',pulse:true,opacity:0.55},
-    {type:'glow',x:50,y:55,w:45,h:25,color:'#ffcc80',pulse:true,opacity:0.1}
+    {type:'candle',x:72,y:22},
+    {type:'glow',x:72,y:28,w:14,h:20,color:'#ffaa40',pulse:true,opacity:0.55},
+    {type:'glow',x:22,y:22,w:12,h:18,color:'#4488aa',pulse:true,opacity:0.15},
+    {type:'glow',x:50,y:55,w:45,h:25,color:'#ffcc80',pulse:true,opacity:0.08}
   ],
   s3_b: [
-    {type:'glow',x:50,y:18,w:38,h:32,color:'#ffcc00',pulse:true,opacity:0.55},
-    {type:'sparkle',x:50,y:22,spread:32,color:'#ffd700',count:22},
-    {type:'glow',x:15,y:40,w:10,h:10,color:'#ff2020',pulse:true,opacity:0.55},
-    {type:'glow',x:85,y:40,w:10,h:10,color:'#ff4400',pulse:true,opacity:0.55}
+    {type:'glow',x:50,y:15,w:40,h:30,color:'#ffcc00',pulse:true,opacity:0.55},
+    {type:'sparkle',x:50,y:18,spread:35,color:'#ffd700',count:24},
+    {type:'glow',x:12,y:35,w:8,h:8,color:'#ff2020',pulse:true,opacity:0.55},
+    {type:'glow',x:88,y:38,w:8,h:8,color:'#ff4400',pulse:true,opacity:0.55}
   ],
   s4a: [
     {type:'snow',count:35},
-    {type:'glow',x:32,y:68,w:18,h:22,color:'#ff6600',pulse:true,opacity:0.55},
-    {type:'flame',x:32,y:60,spread:8,color:'#ff8830',count:10}
+    {type:'glow',x:30,y:65,w:16,h:20,color:'#ff6600',pulse:true,opacity:0.55},
+    {type:'flame',x:30,y:58,spread:8,color:'#ff8830',count:10}
   ],
   s4a_a: [
     {type:'snow',count:30},
-    {type:'glow',x:50,y:68,w:24,h:24,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'sparkle',x:50,y:62,spread:16,color:'#ffd700',count:10}
+    {type:'glow',x:48,y:65,w:22,h:22,color:'#ffd700',pulse:true,opacity:0.5},
+    {type:'sparkle',x:48,y:58,spread:16,color:'#ffd700',count:10}
   ],
   s4a_b: [
-    {type:'glow',x:50,y:73,w:22,h:20,color:'#ffaa00',pulse:true,opacity:0.5},
-    {type:'glow',x:50,y:8,w:16,h:14,color:'#40c0a0',pulse:true,opacity:0.35},
-    {type:'candle',x:28,y:70},
-    {type:'candle',x:72,y:70},
-    {type:'flame',x:50,y:60,spread:25,color:'#ff8800',count:12}
+    {type:'glow',x:50,y:72,w:22,h:20,color:'#ffaa00',pulse:true,opacity:0.5},
+    {type:'glow',x:50,y:12,w:14,h:12,color:'#40c0a0',pulse:true,opacity:0.3},
+    {type:'candle',x:38,y:75},
+    {type:'candle',x:62,y:78},
+    {type:'flame',x:50,y:62,spread:22,color:'#ff8800',count:12}
   ],
   s4: [
-    {type:'glow',x:70,y:55,w:28,h:38,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'sparkle',x:70,y:45,spread:24,color:'#ffd700',count:16},
-    {type:'snow',count:15}
+    {type:'glow',x:72,y:50,w:30,h:40,color:'#ffd700',pulse:true,opacity:0.5},
+    {type:'sparkle',x:72,y:38,spread:26,color:'#ffd700',count:18},
+    {type:'flame',x:72,y:42,spread:12,color:'#ff8820',count:8},
+    {type:'snow',count:12}
   ],
   s5: [
-    {type:'glow',x:62,y:58,w:25,h:30,color:'#ffd700',pulse:true,opacity:0.5},
-    {type:'sparkle',x:58,y:42,spread:42,color:'#ffd700',count:22},
-    {type:'fireflies',x:40,y:30,spread:42,count:18}
+    {type:'glow',x:62,y:65,w:28,h:30,color:'#ffd700',pulse:true,opacity:0.5},
+    {type:'sparkle',x:65,y:40,spread:42,color:'#ffd700',count:26},
+    {type:'fireflies',x:40,y:30,spread:45,count:20}
   ]
 };
 let fxInterval = null;
@@ -1215,6 +1222,64 @@ function stopPanelFx() {
   const c = document.querySelector('.panel-fx'); if (c) c.innerHTML = '';
 }
 
+// ===== SCREEN FX (games & transitions) =====
+let screenFxInterval = null;
+const SCREEN_FX = {
+  'screen-game1': {type:'ambient',colors:['#c4a0ff','#ffd700','#ff88d0'],count:12,speed:0.4},
+  'screen-game2': {type:'ambient',colors:['#40d0ff','#80ffcc','#c4a0ff'],count:14,speed:0.35},
+  'screen-game3': {type:'ambient',colors:['#ffd700','#ff6600','#ffaa40'],count:10,speed:0.5},
+  'screen-trans1': {type:'celebration',colors:['#ffd700','#ff88d0','#40d0ff','#80ff80'],count:24},
+  'screen-trans2': {type:'celebration',colors:['#ffd700','#c4a0ff','#ff6600','#40ffa0'],count:28},
+  'screen-trans3': {type:'celebration',colors:['#ffd700','#ffaa40','#fff','#ff88d0','#40d0ff'],count:35},
+  'screen-final': {type:'celebration',colors:['#ffd700','#ffaa40','#fff','#ff88d0'],count:20}
+};
+function startScreenFx(screenId) {
+  stopScreenFx();
+  const cfg = SCREEN_FX[screenId]; if (!cfg) return;
+  const screen = document.getElementById(screenId); if (!screen) return;
+  let container = screen.querySelector('.screen-fx');
+  if (!container) { container = document.createElement('div'); container.className = 'screen-fx';
+    Object.assign(container.style,{position:'absolute',inset:'0',overflow:'hidden',pointerEvents:'none',zIndex:'0',borderRadius:'inherit'});
+    screen.style.position = 'relative';
+    screen.insertBefore(container, screen.firstChild);
+  }
+  container.innerHTML = '';
+  const particles = [];
+  const W = screen.offsetWidth || 360, H = screen.offsetHeight || 600;
+  for (let i = 0; i < cfg.count; i++) {
+    const el = document.createElement('div');
+    const color = cfg.colors[Math.floor(Math.random()*cfg.colors.length)];
+    const sz = cfg.type==='celebration' ? 3+Math.random()*5 : 2+Math.random()*4;
+    Object.assign(el.style,{position:'absolute',width:sz+'px',height:sz+'px',background:color,
+      borderRadius:'50%',boxShadow:'0 0 '+sz*3+'px '+sz+'px '+color,opacity:'0'});
+    container.appendChild(el);
+    particles.push({el,x:Math.random()*W,y:Math.random()*H,
+      phase:Math.random()*6.28,speed:(cfg.speed||0.4)+Math.random()*0.3,
+      type:cfg.type,W,H,sz});
+  }
+  let t = 0;
+  screenFxInterval = setInterval(() => {
+    t += 0.02;
+    particles.forEach(p => {
+      if (p.type === 'ambient') {
+        p.el.style.left = (p.x+Math.sin(t*p.speed+p.phase)*40)+'px';
+        p.el.style.top = (p.y+Math.cos(t*p.speed*0.7+p.phase)*30)+'px';
+        p.el.style.opacity = String(.15+Math.sin(t*1.5+p.phase)*.15);
+      } else {
+        p.y -= p.speed*0.8;
+        p.x += Math.sin(t+p.phase)*0.5;
+        if (p.y < -10) { p.y = p.H+10; p.x = Math.random()*p.W; }
+        p.el.style.left = p.x+'px'; p.el.style.top = p.y+'px';
+        p.el.style.opacity = String(.3+Math.sin(t*2+p.phase)*.3);
+      }
+    });
+  }, 33);
+}
+function stopScreenFx() {
+  if (screenFxInterval) { clearInterval(screenFxInterval); screenFxInterval = null; }
+  document.querySelectorAll('.screen-fx').forEach(c => c.innerHTML = '');
+}
+
 // ===== STARS + PARTICLES =====
 (function(){
   const c = document.getElementById('stars');
@@ -1288,6 +1353,8 @@ function showScreen(id) {
     el.classList.add('active','fade-in');
     setTimeout(() => el.classList.remove('fade-in'), 800);
     window.scrollTo(0,0);
+    stopScreenFx();
+    if (SCREEN_FX[id]) setTimeout(() => startScreenFx(id), 400);
   }, prev && prev !== el ? 300 : 0);
 
   const speech = el.querySelector('.dobby-speech[data-speech]');
