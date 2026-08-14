@@ -808,7 +808,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 <button id="voice-toggle" onclick="toggleVoice()" style="position:fixed;top:12px;right:12px;z-index:9999;background:rgba(42,21,72,.8);border:1px solid rgba(240,192,64,.4);border-radius:50%;width:40px;height:40px;font-size:1.2em;cursor:pointer;color:#fff;backdrop-filter:blur(8px)">🔊</button>
 
 <!-- LOADING -->
-<div class="screen active" id="screen-loading" style="justify-content:center;gap:20px">
+<div class="screen active" id="screen-loading" style="justify-content:center;gap:20px;padding-top:0;padding-bottom:0">
   <h1>Магический Квест</h1>
   <p style="color:#e8daf0;font-size:.9em" id="loading-text">Загрузка магии...</p>
   <div style="width:80%;max-width:300px;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;border:1px solid rgba(240,192,64,.3)">
@@ -1012,8 +1012,8 @@ const SCENE_FX = {
     {type:'flame',x:65,y:22,spread:12,color:'#40d0ff',count:14}
   ],
   s0_a: [
-    {type:'candle',x:72,y:45},
-    {type:'glow',x:72,y:50,w:16,h:24,color:'#ffaa40',pulse:true,opacity:0.5},
+    {type:'candle',x:75,y:40},
+    {type:'glow',x:75,y:45,w:16,h:24,color:'#ffaa40',pulse:true,opacity:0.5},
     {type:'glow',x:50,y:68,w:40,h:18,color:'#ffcc80',pulse:true,opacity:0.12}
   ],
   s1: [
@@ -1070,12 +1070,12 @@ const SCENE_FX = {
     {type:'fog',x:70,y:55,w:40,h:35,color:'#1a0530'}
   ],
   s3: [
-    {type:'glow',x:24,y:32,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.55},
-    {type:'glow',x:75,y:30,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.45},
+    {type:'glow',x:28,y:27,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.55},
+    {type:'glow',x:72,y:27,w:10,h:10,color:'#cc44ff',pulse:true,opacity:0.45},
     {type:'glow',x:48,y:14,w:18,h:18,color:'#8888cc',pulse:true,opacity:0.2},
-    {type:'glow',x:55,y:62,w:14,h:14,color:'#ffcc00',pulse:true,opacity:0.5},
+    {type:'glow',x:60,y:60,w:14,h:14,color:'#ffcc00',pulse:true,opacity:0.5},
     {type:'fog',x:50,y:85,w:90,h:28,color:'#2d1050'},
-    {type:'sparkle',x:55,y:58,spread:12,color:'#ffcc00',count:8}
+    {type:'sparkle',x:60,y:56,spread:12,color:'#ffcc00',count:8}
   ],
   s3_a: [
     {type:'candle',x:75,y:35},
@@ -1245,7 +1245,7 @@ function startScreenFx(screenId) {
   const screen = document.getElementById(screenId); if (!screen) return;
   let container = screen.querySelector('.screen-fx');
   if (!container) { container = document.createElement('div'); container.className = 'screen-fx';
-    Object.assign(container.style,{position:'absolute',inset:'0',overflow:'hidden',pointerEvents:'none',zIndex:'0',borderRadius:'inherit'});
+    Object.assign(container.style,{position:'absolute',inset:'0',overflow:'hidden',pointerEvents:'none',zIndex:'2',borderRadius:'inherit'});
     screen.style.position = 'relative';
     screen.insertBefore(container, screen.firstChild);
   }
@@ -1880,6 +1880,7 @@ function moveTile(idx) {
   const er = Math.floor(empty/3), ec = empty%3;
   if (Math.abs(row-er)+Math.abs(col-ec)===1) {
     [puzzleState[idx],puzzleState[empty]] = [puzzleState[empty],puzzleState[idx]];
+    if(navigator.vibrate) navigator.vibrate(20);
     puzzleMoves++;
     document.getElementById('puzzle-moves').textContent = puzzleMoves;
     renderPuzzle();
@@ -1915,7 +1916,7 @@ function showRiddle() {
     const btn = document.createElement('button');
     btn.className = 'riddle-opt';
     btn.textContent = o;
-    btn.onclick = () => checkRiddle(i,btn);
+    btn.onclick = () => { if(navigator.vibrate) navigator.vibrate(40); checkRiddle(i,btn); };
     opts.appendChild(btn);
   });
 }
@@ -1983,10 +1984,10 @@ function renderNumpad() {
   pad.innerHTML = '';
   MM_DIGITS.forEach(d => {
     const k = document.createElement('button'); k.className = 'mm-key';
-    k.textContent = d; k.onclick = () => mmInput(d); pad.appendChild(k);
+    k.textContent = d; k.onclick = () => { if(navigator.vibrate) navigator.vibrate(20); mmInput(d); }; pad.appendChild(k);
   });
   const del = document.createElement('button'); del.className = 'mm-key action';
-  del.textContent = '⌫'; del.onclick = () => mmDelete(); pad.appendChild(del);
+  del.textContent = '⌫'; del.onclick = () => { if(navigator.vibrate) navigator.vibrate(20); mmDelete(); }; pad.appendChild(del);
 }
 
 function mmInput(d) {
