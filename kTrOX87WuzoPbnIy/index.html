@@ -821,7 +821,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
   <div class="dobby-slot"></div>
   <h1>Мисс Кэтти!<br>У Добби есть история...</h1>
   <div class="dobby-speech" data-speech="intro"></div>
-  <button class="btn gold tw-hidden" data-tw-btn onclick="startComic()">Узнать историю</button>
+  <button class="btn gold tw-hidden" data-tw-btn onclick="if(navigator.vibrate)navigator.vibrate(40);startComic()">Узнать историю</button>
 </div>
 
 <!-- COMIC STORY -->
@@ -853,7 +853,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
     <div class="progress-dot current"></div>
     <div class="progress-dot"></div>
   </div>
-  <button class="btn tw-hidden" data-tw-btn onclick="startGame(2)">Продолжить</button>
+  <button class="btn tw-hidden" data-tw-btn onclick="if(navigator.vibrate)navigator.vibrate(40);startGame(2)">Продолжить</button>
 </div>
 
 <!-- GAME 2: RIDDLES -->
@@ -878,7 +878,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
     <div class="progress-dot done"></div>
     <div class="progress-dot current"></div>
   </div>
-  <button class="btn tw-hidden" data-tw-btn onclick="startGame(3)">Продолжить</button>
+  <button class="btn tw-hidden" data-tw-btn onclick="if(navigator.vibrate)navigator.vibrate(40);startGame(3)">Продолжить</button>
 </div>
 
 <!-- GAME 3: MASTERMIND -->
@@ -900,7 +900,7 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
     <div class="progress-dot done"></div>
     <div class="progress-dot done"></div>
   </div>
-  <button class="btn gold tw-hidden" data-tw-btn onclick="showFinal()">Открыть сокровище!</button>
+  <button class="btn gold tw-hidden" data-tw-btn onclick="if(navigator.vibrate)navigator.vibrate(40);showFinal()">Открыть сокровище!</button>
 </div>
 
 <!-- FINAL -->
@@ -1605,6 +1605,7 @@ function showComicScene(id) {
               btn.style.opacity = '0';
               btn.style.transform = 'translateX(-20px)';
               btn.onclick = () => {
+                if (navigator.vibrate) navigator.vibrate(40);
                 const r = btn.getBoundingClientRect();
                 sparkle(r.x + r.width/2, r.y);
                 showComicScene(c.next);
@@ -1622,7 +1623,7 @@ function showComicScene(id) {
             btn.textContent = 'Начать испытания!';
             btn.style.opacity = '0';
             btn.style.marginTop = '16px';
-            btn.onclick = () => { sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
+            btn.onclick = () => { if (navigator.vibrate) navigator.vibrate(40); sparkle(window.innerWidth/2, window.innerHeight/2); startGame(1); };
             choices.appendChild(btn);
             setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
           } else if (scene.next) {
@@ -1631,7 +1632,7 @@ function showComicScene(id) {
             btn.textContent = 'Продолжить →';
             btn.style.opacity = '0';
             btn.style.marginTop = '16px';
-            btn.onclick = () => showComicScene(scene.next);
+            btn.onclick = () => { if (navigator.vibrate) navigator.vibrate(40); showComicScene(scene.next); };
             choices.appendChild(btn);
             setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
           }
