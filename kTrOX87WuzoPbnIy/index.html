@@ -1123,10 +1123,12 @@ function startPanelFx(sceneId) {
   stopPanelFx();
   const hotspots = SCENE_FX[sceneId]; if (!hotspots) return;
   const panel = document.getElementById('comic-panel');
+  const img = panel.querySelector('.comic-img');
   let container = panel.querySelector('.panel-fx');
   if (!container) { container = document.createElement('div'); container.className = 'panel-fx'; panel.appendChild(container); }
   container.innerHTML = '';
-  const W = panel.offsetWidth, H = panel.offsetHeight;
+  container.style.height = img.offsetHeight + 'px';
+  const W = img.offsetWidth, H = img.offsetHeight;
   const particles = [];
   hotspots.forEach(h => {
     if (h.type === 'glow') {
