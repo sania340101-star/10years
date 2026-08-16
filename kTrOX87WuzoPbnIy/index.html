@@ -1647,10 +1647,27 @@ function showComicScene(id) {
             setTimeout(() => { btn.style.transition='all .5s ease-out'; btn.style.opacity='1'; }, 300);
           }
         };
-        if (scene.interact) {
-          showInteract(scene.interact, choices, showButtons);
+        const afterText = () => {
+          if (scene.interact) {
+            showInteract(scene.interact, choices, showButtons);
+          } else {
+            showButtons();
+          }
+        };
+        if (scene.interact && soundEnabled && !voiceAudio.paused && !voiceAudio.ended) {
+          let fired = false;
+          const onVoiceDone = () => {
+            if (fired) return;
+            fired = true;
+            voiceAudio.removeEventListener('ended', onVoiceDone);
+            voiceAudio.removeEventListener('error', onVoiceDone);
+            afterText();
+          };
+          voiceAudio.addEventListener('ended', onVoiceDone);
+          voiceAudio.addEventListener('error', onVoiceDone);
+          setTimeout(onVoiceDone, 20000);
         } else {
-          showButtons();
+          afterText();
         }
       });
     };
