@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Магический Квест</title>
+<title>✨ Для тебя...</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Caveat:wght@400;700&family=Marck+Script&display=swap');
 *{margin:0;padding:0;box-sizing:border-box}
@@ -807,12 +807,12 @@ p{font-size:.95em;line-height:1.5;margin-bottom:16px;opacity:.9;position:relativ
 
 <div class="stars" id="stars"></div>
 <audio id="voice-audio" preload="none"></audio>
-<button id="voice-toggle" onclick="toggleVoice()" style="position:fixed;top:12px;right:12px;z-index:9999;background:rgba(42,21,72,.8);border:1px solid rgba(240,192,64,.4);border-radius:50%;width:40px;height:40px;font-size:1.2em;cursor:pointer;color:#fff;backdrop-filter:blur(8px)">🔊</button>
+<button id="voice-toggle" onclick="toggleVoice()" style="display:none;position:fixed;top:12px;right:12px;z-index:9999;background:rgba(42,21,72,.8);border:1px solid rgba(240,192,64,.4);border-radius:50%;width:40px;height:40px;font-size:1.2em;cursor:pointer;color:#fff;backdrop-filter:blur(8px)">🔊</button>
 
 <!-- LOADING -->
 <div class="screen active" id="screen-loading" style="justify-content:center;gap:20px;padding-top:0;padding-bottom:0">
-  <h1>Магический Квест</h1>
-  <p style="color:#e8daf0;font-size:.9em" id="loading-text">Загрузка магии...</p>
+  <h1>✨ Для тебя...</h1>
+  <p style="color:#e8daf0;font-size:.9em" id="loading-text">Подожди немного...</p>
   <div style="width:80%;max-width:300px;height:8px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;border:1px solid rgba(240,192,64,.3)">
     <div id="loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c09020,#f0c040);border-radius:4px;transition:width .3s"></div>
   </div>
@@ -1369,6 +1369,7 @@ function showScreen(id) {
   setTimeout(() => {
     el.classList.add('active','fade-in');
     setTimeout(() => el.classList.remove('fade-in'), 800);
+    if (id !== 'screen-loading' && id !== 'screen-intro') document.getElementById('voice-toggle').style.display = '';
     window.scrollTo(0,0);
     stopScreenFx();
     if (SCREEN_FX[id]) setTimeout(() => startScreenFx(id), 400);
@@ -1414,8 +1415,8 @@ const COMIC = {
     text:'Глубоко в подземельях Хогвартса Добби нашёл древний свиток пророчества. Магические руны светились в темноте: «Тот, кто найдёт золотой сундук, должен хранить его, пока не явится та, чьё имя проявит магия...»',
 
     choices:[
-      {text:'Немедленно искать сундук!',icon:'🏃',next:'s1'},
-      {text:'Расшифровать весь свиток',icon:'📜',next:'s0_a'}
+      {text:'Расшифровать весь свиток',icon:'📜',next:'s0_a'},
+      {text:'Немедленно искать сундук!',icon:'🏃',next:'s1'}
     ]
   },
   s0_a: {
