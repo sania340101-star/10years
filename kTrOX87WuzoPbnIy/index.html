@@ -990,6 +990,11 @@ const SPEECHES = {
 };
 
 let soundEnabled = true;
+// iOS requires play() from user gesture to unlock each audio element
+document.addEventListener('touchstart', function _iosUnlock() {
+  document.querySelectorAll('audio').forEach(a => { a.play().then(() => a.pause()).catch(() => {}); });
+  document.removeEventListener('touchstart', _iosUnlock);
+}, { once: true });
 const voiceAudio = document.getElementById('voice-audio');
 function playVoice(name) {
   if (!soundEnabled) return;
@@ -1565,8 +1570,7 @@ function startBgMusic() {
   if (!bg.paused) return;
   bg.currentTime = 0;
   bg.volume = 0.15;
-  if (bg.readyState >= 2) { bg.play().catch(() => {}); }
-  else { bg.addEventListener('canplay', function h() { bg.play().catch(() => {}); bg.removeEventListener('canplay', h); }); }
+  bg.play().catch(() => {});
 }
 function fadeBgMusic() {
   const bg = document.getElementById('bg-music');
